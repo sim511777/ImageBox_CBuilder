@@ -5,7 +5,7 @@
 //---------------------------------------------------------------------------
 USEFORM("FrmMain.cpp", FormMain);
 //---------------------------------------------------------------------------
-WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
+int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
     try
     {
