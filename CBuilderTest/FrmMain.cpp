@@ -26,7 +26,7 @@ void __fastcall TFormMain::pbxDrawOnPaint(TObject *Sender)
 {
     for (int y = 0; y < 100; y++) {
         for (int x = 0; x < 100; x++) {
-            pbxDraw->DrawEllipse(x, y, x+1, y+1, clLime);
+            //pbxDraw->DrawEllipse(x, y, x+1, y+1, clLime);
         }
     }
 }
