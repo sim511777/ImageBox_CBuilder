@@ -513,7 +513,7 @@ void TImageBox::DrawInfo() {
     int imgX = (int)floor(ptImg.x);
     int imgY = (int)floor(ptImg.y);
     AnsiString pixelVal = GetImagePixelValueText(imgX, imgY);
-    AnsiString info = AnsiString().sprintf("zoom=%s (%d,%d)=%s (%f,%f)", GetZoomText().c_str(), imgX, imgY, pixelVal.c_str(), PanX, PanY);
+    AnsiString info = AnsiString().sprintf("zoom=%s (%d,%d)=%s", GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
 
     DrawStringScreen(info, 0, 0, clBlack, true, clWhite);
 }
