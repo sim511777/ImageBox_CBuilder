@@ -583,7 +583,7 @@ void TImageBox::DrawLine(TPointD pt1, TPointD pt2, TColor color, TPenStyle ps)
     Canvas->Pen->Color = color;
     TPenStyle ops = Canvas->Pen->Style;
     Canvas->Pen->Style = ps;
-    TPenStyle obs = Canvas->Brush->Style;
+    TBrushStyle obs = Canvas->Brush->Style;
     Canvas->Brush->Style = bsClear;
 
 
@@ -790,7 +790,7 @@ void TImageBox::DrawString(AnsiString text, TPointD pt, TColor color, bool fill,
     DrawTextA(Canvas->Handle, text.c_str(), text.Length(), &rc, DT_CALCRECT);
     int width = rc.right - rc.left;
     int height = rc.bottom - rc.top;
-    RECT rect = {ptd.x, ptd.y, ptd.x + width, ptd.y + height};
+    RECT rect = {(int)ptd.x, (int)ptd.y, (int)ptd.x + width, (int)ptd.y + height};
     Canvas->Rectangle(rect.left, rect.top, rect.right, rect.bottom);
     DrawTextA(Canvas->Handle, text.c_str(), text.Length(), &rect, NULL);
 
