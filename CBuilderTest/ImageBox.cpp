@@ -417,10 +417,13 @@ void __fastcall TImageBox::MouseMove(TShiftState Shift, int X, int Y)
     if (UseMouseMove && mouseDown) {
         PanX += ptMouse.x - ptMouseLast.x;
         PanY += ptMouse.y - ptMouseLast.y;
+        ptMouseLast = ptMouse;
+        Invalidate();
+    } else {
+        ptMouseLast = ptMouse;
     }
-
-    ptMouseLast = ptMouse;
-    Invalidate();
+    if (UseDrawInfo)
+        DrawInfo();
 }
 
 //---------------------------------------------------------------------------
