@@ -188,7 +188,7 @@ __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner)
     FUseDrawPixelValue = TRUE;
     FUseDrawInfo = TRUE;
     FUseDrawCenterLine = TRUE;
-    FUseDrawDrawTime = TRUE;
+    FUseDrawDrawTime = FALSE;
     FUseInterPorlation = FALSE;
     FUseParallel = FALSE;
     FUseMouseMove = TRUE;
@@ -445,8 +445,26 @@ void TImageBox::DrawCenterLine()
     if (ImgBuf == NULL)
         return;
 
-    DrawLine(imgBW / 2, 0, imgBW / 2, imgBH, clYellow, psDot);
-    DrawLine(0, imgBH / 2, imgBW, imgBH / 2, clYellow, psDot);
+    TPointD ptLeft(0, imgBH/2);
+    TPointD ptRight(imgBW, imgBH/2);
+    TPointD ptdLeft = ImgToDisp(ptLeft);
+    TPointD ptdRight = ImgToDisp(ptRight);
+    ptdLeft.x = Clamp(ptdLeft.x, (double)0, (double)ClientWidth);
+    ptdRight.x = Clamp(ptdRight.x, (double)0, (double)ClientWidth);
+    ptLeft = DispToImg(ptdLeft);
+    ptRight = DispToImg(ptdRight);
+
+    TPointD ptTop(imgBW/2, 0);
+    TPointD ptBottom(imgBW/2, imgBH);
+    TPointD ptdTop = ImgToDisp(ptTop);
+    TPointD ptdBottom = ImgToDisp(ptBottom);
+    ptdTop.y = Clamp(ptdTop.y, (double)0, (double)ClientHeight);
+    ptdBottom.y = Clamp(ptdBottom.y, (double)0, (double)ClientHeight);
+    ptTop = DispToImg(ptdTop);
+    ptBottom = DispToImg(ptdBottom);
+
+    DrawLine(ptLeft, ptRight, clYellow, psDot);
+    DrawLine(ptTop, ptBottom, clYellow, psDot);
 }
 
 //---------------------------------------------------------------------------
@@ -534,8 +552,8 @@ TPointD TImageBox::DispToImg(TPointD pt) {
 //---------------------------------------------------------------------------
 TPointD TImageBox::ImgToDisp(TPointD pt) {
     double ZoomFactor = GetZoomFactor();
-    int x = pt.x * ZoomFactor + PanX;
-    int y = pt.y * ZoomFactor + PanY;
+    double x = pt.x * ZoomFactor + PanX;
+    double y = pt.y * ZoomFactor + PanY;
     return TPointD(x, y);
 }
 
