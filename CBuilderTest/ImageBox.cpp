@@ -194,6 +194,7 @@ __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner)
     FUseMouseMove = TRUE;
     FUseMouseWheelZoom = TRUE;
     FZoomLevel = 0;
+    FPixelValueDispZoomFactor = 20;
     PanX = 0;
     PanY = 0;
 
@@ -493,8 +494,8 @@ TColor pseudo[8]= {
 void TImageBox::DrawPixelValue()
 {
     double ZoomFactor = GetZoomFactor();
-    double pixeValFactor = (ImgBytepp == 1) ? 1 : ((ImgBytepp == 2 ? 5.0/3 : 3));
-    if (ZoomFactor < 20 * pixeValFactor)
+    double pixeValFactor = (ImgBytepp == 4) ? 3 : ImgBytepp;
+    if (ZoomFactor < FPixelValueDispZoomFactor * pixeValFactor)
         return;
 
     TPointD ptDisp1 = TPointD(0, 0);

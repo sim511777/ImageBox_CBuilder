@@ -24,6 +24,7 @@ private:
     bool FUseMouseMove;
     bool FUseMouseWheelZoom;
     int FZoomLevel;
+    int FPixelValueDispZoomFactor;
     TNotifyEvent FOnPaint;
 
     //디스플레이용 버퍼
@@ -121,6 +122,8 @@ __published:
     __property int ZoomLevel = {read = FZoomLevel, write = FZoomLevel};
     __property double PanX = {read = FPanX, write = FPanX};
     __property double PanY = {read = FPanY, write = FPanY};
+    //픽셀값 표시 줌값
+    __property int PixelValueDispZoomFactor = {read = FPixelValueDispZoomFactor, write = FPixelValueDispZoomFactor};
     //배경색
     __property TColor BgColor = {read = FColor, write = FColor};
     //페인트 이벤트
