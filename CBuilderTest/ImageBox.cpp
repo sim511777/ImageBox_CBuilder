@@ -452,22 +452,29 @@ void TImageBox::DrawCenterLine()
     TPointD ptRight(imgBW, imgBH/2);
     TPointD ptdLeft = ImgToDisp(ptLeft);
     TPointD ptdRight = ImgToDisp(ptRight);
-    ptdLeft.x = Clamp(ptdLeft.x, (double)0, (double)ClientWidth);
-    ptdRight.x = Clamp(ptdRight.x, (double)0, (double)ClientWidth);
-    ptLeft = DispToImg(ptdLeft);
-    ptRight = DispToImg(ptdRight);
+
+    if (ptdLeft.y >= 0 && ptdLeft.y < ClientHeight && ptdRight.x >= 0 && ptdLeft.x < ClientWidth)
+    {
+        ptdLeft.x = Clamp(ptdLeft.x, (double)0, (double)ClientWidth);
+        ptdRight.x = Clamp(ptdRight.x, (double)0, (double)ClientWidth);
+        ptLeft = DispToImg(ptdLeft);
+        ptRight = DispToImg(ptdRight);
+        DrawLine(ptLeft, ptRight, clYellow, psDot);
+    }
 
     TPointD ptTop(imgBW/2, 0);
     TPointD ptBottom(imgBW/2, imgBH);
     TPointD ptdTop = ImgToDisp(ptTop);
     TPointD ptdBottom = ImgToDisp(ptBottom);
-    ptdTop.y = Clamp(ptdTop.y, (double)0, (double)ClientHeight);
-    ptdBottom.y = Clamp(ptdBottom.y, (double)0, (double)ClientHeight);
-    ptTop = DispToImg(ptdTop);
-    ptBottom = DispToImg(ptdBottom);
 
-    DrawLine(ptLeft, ptRight, clYellow, psDot);
-    DrawLine(ptTop, ptBottom, clYellow, psDot);
+    if (ptdTop.x >= 0 && ptdTop.x < ClientWidth && ptdBottom.y >= 0 && ptTop.y < ClientHeight)
+    {
+        ptdTop.y = Clamp(ptdTop.y, (double)0, (double)ClientHeight);
+        ptdBottom.y = Clamp(ptdBottom.y, (double)0, (double)ClientHeight);
+        ptTop = DispToImg(ptdTop);
+        ptBottom = DispToImg(ptdBottom);
+        DrawLine(ptTop, ptBottom, clYellow, psDot);
+    }
 }
 
 //---------------------------------------------------------------------------
