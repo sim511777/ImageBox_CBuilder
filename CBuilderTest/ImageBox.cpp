@@ -523,16 +523,6 @@ void TImageBox::DrawPixelValue()
 
     Canvas->Brush->Style = obs;
     Canvas->Font->Color = ofc;
-
-//    for (int imgY = imgY1; imgY <= imgY2; imgY++) {
-//        for (int imgX = imgX1; imgX <= imgX2; imgX++) {
-//            TPointD ptImg = TPointD(imgX, imgY);
-//            AnsiString pixelValText = GetImagePixelValueText(imgX, imgY);
-//            int pixelVal = GetImagePixelValueAverage(imgX, imgY);
-//            TColor color = pseudo[pixelVal / 32];
-//            DrawString(pixelValText, imgX, imgY, color, false, clWhite);
-//        }
-//    }
 }
 
 //---------------------------------------------------------------------------
@@ -542,7 +532,7 @@ void TImageBox::DrawInfo() {
     int imgX = (int)floor(ptImg.x);
     int imgY = (int)floor(ptImg.y);
     AnsiString pixelVal = GetImagePixelValueText(imgX, imgY);
-    AnsiString info = AnsiString().sprintf("zoom=%s (%d,%d)=%s", GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
+    AnsiString info = AnsiString().sprintf("zoom=%s (%d,%d)=%s   ", GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
 
     DrawStringScreen(info, 0, 0, clBlack, true, clWhite);
 }
