@@ -14,6 +14,8 @@ struct TPointD {
 //---------------------------------------------------------------------------
 class TImageBox : public TCustomControl
 {
+public:
+    static const AnsiString VersionHistory;
 private:
     bool FUseDrawPixelValue;
     bool FUseDrawInfo;

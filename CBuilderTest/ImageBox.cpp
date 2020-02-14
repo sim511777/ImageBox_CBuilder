@@ -4,6 +4,8 @@
 //---------------------------------------------------------------------------
 #include "ImageBox.h"
 #include <math.h>
+#include <DateUtils.hpp>
+#include <Dialogs.hpp>
 
 //---------------------------------------------------------------------------
 template<class T>
@@ -176,6 +178,21 @@ void CopyImageBufferZoomIpl(void* sbuf, int sbw, int sbh, Graphics::TBitmap* dbu
 	delete[] sitx0s;
 	delete[] sitx1s;
 }
+
+//---------------------------------------------------------------------------
+const AnsiString TImageBox::VersionHistory =
+"ImageBox C++Builder 컨트롤\r\n"
+"v1.0.0.6 - 20200214\r\n"
+"1. DrawInfo() immediate로 바꾸면서 이전 글자와 겹치는 문제 수정\r\n"
+"2. PixelValueDispZoomFactor 속성 추가\r\n"
+"3. DrawCenterLine 벗어나는거 그리지 않도록 수정\r\n"
+"4. immediate 드로잉 마우스 Move시에 안지워지도록 수정\r\n"
+"5. ImgToDisp / DrawCenterLine overflow 에러 처리\r\n"
+"6. OnPaint에서 원그리는 코드 주석 처리\r\n"
+"7. DrawInfo 에서 panX, panY 표시하는 문제 수정\r\n"
+"8. WinMain 함수 리턴값 int\r\n"
+"9. 타입에러 수정 / 캐스팅 에러 수정 / CB6 프로젝트 추가\r\n"
+"10. initial upload\r\n";
 
 //---------------------------------------------------------------------------
 __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner)
@@ -381,6 +398,23 @@ void TImageBox::WheelScroll(int WheelDelta, TPoint MousePos, BOOL vertical)
         PanX += scroll;
 }
 
+TDateTime clickTimeOld = Now();
+int quadrupleClickCount = 0;
+void CheckQuadrupleClick() {
+    TDateTime clickTimeNow = Now();
+    INT64 clickTimeSpan = MilliSecondsBetween(clickTimeNow, clickTimeOld);
+    clickTimeOld = clickTimeNow;
+    if (clickTimeSpan > 300) {
+        quadrupleClickCount = 1;
+    } else {
+        quadrupleClickCount++;
+        if (quadrupleClickCount >= 4) {
+            ShowMessage(TImageBox::VersionHistory);
+            quadrupleClickCount = 0;
+        }
+    }
+}
+
 //---------------------------------------------------------------------------
 void TImageBox::WheelZoom(int WheelDelta, TPoint MousePos, BOOL fixPanning)
 {
@@ -434,6 +468,10 @@ void __fastcall TImageBox::MouseUp(TMouseButton Button, TShiftState Shift, int X
 
     if (Button == mbLeft)
         mouseDown = false;
+
+    if (Button == mbLeft && Shift.Contains(ssCtrl)) {
+        CheckQuadrupleClick();
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -532,7 +570,7 @@ void TImageBox::DrawInfo() {
     int imgX = (int)floor(ptImg.x);
     int imgY = (int)floor(ptImg.y);
     AnsiString pixelVal = GetImagePixelValueText(imgX, imgY);
-    AnsiString info = AnsiString().sprintf("zoom=%s (%d,%d)=%s   ", GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
+    AnsiString info = AnsiString().sprintf("zoom=%s (%d,%d)=%s ...", GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
 
     DrawStringScreen(info, 0, 0, clBlack, true, clWhite);
 }
@@ -863,4 +901,5 @@ void TImageBox::DrawStringScreen(AnsiString text, int x, int y, TColor color, bo
 
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
+
 
