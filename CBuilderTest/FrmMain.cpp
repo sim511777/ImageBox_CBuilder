@@ -3,6 +3,7 @@
 #include <vcl.h>
 #include <math.h>
 #include <Clipbrd.hpp>
+#include <DateUtils.hpp>
 #pragma hdrstop
 
 #include "FrmMain.h"
@@ -16,21 +17,11 @@ __fastcall TFormMain::TFormMain(TComponent* Owner)
     : TForm(Owner)
 {
     pbxDraw = new TImageBox(this);
-    pbxDraw->BgColor = clGray;
     pbxDraw->Align = alClient;
+    pbxDraw->UseDrawDrawTime = true;
     pbxDraw->OnPaint = pbxDrawOnPaint;
     pbxDraw->Parent = this;
 }
-
-void __fastcall TFormMain::pbxDrawOnPaint(TObject *Sender)
-{
-    for (int y = 0; y < 100; y++) {
-        for (int x = 0; x < 100; x++) {
-            //pbxDraw->DrawEllipse(x, y, x+1, y+1, clLime);
-        }
-    }
-}
-//---------------------------------------------------------------------------
 
 void __fastcall TFormMain::btnResetZoomClick(TObject *Sender)
 {
@@ -104,13 +95,35 @@ void __fastcall TFormMain::btnClearImageBufferClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormMain::btnDrawCirclesClick(TObject *Sender)
+void __fastcall TFormMain::pbxDrawOnPaint(TObject *Sender)
 {
-    for (int y = 0; y < 100; y++) {
-        for (int x = 0; x < 100; x++) {
-            pbxDraw->DrawEllipse(x + 0.25, y + 0.25, x + 0.75, y + 0.75, clRed);
+    if (chkRetainedDrawTest->Checked) {
+        for (int y = 0; y < 100; y++) {
+            for (int x = 0; x < 100; x++) {
+                pbxDraw->DrawEllipse(x, y, x + 1, y + 1, clRed);
+            }
         }
     }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::btnImmediateDrawTestClick(TObject *Sender)
+{
+    TDateTime st = Now();
+    for (int y = 0; y < 100; y++) {
+        for (int x = 0; x < 100; x++) {
+            pbxDraw->DrawEllipse(x, y, x + 1, y + 1, clLime);
+        }
+    }
+    INT64 dt = MilliSecondsBetween(Now(), st);
+    AnsiString text = AnsiString().sprintf("%d", dt);
+    pbxDraw->DrawStringScreen(text, 200, 0, clBlack, true, clWhite);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::chkRetainedDrawTestClick(TObject *Sender)
+{
+    pbxDraw->Invalidate();
 }
 //---------------------------------------------------------------------------
 

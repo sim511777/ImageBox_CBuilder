@@ -1,9 +1,9 @@
 object FormMain: TFormMain
   Left = 306
   Top = 140
+  Width = 1143
+  Height = 690
   Caption = 'FormMain'
-  ClientHeight = 651
-  ClientWidth = 1127
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,7 +16,9 @@ object FormMain: TFormMain
   object Splitter1: TSplitter
     Left = 875
     Top = 0
+    Width = 3
     Height = 651
+    Cursor = crHSplit
     Align = alRight
   end
   object Panel1: TPanel
@@ -63,14 +65,23 @@ object FormMain: TFormMain
       TabOrder = 3
       OnClick = btnClearImageBufferClick
     end
-    object btnDrawCircles: TButton
+    object btnImmediateDrawTest: TButton
       Left = 6
       Top = 101
       Width = 107
       Height = 25
-      Caption = 'Draw Cricles'
+      Caption = 'Immediate Draw Test'
       TabOrder = 4
-      OnClick = btnDrawCirclesClick
+      OnClick = btnImmediateDrawTestClick
+    end
+    object chkRetainedDrawTest: TCheckBox
+      Left = 8
+      Top = 136
+      Width = 121
+      Height = 17
+      Caption = 'Retained Draw Test'
+      TabOrder = 5
+      OnClick = chkRetainedDrawTestClick
     end
   end
   object Panel2: TPanel

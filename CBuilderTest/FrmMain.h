@@ -23,12 +23,14 @@ __published:	// IDE-managed Components
     TButton *btnResetZoom;
     TButton *btnLoadClipboard;
     TButton *btnClearImageBuffer;
-    TButton *btnDrawCircles;
+    TButton *btnImmediateDrawTest;
+    TCheckBox *chkRetainedDrawTest;
     void __fastcall btnLoadImageFileClick(TObject *Sender);
     void __fastcall btnResetZoomClick(TObject *Sender);
     void __fastcall btnLoadClipboardClick(TObject *Sender);
     void __fastcall btnClearImageBufferClick(TObject *Sender);
-    void __fastcall btnDrawCirclesClick(TObject *Sender);
+    void __fastcall btnImmediateDrawTestClick(TObject *Sender);
+    void __fastcall chkRetainedDrawTestClick(TObject *Sender);
 private:	// User declarations
     TImageBox* pbxDraw;
     void __fastcall pbxDrawOnPaint(TObject *Sender);
