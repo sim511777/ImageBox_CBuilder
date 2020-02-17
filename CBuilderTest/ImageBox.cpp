@@ -182,6 +182,8 @@ void CopyImageBufferZoomIpl(void* sbuf, int sbw, int sbh, Graphics::TBitmap* dbu
 //---------------------------------------------------------------------------
 const AnsiString TImageBox::VersionHistory =
 "ImageBox C++Builder 컨트롤\r\n"
+"v1.0.0.7 - 20200217\r\n"
+"1. DrawInfo() 깜빡이 않게 더블버퍼 처리\r\n"
 "v1.0.0.6 - 20200214\r\n"
 "1. DrawInfo() immediate로 바꾸면서 이전 글자와 겹치는 문제 수정\r\n"
 "2. PixelValueDispZoomFactor 속성 추가\r\n"
@@ -570,9 +572,18 @@ void TImageBox::DrawInfo() {
     int imgX = (int)floor(ptImg.x);
     int imgY = (int)floor(ptImg.y);
     AnsiString pixelVal = GetImagePixelValueText(imgX, imgY);
-    AnsiString info = AnsiString().sprintf("zoom=%s (%d,%d)=%s ...", GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
+    AnsiString info = AnsiString().sprintf("zoom=%s (%d,%d)=%s", GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
 
-    DrawStringScreen(info, 0, 0, clBlack, true, clWhite);
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    SIZE size = Canvas->TextExtent(info);
+    bmp->SetSize(250, size.cy);
+    bmp->Canvas->Pen->Color = clBlack;
+    bmp->Canvas->Brush->Color = clBlack;
+    bmp->Canvas->Rectangle(0, 0, 250, size.cy);
+    bmp->Canvas->Font->Color = clWhite;
+    bmp->Canvas->TextOutA(0, 0, info);
+    Canvas->Draw(2, 2, bmp);
+    delete bmp;
 }
 
 //---------------------------------------------------------------------------

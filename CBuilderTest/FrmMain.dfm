@@ -1,9 +1,9 @@
 object FormMain: TFormMain
   Left = 306
   Top = 140
-  Width = 1143
-  Height = 690
   Caption = 'FormMain'
+  ClientHeight = 651
+  ClientWidth = 1127
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -16,9 +16,7 @@ object FormMain: TFormMain
   object Splitter1: TSplitter
     Left = 875
     Top = 0
-    Width = 3
     Height = 651
-    Cursor = crHSplit
     Align = alRight
   end
   object Panel1: TPanel

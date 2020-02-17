@@ -18,6 +18,7 @@ __fastcall TFormMain::TFormMain(TComponent* Owner)
 {
     pbxDraw = new TImageBox(this);
     pbxDraw->Align = alClient;
+    pbxDraw->BgColor = clGray;
     pbxDraw->UseDrawDrawTime = true;
     pbxDraw->OnPaint = pbxDrawOnPaint;
     pbxDraw->Parent = this;
