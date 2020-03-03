@@ -581,7 +581,7 @@ void TImageBox::DrawInfo() {
     bmp->Canvas->Brush->Color = clBlack;
     bmp->Canvas->Rectangle(0, 0, 250, size.cy);
     bmp->Canvas->Font->Color = clWhite;
-    bmp->Canvas->TextOutA(0, 0, info);
+    bmp->Canvas->TextOut(0, 0, info);
     Canvas->Draw(2, 2, bmp);
     delete bmp;
 }
