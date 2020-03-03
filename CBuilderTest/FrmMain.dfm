@@ -91,8 +91,11 @@ object FormMain: TFormMain
     Caption = 'Panel2'
     TabOrder = 1
   end
-  object dlgOpen: TOpenPictureDialog
-    Left = 8
-    Top = 8
+  object dlgOpen: TOpenDialog
+    Filter = 
+      'All (*.jpg;*.jpeg;*.bmp;*.ico;*.emf;*.wmf)|*.jpg;*.jpeg;*.bmp;*.' +
+      'ico;*.emf;*.wmf|JPEG Image File (*.jpg)|*.jpg|JPEG Image File (*' +
+      '.jpeg)|*.jpeg|Bitmaps (*.bmp)|*.bmp|Icons (*.ico)|*.ico|Enhanced' +
+      ' Metafiles (*.emf)|*.emf|Metafiles (*.wmf)|*.wmf'
   end
 end

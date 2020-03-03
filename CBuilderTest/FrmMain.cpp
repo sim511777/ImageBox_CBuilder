@@ -4,6 +4,7 @@
 #include <math.h>
 #include <Clipbrd.hpp>
 #include <DateUtils.hpp>
+#include <jpeg.hpp>
 #pragma hdrstop
 
 #include "FrmMain.h"
@@ -31,32 +32,36 @@ void __fastcall TFormMain::btnResetZoomClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void BitmapToBuf(Graphics::TBitmap* bmp, BYTE** pbuf, int* pbw, int* pbh, int* pbytepp)
+void BitmapToBuf(Graphics::TBitmap* bmp, BYTE* buf, int bw, int bh, int bytepp)
 {
-    if (*pbuf != NULL)
-        delete[] *pbuf;
-
-    *pbw = bmp->Width;
-    *pbh = bmp->Height;
-    if (bmp->PixelFormat == pf8bit)
-        *pbytepp = 1;
-    else if (bmp->PixelFormat == pf16bit)
-        *pbytepp = 2;
-    else if (bmp->PixelFormat == pf24bit)
-        *pbytepp = 3;
-    else
-        *pbytepp = 4;
-
-    int bufstep = *pbw * *pbytepp;
-    *pbuf = new BYTE[bufstep * *pbh];
-
-    for (int y = 0; y < *pbh; y++) {
+    int scanstep = bw * bytepp;
+    for (int y = 0; y < bh; y++) {
         BYTE* sptr = (BYTE*)bmp->ScanLine[y];
-        BYTE* dptr = *pbuf + bufstep * y;
-        memcpy(dptr, sptr, bufstep);
+        BYTE* dptr = buf + scanstep * y;
+        memcpy(dptr, sptr, scanstep);
     }
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TFormMain::LoadBmp(Graphics::TBitmap* bmp) {
+    bw = bmp->Width;
+    bh = bmp->Height;
+    if (bmp->PixelFormat == pf8bit)
+        bytepp = 1;
+    else if (bmp->PixelFormat == pf16bit)
+        bytepp = 2;
+    else if (bmp->PixelFormat == pf24bit)
+        bytepp = 3;
+    else
+        bytepp = 4;
+
+    if (imgBuf != NULL) {
+        delete [] imgBuf;
+    }
+    imgBuf = new BYTE[bw * bh * bytepp];
+    memset(imgBuf, 0, bw * bh * bytepp);
+    BitmapToBuf(bmp, imgBuf, bw, bh, bytepp);
+}
 
 void __fastcall TFormMain::btnLoadImageFileClick(TObject *Sender)
 {
@@ -64,11 +69,22 @@ void __fastcall TFormMain::btnLoadImageFileClick(TObject *Sender)
     if (!r)
         return;
 
+    AnsiString fileName = dlgOpen->FileName;
+    AnsiString ext = ExtractFileExt(fileName).LowerCase();
+    TGraphic* img;
+    if (ext == ".jpg" || ext == ".jpeg") {
+        img = new TJPEGImage();
+    } else {
+        img = new Graphics::TBitmap();
+    }
+    img->LoadFromFile(fileName);
 	Graphics::TBitmap *bmp = new Graphics::TBitmap();
-	bmp->LoadFromFile(dlgOpen->FileName);
-    BitmapToBuf(bmp, &imgBuf, &bw, &bh, &bytepp);
-    delete bmp;
+    bmp->Assign(img);
 
+    LoadBmp(bmp);
+
+    delete bmp;
+    delete img;
     pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
@@ -81,16 +97,17 @@ void __fastcall TFormMain::btnLoadClipboardClick(TObject *Sender)
 
 	Graphics::TBitmap *bmp = new Graphics::TBitmap();
     bmp->LoadFromClipboardFormat(CF_BITMAP, clip->GetAsHandle(CF_BITMAP), 0);
-    BitmapToBuf(bmp, &imgBuf, &bw, &bh, &bytepp);
-    delete bmp;
 
+    LoadBmp(bmp);
+
+    delete bmp;
     pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFormMain::btnClearImageBufferClick(TObject *Sender)
 {
-    delete imgBuf;
+    delete[] imgBuf;
     imgBuf = NULL;
     pbxDraw->SetImgBuf(NULL, 0, 0, 1, TRUE);
 }

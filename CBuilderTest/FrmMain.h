@@ -19,12 +19,12 @@ __published:	// IDE-managed Components
     TSplitter *Splitter1;
     TPanel *Panel2;
     TButton *btnLoadImageFile;
-    TOpenPictureDialog *dlgOpen;
     TButton *btnResetZoom;
     TButton *btnLoadClipboard;
     TButton *btnClearImageBuffer;
     TButton *btnImmediateDrawTest;
     TCheckBox *chkRetainedDrawTest;
+    TOpenDialog *dlgOpen;
     void __fastcall btnLoadImageFileClick(TObject *Sender);
     void __fastcall btnResetZoomClick(TObject *Sender);
     void __fastcall btnLoadClipboardClick(TObject *Sender);
@@ -34,6 +34,8 @@ __published:	// IDE-managed Components
 private:	// User declarations
     TImageBox* pbxDraw;
     void __fastcall pbxDrawOnPaint(TObject *Sender);
+
+    void __fastcall LoadBmp(Graphics::TBitmap* bmp);
 
     BYTE* imgBuf;
     int bw;

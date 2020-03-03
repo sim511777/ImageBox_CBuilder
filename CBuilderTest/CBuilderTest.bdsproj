@@ -25,7 +25,7 @@
         <property category="build.config.1" name="settings.win32b" value="default"/>
         <property category="build.config.1" name="type" value="Toolset"/>
         <property category="build.config.1" name="win32.win32b.builddir" value="Release_Build"/>
-        <property category="build.node" name="lastconfig" value="Debug_Build"/>
+        <property category="build.node" name="lastconfig" value="Release_Build"/>
         <property category="build.node" name="name" value="CBuilderTest.exe"/>
         <property category="build.node" name="packages" value="vcl;rtl;vclx;bcbsmp;dbrtl;adortl;vcldb;bdertl;vcldbx;dsnap;dsnap;dsnapcon;teeui;teedb;tee;ibxpress;vclie;xmlrtl;inet;inetdbbde;inetdbxpress;inetdb;bcbie;soaprtl;dbexpress;dbxcds;indycore;indysystem;bcboffice2k"/>
         <property category="build.node" name="sparelibs" value="vcl.lib rtl.lib"/>
@@ -40,9 +40,11 @@
         <property category="win32.*.win32b.tasm32" name="param.listfile.merge" value="1"/>
         <property category="win32.*.win32b.tasm32" name="param.objfile.merge" value="1"/>
         <property category="win32.*.win32b.tasm32" name="param.xreffile.merge" value="1"/>
+        <property category="win32.Debug_Build.win32b.bcc32" name="container.SelectedOptimizations.containerenabled" value="0"/>
         <property category="win32.Debug_Build.win32b.bcc32" name="option.D.arg.1" value="_DEBUG"/>
         <property category="win32.Debug_Build.win32b.bcc32" name="option.D.arg.merge" value="1"/>
         <property category="win32.Debug_Build.win32b.bcc32" name="option.D.enabled" value="1"/>
+        <property category="win32.Debug_Build.win32b.bcc32" name="option.O2.enabled" value="0"/>
         <property category="win32.Debug_Build.win32b.bcc32" name="option.Od.enabled" value="1"/>
         <property category="win32.Debug_Build.win32b.bcc32" name="option.k.enabled" value="1"/>
         <property category="win32.Debug_Build.win32b.bcc32" name="option.r.enabled" value="0"/>
