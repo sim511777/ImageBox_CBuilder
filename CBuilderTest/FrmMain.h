@@ -24,7 +24,7 @@ __published:	// IDE-managed Components
     TButton *btnClearImageBuffer;
     TButton *btnImmediateDrawTest;
     TCheckBox *chkRetainedDrawTest;
-    TOpenDialog *dlgOpen;
+    TOpenPictureDialog *dlgOpen;
     void __fastcall btnLoadImageFileClick(TObject *Sender);
     void __fastcall btnResetZoomClick(TObject *Sender);
     void __fastcall btnLoadClipboardClick(TObject *Sender);
