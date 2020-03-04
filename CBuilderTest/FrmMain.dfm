@@ -10,6 +10,7 @@ object FormMain: TFormMain
   Font.Height = -11
   Font.Name = 'MS Sans Serif'
   Font.Style = []
+  Menu = MainMenu1
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
@@ -27,6 +28,7 @@ object FormMain: TFormMain
     Align = alRight
     Caption = 'Panel1'
     TabOrder = 0
+    ExplicitLeft = 881
     object btnLoadImageFile: TButton
       Left = 7
       Top = 8
@@ -94,5 +96,31 @@ object FormMain: TFormMain
   object dlgOpen: TOpenPictureDialog
     Left = 8
     Top = 8
+  end
+  object MainMenu1: TMainMenu
+    Left = 40
+    Top = 8
+    object File1: TMenuItem
+      Caption = 'File'
+      object OpenFile1: TMenuItem
+        Caption = 'Open File'
+      end
+      object PastefromClipboard1: TMenuItem
+        Caption = 'Paste from Clipboard'
+        ShortCut = 16470
+      end
+      object N1: TMenuItem
+        Caption = '--'
+      end
+    end
+    object Zoom1: TMenuItem
+      Caption = 'Zoom'
+    end
+    object est1: TMenuItem
+      Caption = 'Test'
+    end
+    object Help1: TMenuItem
+      Caption = 'Help'
+    end
   end
 end

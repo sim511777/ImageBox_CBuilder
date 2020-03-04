@@ -12,6 +12,8 @@
 #include <Dialogs.hpp>
 #include <ExtDlgs.hpp>
 #include <XPMan.hpp>
+#include <CategoryButtons.hpp>
+#include <Menus.hpp>
 //---------------------------------------------------------------------------
 class TFormMain : public TForm
 {
@@ -26,6 +28,14 @@ __published:	// IDE-managed Components
     TButton *btnImmediateDrawTest;
     TCheckBox *chkRetainedDrawTest;
     TOpenPictureDialog *dlgOpen;
+    TMainMenu *MainMenu1;
+    TMenuItem *File1;
+    TMenuItem *Zoom1;
+    TMenuItem *est1;
+    TMenuItem *Help1;
+    TMenuItem *OpenFile1;
+    TMenuItem *PastefromClipboard1;
+    TMenuItem *N1;
     void __fastcall btnLoadImageFileClick(TObject *Sender);
     void __fastcall btnResetZoomClick(TObject *Sender);
     void __fastcall btnLoadClipboardClick(TObject *Sender);
