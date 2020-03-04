@@ -11,6 +11,7 @@
 #include <ExtCtrls.hpp>
 #include <Dialogs.hpp>
 #include <ExtDlgs.hpp>
+#include <XPMan.hpp>
 //---------------------------------------------------------------------------
 class TFormMain : public TForm
 {

@@ -78,6 +78,8 @@ public: //User declarations
     TPointD DispToImg(TPointD pt);
     // 이미지 좌표를 화면 좌표로 변환
     TPointD ImgToDisp(TPointD pt);
+    // 정보 창 표시
+    void ShowAbout();
 
     //이미지용 버퍼
     __property int ImgBW = {read = imgBW};
@@ -128,6 +130,8 @@ __published:
     __property int PixelValueDispZoomFactor = {read = FPixelValueDispZoomFactor, write = FPixelValueDispZoomFactor};
     //배경색
     __property TColor BgColor = {read = FColor, write = FColor};
+    //폰트
+    __property TFont* DrawFont = {read = Font, write = Font};
     //페인트 이벤트
 	__property TNotifyEvent OnPaint = {read=FOnPaint, write=FOnPaint};
 
@@ -144,6 +148,8 @@ protected:
     DYNAMIC void __fastcall MouseMove(TShiftState Shift, int X, int Y);
     //마우스 업
     DYNAMIC void __fastcall MouseUp(TMouseButton Button, TShiftState Shift, int X, int Y);
+    //마우스 더블클릭
+    DYNAMIC void __fastcall DblClick(void);
 };
 
 //---------------------------------------------------------------------------

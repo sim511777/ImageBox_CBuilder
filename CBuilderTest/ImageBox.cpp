@@ -6,6 +6,7 @@
 #include <math.h>
 #include <DateUtils.hpp>
 #include <Dialogs.hpp>
+#include "FrmAbout.h"
 
 //---------------------------------------------------------------------------
 template<class T>
@@ -39,6 +40,14 @@ double GetTimeMs() {
     LARGE_INTEGER cnt;
     QueryPerformanceCounter(&cnt);
     return cnt.QuadPart * 1000.0 / freq.QuadPart;
+}
+
+//---------------------------------------------------------------------------
+int TColorToBGRA(TColor color) {
+    int r = color & 0xff;
+    int g = (color >> 8) & 0xff;
+    int b = (color >> 16) & 0xff;
+    return (b | g << 8 | r << 16 | 0xff << 24);
 }
 
 //---------------------------------------------------------------------------
@@ -182,8 +191,15 @@ void CopyImageBufferZoomIpl(void* sbuf, int sbw, int sbh, Graphics::TBitmap* dbu
 //---------------------------------------------------------------------------
 const AnsiString TImageBox::VersionHistory =
 "ImageBox C++Builder 컨트롤\r\n"
+"\r\n"
+"v1.0.0.8 - 20200304\r\n"
+"1. 버전정보 창에 속성 변경기능 추가\r\n"
+"2. 쿼드클릭 대신 ctrl + 더블클릭 누를때 버전정보 창 띄움\r\n"
+"3. ShowAbout() 함수 추가\r\n"
+"\r\n"
 "v1.0.0.7 - 20200217\r\n"
 "1. DrawInfo() 깜빡이 않게 더블버퍼 처리\r\n"
+"\r\n"
 "v1.0.0.6 - 20200214\r\n"
 "1. DrawInfo() immediate로 바꾸면서 이전 글자와 겹치는 문제 수정\r\n"
 "2. PixelValueDispZoomFactor 속성 추가\r\n"
@@ -295,12 +311,15 @@ void __fastcall TImageBox::Paint()
 {
     double t0 = GetTimeMs();
 
+    int bgra = TColorToBGRA(FColor);
     if (UseInterPorlation)
-        CopyImageBufferZoomIpl(ImgBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), ImgBytepp, this->FColor, UseParallel);
+        CopyImageBufferZoomIpl(ImgBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), ImgBytepp, bgra, UseParallel);
     else
-        CopyImageBufferZoom(ImgBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), ImgBytepp, this->FColor, UseParallel);
+        CopyImageBufferZoom(ImgBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), ImgBytepp, bgra, UseParallel);
     double t1 = GetTimeMs();
 
+    Canvas->Font->Name = Font->Name;
+    Canvas->Font->Size = Font->Size;
     Canvas->Draw(0, 0, dispBmp);
     double t2 = GetTimeMs();
 
@@ -400,23 +419,6 @@ void TImageBox::WheelScroll(int WheelDelta, TPoint MousePos, BOOL vertical)
         PanX += scroll;
 }
 
-TDateTime clickTimeOld = Now();
-int quadrupleClickCount = 0;
-void CheckQuadrupleClick() {
-    TDateTime clickTimeNow = Now();
-    INT64 clickTimeSpan = MilliSecondsBetween(clickTimeNow, clickTimeOld);
-    clickTimeOld = clickTimeNow;
-    if (clickTimeSpan > 300) {
-        quadrupleClickCount = 1;
-    } else {
-        quadrupleClickCount++;
-        if (quadrupleClickCount >= 4) {
-            ShowMessage(TImageBox::VersionHistory);
-            quadrupleClickCount = 0;
-        }
-    }
-}
-
 //---------------------------------------------------------------------------
 void TImageBox::WheelZoom(int WheelDelta, TPoint MousePos, BOOL fixPanning)
 {
@@ -470,10 +472,6 @@ void __fastcall TImageBox::MouseUp(TMouseButton Button, TShiftState Shift, int X
 
     if (Button == mbLeft)
         mouseDown = false;
-
-    if (Button == mbLeft && Shift.Contains(ssCtrl)) {
-        CheckQuadrupleClick();
-    }
 }
 
 //---------------------------------------------------------------------------
@@ -574,8 +572,10 @@ void TImageBox::DrawInfo() {
     AnsiString pixelVal = GetImagePixelValueText(imgX, imgY);
     AnsiString info = AnsiString().sprintf("zoom=%s (%d,%d)=%s", GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
 
-    SIZE size = Canvas->TextExtent(info);
     Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    bmp->Canvas->Font->Name = Font->Name;
+    bmp->Canvas->Font->Size = Font->Size;
+    SIZE size = Canvas->TextExtent(info);
     bmp->Width = 250;
     bmp->Height = size.cy;
     bmp->Canvas->Pen->Color = clBlack;
@@ -912,6 +912,26 @@ void TImageBox::DrawStringScreen(AnsiString text, int x, int y, TColor color, bo
 }
 
 //---------------------------------------------------------------------------
+void __fastcall TImageBox::DblClick(void)
+{
+    if (GetAsyncKeyState(VK_CONTROL) < 0 && GetKeyState(VK_LBUTTON) < 0) {
+        ShowAbout();
+    } else {
+        TCustomControl::DblClick();
+    }
+}
+
+//---------------------------------------------------------------------------
+void TImageBox::ShowAbout() {
+    TFormAbout *frm = new TFormAbout(this);
+    TModalResult mr = frm->ShowModal();
+    if (mr == mrOk) {
+        Invalidate();    
+    }
+}
+
+//---------------------------------------------------------------------------
 #pragma package(smart_init)
+
 
 

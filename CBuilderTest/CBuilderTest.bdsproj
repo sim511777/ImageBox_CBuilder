@@ -11,7 +11,7 @@
 	<CPlusPlusBuilder.Personality>
 		<BCBPROJECT>
       <project version="10.0">
-        <property category="build.config" name="active" value="1"/>
+        <property category="build.config" name="active" value="0"/>
         <property category="build.config" name="count" value="1"/>
         <property category="build.config" name="excludedefaultforzero" value="0"/>
         <property category="build.config.0" name="builddir" value="Debug"/>
@@ -200,6 +200,7 @@
         <FILE FILENAME="CBuilderTest.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CBuilderTest" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="FrmMain.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FrmMain" FORMNAME="FormMain" DESIGNCLASS="" ADDITIONAL="FrmMain.h"/>
         <FILE FILENAME="ImageBox.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ImageBox" FORMNAME="" DESIGNCLASS="" ADDITIONAL="ImageBox.h"/>
+        <FILE FILENAME="FrmAbout.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FrmAbout" FORMNAME="FormAbout" DESIGNCLASS="" ADDITIONAL="FrmAbout.h"/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>
