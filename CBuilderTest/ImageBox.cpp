@@ -574,9 +574,10 @@ void TImageBox::DrawInfo() {
     AnsiString pixelVal = GetImagePixelValueText(imgX, imgY);
     AnsiString info = AnsiString().sprintf("zoom=%s (%d,%d)=%s", GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
 
-    Graphics::TBitmap* bmp = new Graphics::TBitmap();
     SIZE size = Canvas->TextExtent(info);
-    bmp->SetSize(250, size.cy);
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    bmp->Width = 250;
+    bmp->Height = size.cy;
     bmp->Canvas->Pen->Color = clBlack;
     bmp->Canvas->Brush->Color = clBlack;
     bmp->Canvas->Rectangle(0, 0, 250, size.cy);
