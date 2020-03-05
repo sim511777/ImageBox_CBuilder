@@ -159,20 +159,12 @@ object FormAbout: TFormAbout
         Caption = 'UseMouseWheelZoom'
         TabOrder = 7
       end
-      object btnFont: TPanel
-        Left = 64
-        Top = 125
-        Width = 121
-        Height = 26
-        TabOrder = 8
-        OnClick = btnFontClick
-      end
       object edtPixelValueDispZoomFactor: TEdit
         Left = 200
         Top = 98
         Width = 49
         Height = 21
-        TabOrder = 9
+        TabOrder = 8
         Text = '0'
       end
       object colBackColor: TColorBox
@@ -181,7 +173,7 @@ object FormAbout: TFormAbout
         Width = 121
         Height = 22
         ItemHeight = 16
-        TabOrder = 10
+        TabOrder = 9
       end
       object btnZoomReset: TButton
         Left = 200
@@ -189,7 +181,7 @@ object FormAbout: TFormAbout
         Width = 121
         Height = 25
         Caption = 'Zoom Reset'
-        TabOrder = 11
+        TabOrder = 10
         OnClick = btnZoomResetClick
       end
       object btnZoomToImage: TButton
@@ -198,8 +190,16 @@ object FormAbout: TFormAbout
         Width = 121
         Height = 25
         Caption = 'Zoom to Image'
-        TabOrder = 12
+        TabOrder = 11
         OnClick = btnZoomToImageClick
+      end
+      object btnFont: TButton
+        Left = 64
+        Top = 128
+        Width = 121
+        Height = 25
+        TabOrder = 12
+        OnClick = btnFontClick
       end
     end
   end

@@ -34,11 +34,11 @@ __published:	// IDE-managed Components
     TCheckBox *chkUseParallel;
     TCheckBox *chkUseMouseMove;
     TCheckBox *chkUseMouseWheelZoom;
-    TPanel *btnFont;
     TEdit *edtPixelValueDispZoomFactor;
     TColorBox *colBackColor;
     TButton *btnZoomReset;
     TButton *btnZoomToImage;
+    TButton *btnFont;
     void __fastcall btnFontClick(TObject *Sender);
     void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
     void __fastcall btnZoomResetClick(TObject *Sender);
