@@ -15,8 +15,18 @@
 class TFormAbout : public TForm
 {
 __published:	// IDE-managed Components
-    TPanel *Panel1;
+    TPanel *Panel2;
+    TButton *btnOk;
+    TButton *btnCancel;
+    TFontDialog *dlgFont;
+    TColorDialog *dlgBackColor;
+    TPageControl *PageControl1;
+    TTabSheet *TabSheet1;
+    TTabSheet *TabSheet2;
     TMemo *memVersion;
+    TLabel *Label1;
+    TLabel *Label3;
+    TLabel *Label2;
     TCheckBox *chkUseDrawPixelValue;
     TCheckBox *chkUseDrawInfo;
     TCheckBox *chkUseDrawCenterLine;
@@ -25,14 +35,6 @@ __published:	// IDE-managed Components
     TCheckBox *chkUseParallel;
     TCheckBox *chkUseMouseMove;
     TCheckBox *chkUseMouseWheelZoom;
-    TLabel *Label1;
-    TLabel *Label3;
-    TPanel *Panel2;
-    TButton *btnOk;
-    TButton *btnCancel;
-    TFontDialog *dlgFont;
-    TColorDialog *dlgBackColor;
-    TLabel *Label2;
     TPanel *btnFont;
     TPanel *btnBackColor;
     TEdit *edtPixelValueDispZoomFactor;
