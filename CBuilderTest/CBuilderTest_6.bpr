@@ -3,9 +3,9 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="CBuilderTest.exe"/>
-    <OBJFILES value="CBuilderTest.obj FrmMain.obj ImageBox.obj FrmAbout.obj"/>
-    <RESFILES value="CBuilderTest.res"/>
+    <PROJECT value="CBuilderTest_6.exe"/>
+    <OBJFILES value="CBuilderTest_6.obj FrmMain.obj ImageBox.obj FrmAbout.obj"/>
+    <RESFILES value="CBuilderTest_6.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) FrmMain.dfm FrmAbout.dfm"/>
     <LIBFILES value=""/>
@@ -26,9 +26,9 @@
     <LINKER value="ilink32"/>
     <USERDEFINES value=""/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
-    <MAINSOURCE value="CBuilderTest.cpp"/>
-    <INCLUDEPATH value="&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;D:\github\CBuilderTest_CB6;$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;D:\github\CBuilderTest_CB6;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <MAINSOURCE value="CBuilderTest_6.cpp"/>
+    <INCLUDEPATH value="..;CBuilderTest;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;D:\github\CBuilderTest_CB6;$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="..;CBuilderTest;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;D:\github\CBuilderTest_CB6;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -47,8 +47,8 @@
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
-      <FILE FILENAME="CBuilderTest.res" FORMNAME="" UNITNAME="CBuilderTest.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="CBuilderTest.cpp" FORMNAME="" UNITNAME="CBuilderTest" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="CBuilderTest_6.res" FORMNAME="" UNITNAME="CBuilderTest_6.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="CBuilderTest_6.cpp" FORMNAME="" UNITNAME="CBuilderTest_6" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FrmMain.cpp" FORMNAME="FormMain" UNITNAME="FrmMain" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ImageBox.cpp" FORMNAME="" UNITNAME="ImageBox" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FrmAbout.cpp" FORMNAME="FormAbout" UNITNAME="FrmAbout" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>

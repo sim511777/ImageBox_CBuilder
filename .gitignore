@@ -69,3 +69,5 @@ __recovery/
 modules/
 *.obj
 *.ddp
+Win32
+Win64

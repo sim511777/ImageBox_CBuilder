@@ -263,7 +263,7 @@ double TImageBox::GetZoomFactor()
 {
     int exp_num, c;
     GetZoomFactorComponents(&exp_num, &c);
-    return c * pow(2, exp_num);
+    return c * pow(2.0, exp_num);
 }
 
 //---------------------------------------------------------------------------
@@ -271,7 +271,7 @@ AnsiString TImageBox::GetZoomText()
 {
     int exp_num, c;
     GetZoomFactorComponents(&exp_num, &c);
-    return (exp_num >= 0) ? IntToStr(c * (int)pow(2, exp_num)) : IntToStr(c) + "/" + IntToStr((int)pow(2, -exp_num));
+    return (exp_num >= 0) ? IntToStr(c * (int)pow(2.0, exp_num)) : IntToStr(c) + "/" + IntToStr((int)pow(2.0, -exp_num));
 }
 
 //---------------------------------------------------------------------------
@@ -290,7 +290,7 @@ void TImageBox::ZoomToRect(int x, int y, int width, int height) {
     double scale1 = (double)ClientWidth / width;
     double scale2 = (double)ClientHeight / height;
     double wantedZoomFactor = Min(scale1, scale2);
-    ZoomLevel = Clamp((int)floor(log(wantedZoomFactor) / log(sqrt(2))), -40, 40);
+    ZoomLevel = Clamp((int)floor(log(wantedZoomFactor) / log(sqrt(2.0))), -40, 40);
     double ZoomFactor = GetZoomFactor();
     PanX = (ClientWidth - width * ZoomFactor) / 2 - x * ZoomFactor;
     PanY = (ClientHeight - height * ZoomFactor) / 2 - y * ZoomFactor;

@@ -33,6 +33,7 @@ private:
     Graphics::TBitmap* dispBmp;
     TColor FColor;
     TCanvas* GetCanvas() { return TCustomControl::Canvas; }
+    TFont* GetFont() { return TControl::Font; }
 
     //이미지용 버퍼
     int imgBW;
@@ -90,6 +91,8 @@ public: //User declarations
     __property int ImgBytepp = {read = imgBytepp};
     //캔버스
     __property TCanvas* Canvas = {read = GetCanvas};
+    //폰트
+    __property TFont* DrawFont = {read = GetFont };
 
     // draw methods
     void DrawPixel(TPointD pt, TColor color);
@@ -132,8 +135,6 @@ __published:
     __property int PixelValueDispZoomFactor = {read = FPixelValueDispZoomFactor, write = FPixelValueDispZoomFactor};
     //배경색
     __property TColor BgColor = {read = FColor, write = FColor};
-    //폰트
-    __property TFont* DrawFont = {read = Font, write = Font};
     //페인트 이벤트
 	__property TNotifyEvent OnPaint = {read=FOnPaint, write=FOnPaint};
 
