@@ -3,7 +3,7 @@ object FormMain: TFormMain
   Top = 140
   Width = 820
   Height = 564
-  Caption = 'FormMain'
+  Caption = 'ImageBox Test'
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText

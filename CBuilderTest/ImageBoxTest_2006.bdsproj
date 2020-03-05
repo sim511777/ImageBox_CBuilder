@@ -26,7 +26,7 @@
         <property category="build.config.1" name="type" value="Toolset"/>
         <property category="build.config.1" name="win32.win32b.builddir" value="Release_Build"/>
         <property category="build.node" name="lastconfig" value="Release_Build"/>
-        <property category="build.node" name="name" value="CBuilderTest_2006.exe"/>
+        <property category="build.node" name="name" value="ImageBoxTest_2006.exe"/>
         <property category="build.node" name="packages" value="vcl;rtl;vclx;bcbsmp;dbrtl;adortl;vcldb;bdertl;vcldbx;dsnap;dsnap;dsnapcon;teeui;teedb;tee;ibxpress;vclie;xmlrtl;inet;inetdbbde;inetdbxpress;inetdb;bcbie;soaprtl;dbexpress;dbxcds;indycore;indysystem;bcboffice2k"/>
         <property category="build.node" name="sparelibs" value="vcl.lib rtl.lib"/>
         <property category="build.node" name="use_packages" value="1"/>
@@ -196,8 +196,8 @@
         </optionset>
       </project>
       <FILELIST>
-        <FILE FILENAME="CBuilderTest_2006.res" CONTAINERID="ResTool" LOCALCOMMAND="" UNITNAME="CBuilderTest_2006.res" FORMNAME="" DESIGNCLASS=""/>
-        <FILE FILENAME="CBuilderTest_2006.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="CBuilderTest_2006" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="ImageBoxTest_2006.res" CONTAINERID="ResTool" LOCALCOMMAND="" UNITNAME="ImageBoxTest_2006.res" FORMNAME="" DESIGNCLASS=""/>
+        <FILE FILENAME="ImageBoxTest_2006.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ImageBoxTest_2006" FORMNAME="" DESIGNCLASS=""/>
         <FILE FILENAME="FrmMain.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FrmMain" FORMNAME="FormMain" DESIGNCLASS="" ADDITIONAL="FrmMain.h"/>
         <FILE FILENAME="ImageBox.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ImageBox" FORMNAME="" DESIGNCLASS="" ADDITIONAL="ImageBox.h"/>
         <FILE FILENAME="FrmAbout.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FrmAbout" FORMNAME="FormAbout" DESIGNCLASS="" ADDITIONAL="FrmAbout.h"/>
@@ -258,7 +258,7 @@
       </IDEOPTIONS>
     </BCBPROJECT>
 		<Source>
-			<Source Name="MainSource">CBuilderTest_2006.cpp</Source>
+			<Source Name="MainSource">ImageBoxTest_2006.cpp</Source>
 		</Source>
 		<buildevents/>
 	</CPlusPlusBuilder.Personality>
