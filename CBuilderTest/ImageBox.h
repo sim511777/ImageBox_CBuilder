@@ -48,6 +48,8 @@ private:
     BOOL mouseDown;
     //마우스 마지막 위치
     TPoint ptMouseLast;
+    //마우스 더블클릭했는지
+    BOOL mouseDblClicked;   // 정보창 띄운후 이미지 이동 하는 버그 때문에
 
     void GetZoomFactorComponents(int* exp_num, int* c); // 줌 배율 계산
     AnsiString GetZoomText(); //줌 배율 표시 리턴

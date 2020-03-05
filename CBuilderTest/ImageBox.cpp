@@ -192,6 +192,9 @@ void CopyImageBufferZoomIpl(void* sbuf, int sbw, int sbh, Graphics::TBitmap* dbu
 const AnsiString TImageBox::VersionHistory =
 "ImageBox C++Builder 컨트롤\r\n"
 "\r\n"
+"v1.0.0.9 - 20200305\r\n"
+"1. 더블클릭 정보창 띄운 후 이미지 이동하는 버그 수정\r\n"
+"\r\n"
 "v1.0.0.8 - 20200304\r\n"
 "1. 버전정보 창에 속성 변경기능 추가\r\n"
 "2. 쿼드클릭 대신 ctrl + 더블클릭 누를때 버전정보 창 띄움\r\n"
@@ -220,6 +223,7 @@ __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner)
     imgBuf = NULL;
     imgBytepp = 1;
     mouseDown = FALSE;
+    mouseDblClicked = FALSE;
     FUseDrawPixelValue = TRUE;
     FUseDrawInfo = TRUE;
     FUseDrawCenterLine = TRUE;
@@ -442,9 +446,13 @@ void __fastcall TImageBox::MouseDown(TMouseButton Button, TShiftState Shift, int
     TCustomControl::MouseDown(Button, Shift, X, Y);
 
     if (Button == mbLeft) {
-        ptMouseLast = TPoint(X, Y);
-        mouseDown = true;
+        if (mouseDblClicked) {
+            mouseDblClicked = false;
+        } else {
+            mouseDown = true;
+        }
     }
+    ptMouseLast = TPoint(X, Y);
 }
 
 //---------------------------------------------------------------------------
@@ -456,11 +464,10 @@ void __fastcall TImageBox::MouseMove(TShiftState Shift, int X, int Y)
     if (UseMouseMove && mouseDown) {
         PanX += ptMouse.x - ptMouseLast.x;
         PanY += ptMouse.y - ptMouseLast.y;
-        ptMouseLast = ptMouse;
         Invalidate();
-    } else {
-        ptMouseLast = ptMouse;
     }
+    ptMouseLast = ptMouse;
+
     if (UseDrawInfo)
         DrawInfo();
 }
@@ -472,6 +479,17 @@ void __fastcall TImageBox::MouseUp(TMouseButton Button, TShiftState Shift, int X
 
     if (Button == mbLeft)
         mouseDown = false;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TImageBox::DblClick(void)
+{
+    if (GetAsyncKeyState(VK_CONTROL) < 0 && GetKeyState(VK_LBUTTON) < 0) {
+        ShowAbout();
+        mouseDblClicked = true;
+    } else {
+        TCustomControl::DblClick();
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -909,16 +927,6 @@ void TImageBox::DrawStringScreen(AnsiString text, TPoint pt, TColor color, bool 
 void TImageBox::DrawStringScreen(AnsiString text, int x, int y, TColor color, bool fill, TColor fillColor)
 {
     DrawStringScreen(text, TPoint(x, y), color, fill, fillColor);
-}
-
-//---------------------------------------------------------------------------
-void __fastcall TImageBox::DblClick(void)
-{
-    if (GetAsyncKeyState(VK_CONTROL) < 0 && GetKeyState(VK_LBUTTON) < 0) {
-        ShowAbout();
-    } else {
-        TCustomControl::DblClick();
-    }
 }
 
 //---------------------------------------------------------------------------
