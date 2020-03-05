@@ -19,7 +19,6 @@ __published:	// IDE-managed Components
     TButton *btnOk;
     TButton *btnCancel;
     TFontDialog *dlgFont;
-    TColorDialog *dlgBackColor;
     TPageControl *PageControl1;
     TTabSheet *TabSheet1;
     TTabSheet *TabSheet2;
@@ -36,11 +35,14 @@ __published:	// IDE-managed Components
     TCheckBox *chkUseMouseMove;
     TCheckBox *chkUseMouseWheelZoom;
     TPanel *btnFont;
-    TPanel *btnBackColor;
     TEdit *edtPixelValueDispZoomFactor;
+    TColorBox *colBackColor;
+    TButton *btnZoomReset;
+    TButton *btnZoomToImage;
     void __fastcall btnFontClick(TObject *Sender);
-    void __fastcall btnBackColorClick(TObject *Sender);
     void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
+    void __fastcall btnZoomResetClick(TObject *Sender);
+    void __fastcall btnZoomToImageClick(TObject *Sender);
 private:	// User declarations
     TImageBox *pbx;
 

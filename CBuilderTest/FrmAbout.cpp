@@ -27,7 +27,7 @@ void TFormAbout::ImageBoxOptionGet() {
     edtPixelValueDispZoomFactor->Text = IntToStr(pbx->PixelValueDispZoomFactor);
     chkUseMouseMove->Checked = pbx->UseMouseMove;
     chkUseMouseWheelZoom->Checked = pbx->UseMouseWheelZoom;
-    btnBackColor->Color = pbx->BgColor;
+    colBackColor->Selected = pbx->BgColor;
     btnFont->Font->Name = pbx->DrawFont->Name;
     btnFont->Font->Size = pbx->DrawFont->Size;
 
@@ -45,7 +45,7 @@ void TFormAbout::ImageBoxOptionSet() {
     pbx->PixelValueDispZoomFactor = StrToInt(edtPixelValueDispZoomFactor->Text);
     pbx->UseMouseMove = chkUseMouseMove->Checked;
     pbx->UseMouseWheelZoom = chkUseMouseWheelZoom->Checked;
-    pbx->BgColor = btnBackColor->Color;
+    pbx->BgColor = colBackColor->Selected;
     pbx->DrawFont->Name = btnFont->Font->Name;
     pbx->DrawFont->Size = btnFont->Font->Size;
 }
@@ -63,15 +63,6 @@ void __fastcall TFormAbout::btnFontClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormAbout::btnBackColorClick(TObject *Sender)
-{
-    dlgBackColor->Color = btnBackColor->Color;
-    if (dlgBackColor->Execute() == false)
-        return;
-    btnBackColor->Color = dlgBackColor->Color;
-}
-//---------------------------------------------------------------------------
-
 void __fastcall TFormAbout::FormCloseQuery(TObject *Sender, bool &CanClose)
 {
     try {
@@ -85,6 +76,23 @@ void __fastcall TFormAbout::FormCloseQuery(TObject *Sender, bool &CanClose)
         return;
 
     ImageBoxOptionSet();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormAbout::btnZoomResetClick(TObject *Sender)
+{
+    pbx->ZoomReset();
+    pbx->Invalidate();    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormAbout::btnZoomToImageClick(TObject *Sender)
+{
+    if (pbx->ImgBW <= 0 || pbx->ImgBH <= 0)
+        pbx->ZoomReset();
+    else
+        pbx->ZoomToRect(0, 0, pbx->ImgBW, pbx->ImgBH);
+    pbx->Invalidate();
 }
 //---------------------------------------------------------------------------
 

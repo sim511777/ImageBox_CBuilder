@@ -1,8 +1,8 @@
 object FormAbout: TFormAbout
-  Left = 0
-  Top = 0
-  Width = 430
-  Height = 314
+  Left = 380
+  Top = 211
+  Width = 361
+  Height = 308
   BorderStyle = bsSizeToolWin
   Caption = 'ImageBox for C++Builder'
   Color = clBtnFace
@@ -18,16 +18,16 @@ object FormAbout: TFormAbout
   TextHeight = 13
   object Panel2: TPanel
     Left = 0
-    Top = 230
-    Width = 414
+    Top = 224
+    Width = 345
     Height = 45
     Align = alBottom
     TabOrder = 0
     DesignSize = (
-      414
+      345
       45)
     object btnOk: TButton
-      Left = 248
+      Left = 179
       Top = 12
       Width = 75
       Height = 25
@@ -37,7 +37,7 @@ object FormAbout: TFormAbout
       TabOrder = 0
     end
     object btnCancel: TButton
-      Left = 329
+      Left = 260
       Top = 12
       Width = 75
       Height = 25
@@ -50,8 +50,8 @@ object FormAbout: TFormAbout
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 414
-    Height = 230
+    Width = 345
+    Height = 224
     ActivePage = TabSheet2
     Align = alClient
     TabIndex = 1
@@ -61,8 +61,8 @@ object FormAbout: TFormAbout
       object memVersion: TMemo
         Left = 0
         Top = 0
-        Width = 406
-        Height = 202
+        Width = 337
+        Height = 196
         Align = alClient
         Lines.Strings = (
           'memVersion')
@@ -128,7 +128,7 @@ object FormAbout: TFormAbout
         TabOrder = 3
       end
       object chkUseInterPorlation: TCheckBox
-        Left = 184
+        Left = 200
         Top = 6
         Width = 130
         Height = 17
@@ -136,7 +136,7 @@ object FormAbout: TFormAbout
         TabOrder = 4
       end
       object chkUseParallel: TCheckBox
-        Left = 184
+        Left = 200
         Top = 29
         Width = 130
         Height = 17
@@ -144,7 +144,7 @@ object FormAbout: TFormAbout
         TabOrder = 5
       end
       object chkUseMouseMove: TCheckBox
-        Left = 184
+        Left = 200
         Top = 52
         Width = 130
         Height = 17
@@ -152,7 +152,7 @@ object FormAbout: TFormAbout
         TabOrder = 6
       end
       object chkUseMouseWheelZoom: TCheckBox
-        Left = 184
+        Left = 200
         Top = 75
         Width = 130
         Height = 17
@@ -160,28 +160,46 @@ object FormAbout: TFormAbout
         TabOrder = 7
       end
       object btnFont: TPanel
-        Left = 184
+        Left = 64
         Top = 125
         Width = 121
         Height = 26
         TabOrder = 8
         OnClick = btnFontClick
       end
-      object btnBackColor: TPanel
-        Left = 184
-        Top = 157
-        Width = 121
-        Height = 26
-        TabOrder = 9
-        OnClick = btnBackColorClick
-      end
       object edtPixelValueDispZoomFactor: TEdit
-        Left = 184
+        Left = 200
         Top = 98
         Width = 49
         Height = 21
-        TabOrder = 10
+        TabOrder = 9
         Text = '0'
+      end
+      object colBackColor: TColorBox
+        Left = 64
+        Top = 160
+        Width = 121
+        Height = 22
+        ItemHeight = 16
+        TabOrder = 10
+      end
+      object btnZoomReset: TButton
+        Left = 200
+        Top = 128
+        Width = 121
+        Height = 25
+        Caption = 'Zoom Reset'
+        TabOrder = 11
+        OnClick = btnZoomResetClick
+      end
+      object btnZoomToImage: TButton
+        Left = 200
+        Top = 160
+        Width = 121
+        Height = 25
+        Caption = 'Zoom to Image'
+        TabOrder = 12
+        OnClick = btnZoomToImageClick
       end
     end
   end
@@ -194,11 +212,6 @@ object FormAbout: TFormAbout
     MinFontSize = 0
     MaxFontSize = 0
     Left = 8
-    Top = 16
-  end
-  object dlgBackColor: TColorDialog
-    Ctl3D = True
-    Left = 40
     Top = 16
   end
 end
