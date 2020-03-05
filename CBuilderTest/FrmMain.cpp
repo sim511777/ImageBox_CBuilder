@@ -23,6 +23,9 @@ __fastcall TFormMain::TFormMain(TComponent* Owner)
     pbxDraw->UseDrawDrawTime = true;
     pbxDraw->OnPaint = pbxDrawOnPaint;
     pbxDraw->Parent = this;
+    if (ParamCount() > 0) {
+        LoadImageFile(ParamStr(1));
+    }
 }
 
 void __fastcall TFormMain::btnResetZoomClick(TObject *Sender)
@@ -62,14 +65,10 @@ void __fastcall TFormMain::LoadBmp(Graphics::TBitmap* bmp) {
     memset(imgBuf, 0, bw * bh * bytepp);
     BitmapToBuf(bmp, imgBuf, bw, bh, bytepp);
 }
+//---------------------------------------------------------------------------
 
-void __fastcall TFormMain::btnLoadImageFileClick(TObject *Sender)
+void TFormMain::LoadImageFile(AnsiString fileName)
 {
-    bool r = dlgOpen->Execute();
-    if (!r)
-        return;
-
-    AnsiString fileName = dlgOpen->FileName;
     AnsiString ext = ExtractFileExt(fileName).LowerCase();
     TGraphic* img;
     if (ext == ".jpg" || ext == ".jpeg") {
@@ -86,6 +85,17 @@ void __fastcall TFormMain::btnLoadImageFileClick(TObject *Sender)
     delete bmp;
     delete img;
     pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::btnLoadImageFileClick(TObject *Sender)
+{
+    bool r = dlgOpen->Execute();
+    if (!r)
+        return;
+
+    AnsiString fileName = dlgOpen->FileName;
+    LoadImageFile(fileName);
 }
 //---------------------------------------------------------------------------
 
