@@ -18,15 +18,6 @@
 class TFormMain : public TForm
 {
 __published:	// IDE-managed Components
-    TPanel *Panel1;
-    TSplitter *Splitter1;
-    TPanel *Panel2;
-    TButton *btnLoadImageFile;
-    TButton *btnResetZoom;
-    TButton *btnLoadClipboard;
-    TButton *btnClearImageBuffer;
-    TButton *btnImmediateDrawTest;
-    TCheckBox *chkRetainedDrawTest;
     TOpenPictureDialog *dlgOpen;
     TMainMenu *MainMenu1;
     TMenuItem *File1;
@@ -36,12 +27,38 @@ __published:	// IDE-managed Components
     TMenuItem *OpenFile1;
     TMenuItem *PastefromClipboard1;
     TMenuItem *N1;
-    void __fastcall btnLoadImageFileClick(TObject *Sender);
-    void __fastcall btnResetZoomClick(TObject *Sender);
-    void __fastcall btnLoadClipboardClick(TObject *Sender);
-    void __fastcall btnClearImageBufferClick(TObject *Sender);
-    void __fastcall btnImmediateDrawTestClick(TObject *Sender);
-    void __fastcall chkRetainedDrawTestClick(TObject *Sender);
+    TMenuItem *N2;
+    TMenuItem *Lenna41;
+    TMenuItem *Coins1;
+    TMenuItem *Chess1;
+    TMenuItem *N3;
+    TMenuItem *LongImage1;
+    TMenuItem *WideImage1;
+    TMenuItem *ZoomReset1;
+    TMenuItem *Zoomtoimage1;
+    TMenuItem *ImmediateDrawTest1;
+    TMenuItem *RetainedDrawTest1;
+    TMenuItem *N4;
+    TMenuItem *DrawEllipse1;
+    TMenuItem *FillEllipse1;
+    TMenuItem *DrawString1;
+    TMenuItem *DrawShapes1;
+    TMenuItem *DrawPixelCircles1;
+    TMenuItem *AboutImageBox1;
+    void __fastcall OpenFile1Click(TObject *Sender);
+    void __fastcall PastefromClipboard1Click(TObject *Sender);
+    void __fastcall N1Click(TObject *Sender);
+    void __fastcall Lenna41Click(TObject *Sender);
+    void __fastcall Coins1Click(TObject *Sender);
+    void __fastcall Chess1Click(TObject *Sender);
+    void __fastcall LongImage1Click(TObject *Sender);
+    void __fastcall WideImage1Click(TObject *Sender);
+    void __fastcall ZoomReset1Click(TObject *Sender);
+    void __fastcall Zoomtoimage1Click(TObject *Sender);
+    void __fastcall ImmediateDrawTest1Click(TObject *Sender);
+    void __fastcall RetainedDrawTest1Click(TObject *Sender);
+    void __fastcall DrawEllipse1Click(TObject *Sender);
+    void __fastcall AboutImageBox1Click(TObject *Sender);
 private:	// User declarations
     TImageBox* pbxDraw;
     void __fastcall pbxDrawOnPaint(TObject *Sender);

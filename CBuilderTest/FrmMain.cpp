@@ -28,13 +28,6 @@ __fastcall TFormMain::TFormMain(TComponent* Owner)
     }
 }
 
-void __fastcall TFormMain::btnResetZoomClick(TObject *Sender)
-{
-    pbxDraw->ZoomReset();
-    pbxDraw->Invalidate();
-}
-//---------------------------------------------------------------------------
-
 void BitmapToBuf(Graphics::TBitmap* bmp, BYTE* buf, int bw, int bh, int bytepp)
 {
     int scanstep = bw * bytepp;
@@ -88,7 +81,19 @@ void TFormMain::LoadImageFile(AnsiString fileName)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormMain::btnLoadImageFileClick(TObject *Sender)
+void __fastcall TFormMain::pbxDrawOnPaint(TObject *Sender)
+{
+    if (RetainedDrawTest1->Checked) {
+        for (int y = 0; y < 100; y++) {
+            for (int x = 0; x < 100; x++) {
+                pbxDraw->DrawEllipse(x, y, x + 1, y + 1, clRed);
+            }
+        }
+    }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::OpenFile1Click(TObject *Sender)
 {
     bool r = dlgOpen->Execute();
     if (!r)
@@ -99,7 +104,7 @@ void __fastcall TFormMain::btnLoadImageFileClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormMain::btnLoadClipboardClick(TObject *Sender)
+void __fastcall TFormMain::PastefromClipboard1Click(TObject *Sender)
 {
     TClipboard* clip = Clipboard();
     if (clip->HasFormat(CF_BITMAP) == false)
@@ -115,43 +120,88 @@ void __fastcall TFormMain::btnLoadClipboardClick(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormMain::btnClearImageBufferClick(TObject *Sender)
+void __fastcall TFormMain::N1Click(TObject *Sender)
 {
-    delete[] imgBuf;
-    imgBuf = NULL;
-    pbxDraw->SetImgBuf(NULL, 0, 0, 1, TRUE);
+//    
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormMain::pbxDrawOnPaint(TObject *Sender)
+void __fastcall TFormMain::Lenna41Click(TObject *Sender)
 {
-    if (chkRetainedDrawTest->Checked) {
-        for (int y = 0; y < 100; y++) {
-            for (int x = 0; x < 100; x++) {
-                pbxDraw->DrawEllipse(x, y, x + 1, y + 1, clRed);
-            }
-        }
-    }
+//    
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormMain::btnImmediateDrawTestClick(TObject *Sender)
+void __fastcall TFormMain::Coins1Click(TObject *Sender)
+{
+//    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::Chess1Click(TObject *Sender)
+{
+//    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::LongImage1Click(TObject *Sender)
+{
+//    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::WideImage1Click(TObject *Sender)
+{
+//    
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::ZoomReset1Click(TObject *Sender)
+{
+    pbxDraw->ZoomReset();
+    pbxDraw->Invalidate();   
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::Zoomtoimage1Click(TObject *Sender)
+{
+    if (pbxDraw->ImgBW <= 0 || pbxDraw->ImgBH <= 0)
+        pbxDraw->ZoomReset();
+    else
+        pbxDraw->ZoomToRect(0, 0, pbxDraw->ImgBW, pbxDraw->ImgBH);
+    pbxDraw->Invalidate();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::ImmediateDrawTest1Click(TObject *Sender)
 {
     TDateTime st = Now();
-    for (int y = 0; y < 100; y++) {
-        for (int x = 0; x < 100; x++) {
+    for (int y = 0; y < 50; y++) {
+        for (int x = 0; x < 50; x++) {
             pbxDraw->DrawEllipse(x, y, x + 1, y + 1, clLime);
         }
     }
     INT64 dt = MilliSecondsBetween(Now(), st);
-    AnsiString text = AnsiString().sprintf("%d", dt);
-    pbxDraw->DrawStringScreen(text, 200, 0, clBlack, true, clWhite);
+    AnsiString text = AnsiString().sprintf("DrawTime : %dms", dt);
+    pbxDraw->DrawStringScreen(text, 255, 2, clBlack, true, clWhite);
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormMain::chkRetainedDrawTestClick(TObject *Sender)
+void __fastcall TFormMain::RetainedDrawTest1Click(TObject *Sender)
 {
     pbxDraw->Invalidate();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::DrawEllipse1Click(TObject *Sender)
+{
+//
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::AboutImageBox1Click(TObject *Sender)
+{
+    pbxDraw->ShowAbout();
 }
 //---------------------------------------------------------------------------
 

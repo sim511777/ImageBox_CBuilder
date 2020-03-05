@@ -2,8 +2,8 @@ object FormMain: TFormMain
   Left = 306
   Top = 140
   Caption = 'FormMain'
-  ClientHeight = 651
-  ClientWidth = 1127
+  ClientHeight = 505
+  ClientWidth = 804
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,85 +14,6 @@ object FormMain: TFormMain
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object Splitter1: TSplitter
-    Left = 875
-    Top = 0
-    Height = 651
-    Align = alRight
-  end
-  object Panel1: TPanel
-    Left = 878
-    Top = 0
-    Width = 249
-    Height = 651
-    Align = alRight
-    Caption = 'Panel1'
-    TabOrder = 0
-    ExplicitLeft = 881
-    object btnLoadImageFile: TButton
-      Left = 7
-      Top = 8
-      Width = 106
-      Height = 25
-      Caption = 'Load Image File'
-      TabOrder = 0
-      OnClick = btnLoadImageFileClick
-    end
-    object btnResetZoom: TButton
-      Left = 119
-      Top = 8
-      Width = 107
-      Height = 25
-      Caption = 'Reset Zoom'
-      TabOrder = 1
-      OnClick = btnResetZoomClick
-    end
-    object btnLoadClipboard: TButton
-      Left = 6
-      Top = 39
-      Width = 106
-      Height = 25
-      Caption = 'Load Clipboard Image'
-      TabOrder = 2
-      OnClick = btnLoadClipboardClick
-    end
-    object btnClearImageBuffer: TButton
-      Left = 6
-      Top = 70
-      Width = 106
-      Height = 25
-      Caption = 'Clear Image Buffer'
-      TabOrder = 3
-      OnClick = btnClearImageBufferClick
-    end
-    object btnImmediateDrawTest: TButton
-      Left = 6
-      Top = 101
-      Width = 107
-      Height = 25
-      Caption = 'Immediate Draw Test'
-      TabOrder = 4
-      OnClick = btnImmediateDrawTestClick
-    end
-    object chkRetainedDrawTest: TCheckBox
-      Left = 8
-      Top = 136
-      Width = 121
-      Height = 17
-      Caption = 'Retained Draw Test'
-      TabOrder = 5
-      OnClick = chkRetainedDrawTestClick
-    end
-  end
-  object Panel2: TPanel
-    Left = 0
-    Top = 0
-    Width = 875
-    Height = 651
-    Align = alClient
-    Caption = 'Panel2'
-    TabOrder = 1
-  end
   object dlgOpen: TOpenPictureDialog
     Left = 8
     Top = 8
@@ -104,23 +25,112 @@ object FormMain: TFormMain
       Caption = 'File'
       object OpenFile1: TMenuItem
         Caption = 'Open File'
+        OnClick = OpenFile1Click
       end
       object PastefromClipboard1: TMenuItem
         Caption = 'Paste from Clipboard'
         ShortCut = 16470
+        OnClick = PastefromClipboard1Click
+      end
+      object N2: TMenuItem
+        Caption = '-'
       end
       object N1: TMenuItem
-        Caption = '--'
+        Caption = 'Lenna'
+        ShortCut = 16465
+        OnClick = N1Click
+      end
+      object Lenna41: TMenuItem
+        Caption = 'Lenna4'
+        ShortCut = 16471
+        OnClick = Lenna41Click
+      end
+      object Coins1: TMenuItem
+        Caption = 'Coins'
+        ShortCut = 16453
+        OnClick = Coins1Click
+      end
+      object Chess1: TMenuItem
+        Caption = 'Chess'
+        ShortCut = 16466
+        OnClick = Chess1Click
+      end
+      object N3: TMenuItem
+        Caption = '-'
+      end
+      object LongImage1: TMenuItem
+        Caption = 'Long Image'
+        ShortCut = 16468
+        OnClick = LongImage1Click
+      end
+      object WideImage1: TMenuItem
+        Caption = 'Wide Image'
+        ShortCut = 16473
+        OnClick = WideImage1Click
       end
     end
     object Zoom1: TMenuItem
       Caption = 'Zoom'
+      object ZoomReset1: TMenuItem
+        Caption = 'Zoom Reset'
+        ShortCut = 16432
+        OnClick = ZoomReset1Click
+      end
+      object Zoomtoimage1: TMenuItem
+        Caption = 'Zoom to image'
+        ShortCut = 16441
+        OnClick = Zoomtoimage1Click
+      end
     end
     object est1: TMenuItem
       Caption = 'Test'
+      object ImmediateDrawTest1: TMenuItem
+        Caption = 'Immediate Draw Test'
+        ShortCut = 16464
+        OnClick = ImmediateDrawTest1Click
+      end
+      object RetainedDrawTest1: TMenuItem
+        AutoCheck = True
+        Caption = 'Retained Draw Test'
+        ShortCut = 16463
+        OnClick = RetainedDrawTest1Click
+      end
+      object N4: TMenuItem
+        Caption = '-'
+      end
+      object DrawEllipse1: TMenuItem
+        AutoCheck = True
+        Caption = 'DrawEllipse'
+        Checked = True
+        OnClick = DrawEllipse1Click
+      end
+      object FillEllipse1: TMenuItem
+        AutoCheck = True
+        Caption = 'FillEllipse'
+        OnClick = DrawEllipse1Click
+      end
+      object DrawString1: TMenuItem
+        AutoCheck = True
+        Caption = 'DrawString'
+        OnClick = DrawEllipse1Click
+      end
+      object DrawShapes1: TMenuItem
+        AutoCheck = True
+        Caption = 'Draw Shapes'
+        OnClick = DrawEllipse1Click
+      end
+      object DrawPixelCircles1: TMenuItem
+        AutoCheck = True
+        Caption = 'Draw Pixel Circles'
+        OnClick = DrawEllipse1Click
+      end
     end
     object Help1: TMenuItem
       Caption = 'Help'
+      object AboutImageBox1: TMenuItem
+        Caption = 'About ImageBox'
+        OnClick = AboutImageBox1Click
+      end
     end
   end
 end

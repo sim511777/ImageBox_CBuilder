@@ -293,7 +293,7 @@ void TImageBox::ZoomToRect(int x, int y, int width, int height) {
     ZoomLevel = Clamp((int)floor(log(wantedZoomFactor) / log(sqrt(2))), -40, 40);
     double ZoomFactor = GetZoomFactor();
     PanX = (ClientWidth - width * ZoomFactor) / 2 - x * ZoomFactor;
-    PanY = (ClientWidth - height * ZoomFactor) / 2 - y * ZoomFactor;
+    PanY = (ClientHeight - height * ZoomFactor) / 2 - y * ZoomFactor;
 }
 
 //---------------------------------------------------------------------------
