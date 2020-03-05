@@ -11,8 +11,6 @@
 #include <ExtCtrls.hpp>
 #include <Dialogs.hpp>
 #include <ExtDlgs.hpp>
-#include <XPMan.hpp>
-#include <CategoryButtons.hpp>
 #include <Menus.hpp>
 //---------------------------------------------------------------------------
 class TFormMain : public TForm

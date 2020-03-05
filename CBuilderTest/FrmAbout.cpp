@@ -55,7 +55,7 @@ void __fastcall TFormAbout::btnFontClick(TObject *Sender)
 {
     dlgFont->Font->Name = btnFont->Font->Name;
     dlgFont->Font->Size = btnFont->Font->Size;
-    if (dlgFont->Execute(this) == false)
+    if (dlgFont->Execute() == false)
         return;
     btnFont->Font->Name = dlgFont->Font->Name;
     btnFont->Font->Size = dlgFont->Font->Size;
@@ -66,7 +66,7 @@ void __fastcall TFormAbout::btnFontClick(TObject *Sender)
 void __fastcall TFormAbout::btnBackColorClick(TObject *Sender)
 {
     dlgBackColor->Color = btnBackColor->Color;
-    if (dlgBackColor->Execute(this) == false)
+    if (dlgBackColor->Execute() == false)
         return;
     btnBackColor->Color = dlgBackColor->Color;
 }

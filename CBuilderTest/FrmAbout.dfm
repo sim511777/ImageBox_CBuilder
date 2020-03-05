@@ -1,10 +1,10 @@
 object FormAbout: TFormAbout
   Left = 0
   Top = 0
+  Width = 430
+  Height = 314
   BorderStyle = bsSizeToolWin
   Caption = 'ImageBox for C++Builder'
-  ClientHeight = 275
-  ClientWidth = 414
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,8 +23,6 @@ object FormAbout: TFormAbout
     Height = 45
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 432
-    ExplicitWidth = 401
     DesignSize = (
       414
       45)
@@ -37,7 +35,6 @@ object FormAbout: TFormAbout
       Caption = 'Ok'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 235
     end
     object btnCancel: TButton
       Left = 329
@@ -48,7 +45,6 @@ object FormAbout: TFormAbout
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 316
     end
   end
   object PageControl1: TPageControl
@@ -58,15 +54,10 @@ object FormAbout: TFormAbout
     Height = 230
     ActivePage = TabSheet2
     Align = alClient
+    TabIndex = 1
     TabOrder = 1
-    ExplicitWidth = 419
-    ExplicitHeight = 250
     object TabSheet1: TTabSheet
       Caption = 'Version'
-      ExplicitLeft = -4
-      ExplicitTop = -8
-      ExplicitWidth = 129
-      ExplicitHeight = 101
       object memVersion: TMemo
         Left = 0
         Top = 0
@@ -78,17 +69,11 @@ object FormAbout: TFormAbout
         ReadOnly = True
         ScrollBars = ssBoth
         TabOrder = 0
-        ExplicitLeft = -272
-        ExplicitTop = -139
-        ExplicitWidth = 401
-        ExplicitHeight = 240
       end
     end
     object TabSheet2: TTabSheet
       Caption = 'Option'
       ImageIndex = 1
-      ExplicitWidth = 129
-      ExplicitHeight = 101
       object Label1: TLabel
         Left = 8
         Top = 98
@@ -206,10 +191,13 @@ object FormAbout: TFormAbout
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    MinFontSize = 0
+    MaxFontSize = 0
     Left = 8
     Top = 16
   end
   object dlgBackColor: TColorDialog
+    Ctl3D = True
     Left = 40
     Top = 16
   end
