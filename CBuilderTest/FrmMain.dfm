@@ -1,9 +1,9 @@
 object FormMain: TFormMain
   Left = 306
   Top = 140
-  Width = 820
-  Height = 564
   Caption = 'ImageBox Test'
+  ClientHeight = 545
+  ClientWidth = 804
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -19,16 +19,30 @@ object FormMain: TFormMain
     Top = 8
   end
   object MainMenu1: TMainMenu
-    Left = 40
+    Left = 72
     Top = 8
     object File1: TMenuItem
       Caption = 'File'
       object OpenFile1: TMenuItem
         Caption = 'Open File'
+        ShortCut = 16463
         OnClick = OpenFile1Click
       end
+      object SaveFile1: TMenuItem
+        Caption = 'Save File'
+        ShortCut = 16467
+        OnClick = SaveFile1Click
+      end
+      object N5: TMenuItem
+        Caption = '-'
+      end
+      object Copy1: TMenuItem
+        Caption = 'Copy'
+        ShortCut = 16451
+        OnClick = Copy1Click
+      end
       object PastefromClipboard1: TMenuItem
-        Caption = 'Paste from Clipboard'
+        Caption = 'Paste'
         ShortCut = 16470
         OnClick = PastefromClipboard1Click
       end
@@ -55,17 +69,21 @@ object FormMain: TFormMain
         ShortCut = 16466
         OnClick = Chess1Click
       end
+      object Gradient1: TMenuItem
+        Caption = 'Gradient'
+        ShortCut = 16468
+      end
       object N3: TMenuItem
         Caption = '-'
       end
       object LongImage1: TMenuItem
         Caption = 'Long Image'
-        ShortCut = 16468
+        ShortCut = 16473
         OnClick = LongImage1Click
       end
       object WideImage1: TMenuItem
         Caption = 'Wide Image'
-        ShortCut = 16473
+        ShortCut = 16469
         OnClick = WideImage1Click
       end
     end
@@ -132,5 +150,12 @@ object FormMain: TFormMain
         OnClick = AboutImageBox1Click
       end
     end
+  end
+  object dlgSave: TSavePictureDialog
+    DefaultExt = 'bmp'
+    Filter = 'Bitmaps (*.bmp)|*.bmp'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
+    Left = 40
+    Top = 8
   end
 end

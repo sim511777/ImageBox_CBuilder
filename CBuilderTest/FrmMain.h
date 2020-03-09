@@ -43,6 +43,11 @@ __published:	// IDE-managed Components
     TMenuItem *DrawShapes1;
     TMenuItem *DrawPixelCircles1;
     TMenuItem *AboutImageBox1;
+    TMenuItem *N5;
+    TMenuItem *Copy1;
+    TMenuItem *Gradient1;
+    TMenuItem *SaveFile1;
+    TSavePictureDialog *dlgSave;
     void __fastcall OpenFile1Click(TObject *Sender);
     void __fastcall PastefromClipboard1Click(TObject *Sender);
     void __fastcall N1Click(TObject *Sender);
@@ -57,11 +62,15 @@ __published:	// IDE-managed Components
     void __fastcall RetainedDrawTest1Click(TObject *Sender);
     void __fastcall DrawEllipse1Click(TObject *Sender);
     void __fastcall AboutImageBox1Click(TObject *Sender);
+    void __fastcall Copy1Click(TObject *Sender);
+    void __fastcall SaveFile1Click(TObject *Sender);
 private:	// User declarations
     TImageBox* pbxDraw;
     void __fastcall pbxDrawOnPaint(TObject *Sender);
     void LoadImageFile(AnsiString fileName);
-    void __fastcall LoadBmp(Graphics::TBitmap* bmp);
+    void SaveImageFile(AnsiString fileName);
+    void __fastcall ReadBitmap(Graphics::TBitmap* bmp);
+    void __fastcall WriteBitmap(Graphics::TBitmap* bmp);
 
     BYTE* imgBuf;
     int bw;

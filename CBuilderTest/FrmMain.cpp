@@ -39,7 +39,35 @@ void BitmapToBuf(Graphics::TBitmap* bmp, BYTE* buf, int bw, int bh, int bytepp)
 }
 //---------------------------------------------------------------------------
 
-void __fastcall TFormMain::LoadBmp(Graphics::TBitmap* bmp) {
+void BufToBitmap(BYTE* buf, Graphics::TBitmap* bmp, int bw, int bh, int bytepp)
+{
+    int scanstep = bw * bytepp;
+    for (int y = 0; y < bh; y++) {
+        BYTE* sptr = buf + scanstep * y;
+        BYTE* dptr = (BYTE*)bmp->ScanLine[y];
+        memcpy(dptr, sptr, scanstep);
+    }
+}
+//---------------------------------------------------------------------------
+
+HPALETTE CreateGrayPalette() {
+    BYTE* buf = new BYTE[sizeof(LOGPALETTE) + sizeof(PALETTEENTRY) * 255];
+    LOGPALETTE* ppal = (LOGPALETTE*)buf;
+    ppal->palVersion = 0x300;
+    ppal->palNumEntries = 256;
+    for (int i = 0; i < 256; i++) {
+        ppal->palPalEntry[i].peRed = i;
+        ppal->palPalEntry[i].peGreen = i;
+        ppal->palPalEntry[i].peBlue = i;
+        ppal->palPalEntry[i].peFlags = PC_RESERVED;
+    }
+    HPALETTE hPal = CreatePalette(ppal);
+    delete[] buf;
+    return hPal;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::ReadBitmap(Graphics::TBitmap* bmp) {
     bw = bmp->Width;
     bh = bmp->Height;
     if (bmp->PixelFormat == pf8bit)
@@ -54,9 +82,31 @@ void __fastcall TFormMain::LoadBmp(Graphics::TBitmap* bmp) {
     if (imgBuf != NULL) {
         delete [] imgBuf;
     }
+
     imgBuf = new BYTE[bw * bh * bytepp];
-    memset(imgBuf, 0, bw * bh * bytepp);
     BitmapToBuf(bmp, imgBuf, bw, bh, bytepp);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::WriteBitmap(Graphics::TBitmap* bmp) {
+    bmp->Width = bw;
+    bmp->Height = bh;
+    if (bytepp == 1)
+        bmp->PixelFormat = pf8bit;
+    else if (bytepp == 2)
+        bmp->PixelFormat = pf16bit;
+    else if (bytepp == 3)
+        bmp->PixelFormat = pf24bit;
+    else
+        bmp->PixelFormat == pf32bit;
+
+    if (bytepp == 1) {
+        HPALETTE hPal = CreateGrayPalette();
+        DeleteObject(bmp->Palette);
+        bmp->Palette = hPal;
+    }
+
+    BufToBitmap(imgBuf, bmp, bw, bh, bytepp);
 }
 //---------------------------------------------------------------------------
 
@@ -73,11 +123,20 @@ void TFormMain::LoadImageFile(AnsiString fileName)
 	Graphics::TBitmap *bmp = new Graphics::TBitmap();
     bmp->Assign(img);
 
-    LoadBmp(bmp);
+    ReadBitmap(bmp);
 
     delete bmp;
     delete img;
     pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
+}
+//---------------------------------------------------------------------------
+
+void TFormMain::SaveImageFile(AnsiString fileName)
+{
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    WriteBitmap(bmp);
+    bmp->SaveToFile(fileName);
+    delete bmp;
 }
 //---------------------------------------------------------------------------
 
@@ -104,6 +163,18 @@ void __fastcall TFormMain::OpenFile1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFormMain::Copy1Click(TObject *Sender)
+{
+    if (imgBuf == NULL) {
+        return;
+    }
+
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    WriteBitmap(bmp);
+    Clipboard()->Assign(bmp);
+}
+//---------------------------------------------------------------------------
+
 void __fastcall TFormMain::PastefromClipboard1Click(TObject *Sender)
 {
     TClipboard* clip = Clipboard();
@@ -113,7 +184,7 @@ void __fastcall TFormMain::PastefromClipboard1Click(TObject *Sender)
 	Graphics::TBitmap *bmp = new Graphics::TBitmap();
     bmp->LoadFromClipboardFormat(CF_BITMAP, clip->GetAsHandle(CF_BITMAP), 0);
 
-    LoadBmp(bmp);
+    ReadBitmap(bmp);
 
     delete bmp;
     pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
@@ -202,6 +273,22 @@ void __fastcall TFormMain::DrawEllipse1Click(TObject *Sender)
 void __fastcall TFormMain::AboutImageBox1Click(TObject *Sender)
 {
     pbxDraw->ShowAbout();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::SaveFile1Click(TObject *Sender)
+{
+    if (imgBuf == NULL) {
+        ShowMessage("imgBuf == NULL");
+        return;
+    }
+
+    bool r = dlgSave->Execute();
+    if (!r)
+        return;
+
+    AnsiString fileName = dlgSave->FileName;
+    SaveImageFile(fileName);
 }
 //---------------------------------------------------------------------------
 
