@@ -71,6 +71,7 @@ private:	// User declarations
     void SaveImageFile(AnsiString fileName);
     void __fastcall ReadBitmap(Graphics::TBitmap* bmp);
     void __fastcall WriteBitmap(Graphics::TBitmap* bmp);
+    void GenerateBitmap(int bw, int bh);
 
     BYTE* imgBuf;
     int bw;

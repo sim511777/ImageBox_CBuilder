@@ -217,13 +217,28 @@ void __fastcall TFormMain::Chess1Click(TObject *Sender)
 
 void __fastcall TFormMain::LongImage1Click(TObject *Sender)
 {
-//    
+    GenerateBitmap(256, 2000000);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFormMain::WideImage1Click(TObject *Sender)
 {
-//    
+     GenerateBitmap(2000000, 256);
+}
+//---------------------------------------------------------------------------
+
+void TFormMain::GenerateBitmap(int bw, int bh) {
+   if (imgBuf != NULL)
+       delete[] imgBuf;
+   int cb = bw * bh;
+   imgBuf = new BYTE[cb];
+   for (int y = 0; y < bh; y++) {
+       BYTE* ptr = imgBuf + y * bw;
+       for (int x = 0; x < bw; x++) {
+           ptr[x] = (x + y) % 256;
+       }
+   }
+   pbxDraw->SetImgBuf(imgBuf, bw, bh, 1, TRUE);
 }
 //---------------------------------------------------------------------------
 
