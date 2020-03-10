@@ -30,8 +30,10 @@ void TFormAbout::ImageBoxOptionGet() {
     colBackColor->Selected = pbx->BgColor;
     btnFont->Font->Name = pbx->DrawFont->Name;
     btnFont->Font->Size = pbx->DrawFont->Size;
-
     btnFont->Caption = btnFont->Font->Name + "," + IntToStr(btnFont->Font->Size);
+    btnPixelValueDispFont->Font->Name = pbx->PixelValueDispFont->Name;
+    btnPixelValueDispFont->Font->Size = pbx->PixelValueDispFont->Size;
+    btnPixelValueDispFont->Caption = btnPixelValueDispFont->Font->Name + "," + IntToStr(btnPixelValueDispFont->Font->Size);
 }
 //---------------------------------------------------------------------------
 
@@ -48,6 +50,8 @@ void TFormAbout::ImageBoxOptionSet() {
     pbx->BgColor = colBackColor->Selected;
     pbx->DrawFont->Name = btnFont->Font->Name;
     pbx->DrawFont->Size = btnFont->Font->Size;
+    pbx->PixelValueDispFont->Name = btnPixelValueDispFont->Font->Name;
+    pbx->PixelValueDispFont->Size = btnPixelValueDispFont->Font->Size;
 }
 //---------------------------------------------------------------------------
 
@@ -60,6 +64,18 @@ void __fastcall TFormAbout::btnFontClick(TObject *Sender)
     btnFont->Font->Name = dlgFont->Font->Name;
     btnFont->Font->Size = dlgFont->Font->Size;
     btnFont->Caption = btnFont->Font->Name + "," + IntToStr(btnFont->Font->Size);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormAbout::btnPixelValueDispFontClick(TObject *Sender)
+{
+    dlgFont->Font->Name = btnPixelValueDispFont->Font->Name;
+    dlgFont->Font->Size = btnPixelValueDispFont->Font->Size;
+    if (dlgFont->Execute() == false)
+        return;
+    btnPixelValueDispFont->Font->Name = dlgFont->Font->Name;
+    btnPixelValueDispFont->Font->Size = dlgFont->Font->Size;
+    btnPixelValueDispFont->Caption = btnFont->Font->Name + "," + IntToStr(btnFont->Font->Size);
 }
 //---------------------------------------------------------------------------
 

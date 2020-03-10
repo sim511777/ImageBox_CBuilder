@@ -39,10 +39,13 @@ __published:	// IDE-managed Components
     TButton *btnZoomReset;
     TButton *btnZoomToImage;
     TButton *btnFont;
+    TButton *btnPixelValueDispFont;
+    TLabel *Label4;
     void __fastcall btnFontClick(TObject *Sender);
     void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
     void __fastcall btnZoomResetClick(TObject *Sender);
     void __fastcall btnZoomToImageClick(TObject *Sender);
+    void __fastcall btnPixelValueDispFontClick(TObject *Sender);
 private:	// User declarations
     TImageBox *pbx;
 

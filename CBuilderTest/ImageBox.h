@@ -34,6 +34,7 @@ private:
     TColor FColor;
     TCanvas* GetCanvas() { return TCustomControl::Canvas; }
     TFont* GetFont() { return TControl::Font; }
+    TFont* FPixelValueDispFont;
 
     //이미지용 버퍼
     int imgBW;
@@ -93,6 +94,7 @@ public: //User declarations
     __property TCanvas* Canvas = {read = GetCanvas};
     //폰트
     __property TFont* DrawFont = {read = GetFont };
+    __property TFont* PixelValueDispFont = {read = FPixelValueDispFont};
 
     // draw methods
     void DrawPixel(TPointD pt, TColor color);

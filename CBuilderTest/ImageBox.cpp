@@ -192,6 +192,10 @@ void CopyImageBufferZoomIpl(void* sbuf, int sbw, int sbh, Graphics::TBitmap* dbu
 const AnsiString TImageBox::VersionHistory =
 "ImageBox C++Builder 컨트롤\r\n"
 "\r\n"
+"v1.0.0.10 - 20200310\r\n"
+"1. 개별 픽셀 표시 폰트와 일반 표시 폰트 두가지 따로 갈것\r\n"
+"2. pseudo 기본 컬러 더 잘보이는 것으로 수정\r\n"
+"\r\n"
 "v1.0.0.9 - 20200305\r\n"
 "1. 더블클릭 정보창 띄운 후 이미지 이동하는 버그 수정\r\n"
 "\r\n"
@@ -236,6 +240,9 @@ __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner)
     FPixelValueDispZoomFactor = 20;
     PanX = 0;
     PanY = 0;
+    FPixelValueDispFont = new TFont();
+    FPixelValueDispFont->Name = "MS Sans Serif";
+    FPixelValueDispFont->Size = 8;
 
     dispBmp = new Graphics::TBitmap;
     dispBmp->PixelFormat = pf32bit;
@@ -247,6 +254,7 @@ __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner)
 __fastcall TImageBox::~TImageBox()
 {
     delete dispBmp;
+    delete FPixelValueDispFont;
 }
 
 //---------------------------------------------------------------------------
@@ -566,6 +574,10 @@ void TImageBox::DrawPixelValue()
     TBrushStyle obs = Canvas->Brush->Style;
     Canvas->Brush->Style = bsClear;
     TColor ofc = Canvas->Font->Color;
+    AnsiString ofn = Canvas->Font->Name;
+    int ofs = Canvas->Font->Size;
+    Canvas->Font->Name = PixelValueDispFont->Name;
+    Canvas->Font->Size = PixelValueDispFont->Size;
     for (int imgY = imgY1; imgY <= imgY2; imgY++) {
         for (int imgX = imgX1; imgX <= imgX2; imgX++) {
             TPointD ptImg = TPointD(imgX, imgY);
@@ -579,6 +591,8 @@ void TImageBox::DrawPixelValue()
 
     Canvas->Brush->Style = obs;
     Canvas->Font->Color = ofc;
+    Canvas->Font->Name = ofn;
+    Canvas->Font->Size = ofs;
 }
 
 //---------------------------------------------------------------------------

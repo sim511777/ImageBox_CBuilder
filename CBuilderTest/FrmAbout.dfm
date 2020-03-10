@@ -1,10 +1,10 @@
 object FormAbout: TFormAbout
   Left = 380
   Top = 211
-  Width = 361
-  Height = 308
   BorderStyle = bsSizeToolWin
   Caption = 'ImageBox for C++Builder'
+  ClientHeight = 291
+  ClientWidth = 362
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,16 +18,18 @@ object FormAbout: TFormAbout
   TextHeight = 13
   object Panel2: TPanel
     Left = 0
-    Top = 224
-    Width = 345
+    Top = 246
+    Width = 362
     Height = 45
     Align = alBottom
     TabOrder = 0
+    ExplicitTop = 224
+    ExplicitWidth = 345
     DesignSize = (
-      345
+      362
       45)
     object btnOk: TButton
-      Left = 179
+      Left = 196
       Top = 12
       Width = 75
       Height = 25
@@ -35,9 +37,10 @@ object FormAbout: TFormAbout
       Caption = 'Ok'
       ModalResult = 1
       TabOrder = 0
+      ExplicitLeft = 179
     end
     object btnCancel: TButton
-      Left = 260
+      Left = 277
       Top = 12
       Width = 75
       Height = 25
@@ -45,35 +48,24 @@ object FormAbout: TFormAbout
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 1
+      ExplicitLeft = 260
     end
   end
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 345
-    Height = 224
+    Width = 362
+    Height = 246
     ActivePage = TabSheet2
     Align = alClient
-    TabIndex = 1
     TabOrder = 1
-    object TabSheet1: TTabSheet
-      Caption = 'Version'
-      object memVersion: TMemo
-        Left = 0
-        Top = 0
-        Width = 337
-        Height = 196
-        Align = alClient
-        Lines.Strings = (
-          'memVersion')
-        ReadOnly = True
-        ScrollBars = ssBoth
-        TabOrder = 0
-      end
-    end
     object TabSheet2: TTabSheet
       Caption = 'Option'
       ImageIndex = 1
+      ExplicitLeft = -188
+      ExplicitTop = 8
+      ExplicitWidth = 335
+      ExplicitHeight = 233
       object Label1: TLabel
         Left = 8
         Top = 98
@@ -83,17 +75,24 @@ object FormAbout: TFormAbout
       end
       object Label3: TLabel
         Left = 8
-        Top = 162
+        Top = 186
         Width = 47
         Height = 13
         Caption = 'BackColor'
       end
       object Label2: TLabel
-        Left = 8
-        Top = 130
+        Left = 3
+        Top = 133
         Width = 22
         Height = 13
         Caption = 'Font'
+      end
+      object Label4: TLabel
+        Left = 3
+        Top = 158
+        Width = 47
+        Height = 13
+        Caption = 'Pixel Font'
       end
       object chkUseDrawPixelValue: TCheckBox
         Left = 8
@@ -169,7 +168,7 @@ object FormAbout: TFormAbout
       end
       object colBackColor: TColorBox
         Left = 64
-        Top = 160
+        Top = 184
         Width = 121
         Height = 22
         ItemHeight = 16
@@ -177,7 +176,7 @@ object FormAbout: TFormAbout
       end
       object btnZoomReset: TButton
         Left = 200
-        Top = 128
+        Top = 153
         Width = 121
         Height = 25
         Caption = 'Zoom Reset'
@@ -186,7 +185,7 @@ object FormAbout: TFormAbout
       end
       object btnZoomToImage: TButton
         Left = 200
-        Top = 160
+        Top = 184
         Width = 121
         Height = 25
         Caption = 'Zoom to Image'
@@ -201,6 +200,33 @@ object FormAbout: TFormAbout
         TabOrder = 12
         OnClick = btnFontClick
       end
+      object btnPixelValueDispFont: TButton
+        Left = 64
+        Top = 153
+        Width = 121
+        Height = 25
+        TabOrder = 13
+        OnClick = btnPixelValueDispFontClick
+      end
+    end
+    object TabSheet1: TTabSheet
+      Caption = 'Version'
+      ExplicitWidth = 337
+      ExplicitHeight = 196
+      object memVersion: TMemo
+        Left = 0
+        Top = 0
+        Width = 354
+        Height = 218
+        Align = alClient
+        Lines.Strings = (
+          'memVersion')
+        ReadOnly = True
+        ScrollBars = ssBoth
+        TabOrder = 0
+        ExplicitWidth = 337
+        ExplicitHeight = 196
+      end
     end
   end
   object dlgFont: TFontDialog
@@ -209,8 +235,6 @@ object FormAbout: TFormAbout
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    MinFontSize = 0
-    MaxFontSize = 0
     Left = 8
     Top = 16
   end
