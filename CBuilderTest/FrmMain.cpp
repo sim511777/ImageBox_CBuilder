@@ -143,11 +143,7 @@ void TFormMain::SaveImageFile(AnsiString fileName)
 void __fastcall TFormMain::pbxDrawOnPaint(TObject *Sender)
 {
     if (RetainedDrawTest1->Checked) {
-        for (int y = 0; y < 100; y++) {
-            for (int x = 0; x < 100; x++) {
-                pbxDraw->DrawEllipse(x, y, x + 1, y + 1, clRed);
-            }
-        }
+        UserDrawTest(pbxDraw->Canvas);
     }
 }
 //---------------------------------------------------------------------------
@@ -261,14 +257,83 @@ void __fastcall TFormMain::Zoomtoimage1Click(TObject *Sender)
 
 void __fastcall TFormMain::ImmediateDrawTest1Click(TObject *Sender)
 {
-    TDateTime st = Now();
-    for (int y = 0; y < 50; y++) {
-        for (int x = 0; x < 50; x++) {
-            pbxDraw->DrawEllipse(x, y, x + 1, y + 1, clLime);
+    UserDrawTest(pbxDraw->Canvas);
+}
+//---------------------------------------------------------------------------
+
+double GetTimeMs() {
+    static LARGE_INTEGER freq;
+    static BOOL r = QueryPerformanceFrequency(&freq);
+    LARGE_INTEGER cnt;
+    QueryPerformanceCounter(&cnt);
+    return cnt.QuadPart * 1000.0 / freq.QuadPart;
+}
+
+void TFormMain::UserDrawTest(TCanvas* g) {
+    double st = GetTimeMs();
+
+    Randomize();
+    int step = 20;
+    if (DrawEllipse1->Checked) {
+        TBrushStyle obs = g->Brush->Style;
+        g->Brush->Style = bsClear;
+        TColor opc = g->Pen->Color;
+        g->Pen->Color = (TColor)RGB(Random(256), Random(256), Random(256));
+        for (int y = 0; y < 1000; y += step) {
+            for (int x = 0; x < 1000; x += step) {
+                g->Ellipse(x, y, x + step, y + step);
+            }
+        }
+        g->Brush->Style = obs;
+        g->Pen->Color = opc;
+    } else if (FillEllipse1->Checked) {
+        TBrushStyle obs = g->Brush->Style;
+        g->Brush->Style = bsSolid;
+        TColor opc = g->Pen->Color;
+        g->Pen->Color = (TColor)RGB(Random(256), Random(256), Random(256));
+        TColor obc = g->Brush->Color;
+        g->Brush->Color = g->Pen->Color;
+        for (int y = 0; y < 1000; y += step) {
+            for (int x = 0; x < 1000; x += step) {
+                g->Ellipse(x, y, x + step, y + step);
+            }
+        }
+        g->Brush->Style = obs;
+        g->Pen->Color = opc;
+        g->Brush->Color = obc;
+    } else if (DrawString1->Checked) {
+        TColor ofc = g->Font->Color;
+        g->Font->Color = (TColor)RGB(Random(256), Random(256), Random(256));
+        TBrushStyle obs = Canvas->Brush->Style;
+        g->Brush->Style = bsClear;
+        for (int y = 0; y < 1000; y += step) {
+            for (int x = 0; x < 1000; x += step) {
+                g->TextOut(x, y, "128");
+            }
+        }
+        g->Font->Color = ofc;
+        g->Brush->Style = obs;
+    } else if (DrawShapes1->Checked) {
+        pbxDraw->DrawLine(1, 1, 2, 2, clLime);
+        pbxDraw->DrawLine(1, 2, 2, 1, clRed);
+        pbxDraw->DrawRectangle(2, 2, 3, 3, clRed, true, clLime);
+        pbxDraw->DrawRectangle(2, 2, 3, 3, clRed, false, clRed);
+        pbxDraw->DrawEllipse(3, 3, 4, 4, clRed, true, clLime);
+        pbxDraw->DrawEllipse(3, 3, 4, 4, clRed, false, clRed);
+        pbxDraw->DrawCross(10, 10, 20, clLime, false);
+        pbxDraw->DrawPlus(10, 10, 20, clRed, true);
+    } else if (DrawPixelCircles1->Checked) {
+        TColor col = (TColor)RGB(Random(256), Random(256), Random(256));
+        for (int y = 0; y < 100; y++) {
+            for (int x = 0; x < 100; x++) {
+                pbxDraw->DrawEllipse(x, y, x + 1, y + 1, col);
+            }
         }
     }
-    INT64 dt = MilliSecondsBetween(Now(), st);
-    AnsiString text = AnsiString().sprintf("DrawTime : %dms", dt);
+
+    double et = GetTimeMs();
+    double ms = et - st;
+    AnsiString text = AnsiString().sprintf("DrawTime : %.2f", ms);
     pbxDraw->DrawStringScreen(text, 255, 2, clBlack, true, clWhite);
 }
 //---------------------------------------------------------------------------
@@ -281,7 +346,7 @@ void __fastcall TFormMain::RetainedDrawTest1Click(TObject *Sender)
 
 void __fastcall TFormMain::DrawEllipse1Click(TObject *Sender)
 {
-//
+    pbxDraw->Invalidate();
 }
 //---------------------------------------------------------------------------
 

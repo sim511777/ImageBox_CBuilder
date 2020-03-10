@@ -72,6 +72,7 @@ private:	// User declarations
     void __fastcall ReadBitmap(Graphics::TBitmap* bmp);
     void __fastcall WriteBitmap(Graphics::TBitmap* bmp);
     void GenerateBitmap(int bw, int bh);
+    void UserDrawTest(TCanvas* g);
 
     BYTE* imgBuf;
     int bw;

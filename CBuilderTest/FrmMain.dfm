@@ -120,26 +120,31 @@ object FormMain: TFormMain
         AutoCheck = True
         Caption = 'DrawEllipse'
         Checked = True
+        RadioItem = True
         OnClick = DrawEllipse1Click
       end
       object FillEllipse1: TMenuItem
         AutoCheck = True
         Caption = 'FillEllipse'
+        RadioItem = True
         OnClick = DrawEllipse1Click
       end
       object DrawString1: TMenuItem
         AutoCheck = True
         Caption = 'DrawString'
+        RadioItem = True
         OnClick = DrawEllipse1Click
       end
       object DrawShapes1: TMenuItem
         AutoCheck = True
         Caption = 'Draw Shapes'
+        RadioItem = True
         OnClick = DrawEllipse1Click
       end
       object DrawPixelCircles1: TMenuItem
         AutoCheck = True
         Caption = 'Draw Pixel Circles'
+        RadioItem = True
         OnClick = DrawEllipse1Click
       end
     end
