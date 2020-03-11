@@ -5,6 +5,7 @@
 #include <Clipbrd.hpp>
 #include <DateUtils.hpp>
 #include <jpeg.hpp>
+#include <Math.hpp>
 #pragma hdrstop
 
 #include "FrmMain.h"
@@ -261,7 +262,7 @@ void __fastcall TFormMain::ImmediateDrawTest1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-double GetTimeMs() {
+double usTimerD() {
     static LARGE_INTEGER freq;
     static BOOL r = QueryPerformanceFrequency(&freq);
     LARGE_INTEGER cnt;
@@ -270,7 +271,7 @@ double GetTimeMs() {
 }
 
 void TFormMain::UserDrawTest(TCanvas* g) {
-    double st = GetTimeMs();
+    double st = usTimerD();
 
     Randomize();
     int step = 20;
@@ -278,7 +279,7 @@ void TFormMain::UserDrawTest(TCanvas* g) {
         TBrushStyle obs = g->Brush->Style;
         g->Brush->Style = bsClear;
         TColor opc = g->Pen->Color;
-        g->Pen->Color = (TColor)RGB(Random(256), Random(256), Random(256));
+        g->Pen->Color = (TColor)RGB(RandomRange(0, 256), RandomRange(0, 256), RandomRange(0, 256));
         for (int y = 0; y < 1000; y += step) {
             for (int x = 0; x < 1000; x += step) {
                 g->Ellipse(x, y, x + step, y + step);
@@ -290,7 +291,7 @@ void TFormMain::UserDrawTest(TCanvas* g) {
         TBrushStyle obs = g->Brush->Style;
         g->Brush->Style = bsSolid;
         TColor opc = g->Pen->Color;
-        g->Pen->Color = (TColor)RGB(Random(256), Random(256), Random(256));
+        g->Pen->Color = (TColor)RGB(RandomRange(0, 256), RandomRange(0, 256), RandomRange(0, 256));
         TColor obc = g->Brush->Color;
         g->Brush->Color = g->Pen->Color;
         for (int y = 0; y < 1000; y += step) {
@@ -303,7 +304,7 @@ void TFormMain::UserDrawTest(TCanvas* g) {
         g->Brush->Color = obc;
     } else if (DrawString1->Checked) {
         TColor ofc = g->Font->Color;
-        g->Font->Color = (TColor)RGB(Random(256), Random(256), Random(256));
+        g->Font->Color = (TColor)RGB(RandomRange(0, 256), RandomRange(0, 256), RandomRange(0, 256));
         TBrushStyle obs = Canvas->Brush->Style;
         g->Brush->Style = bsClear;
         for (int y = 0; y < 1000; y += step) {
@@ -323,15 +324,15 @@ void TFormMain::UserDrawTest(TCanvas* g) {
         pbxDraw->DrawCross(10, 10, 20, clLime, false);
         pbxDraw->DrawPlus(10, 10, 20, clRed, true);
     } else if (DrawPixelCircles1->Checked) {
-        TColor col = (TColor)RGB(Random(256), Random(256), Random(256));
-        for (int y = 0; y < 100; y++) {
-            for (int x = 0; x < 100; x++) {
+        TColor col = (TColor)RGB(RandomRange(0, 256), RandomRange(0, 256), RandomRange(0, 256));
+        for (int y = 0; y < 50; y++) {
+            for (int x = 0; x < 50; x++) {
                 pbxDraw->DrawEllipse(x, y, x + 1, y + 1, col);
             }
         }
     }
 
-    double et = GetTimeMs();
+    double et = usTimerD();
     double ms = et - st;
     AnsiString text = AnsiString().sprintf("DrawTime : %.2f", ms);
     pbxDraw->DrawStringScreen(text, 255, 2, clBlack, true, clWhite);
