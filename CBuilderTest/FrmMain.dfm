@@ -2,7 +2,7 @@ object FormMain: TFormMain
   Left = 306
   Top = 140
   Caption = 'ImageBox Test'
-  ClientHeight = 545
+  ClientHeight = 565
   ClientWidth = 804
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -54,11 +54,6 @@ object FormMain: TFormMain
         ShortCut = 16465
         OnClick = N1Click
       end
-      object Lenna41: TMenuItem
-        Caption = 'Lenna4'
-        ShortCut = 16471
-        OnClick = Lenna41Click
-      end
       object Coins1: TMenuItem
         Caption = 'Coins'
         ShortCut = 16453
@@ -72,6 +67,7 @@ object FormMain: TFormMain
       object Gradient1: TMenuItem
         Caption = 'Gradient'
         ShortCut = 16468
+        OnClick = Gradient1Click
       end
       object N3: TMenuItem
         Caption = '-'

@@ -9,6 +9,7 @@
 #pragma hdrstop
 
 #include "FrmMain.h"
+#include "resource.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -190,25 +191,41 @@ void __fastcall TFormMain::PastefromClipboard1Click(TObject *Sender)
 
 void __fastcall TFormMain::N1Click(TObject *Sender)
 {
-//    
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFormMain::Lenna41Click(TObject *Sender)
-{
-//    
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    bmp->LoadFromResourceID((UINT)MainInstance, IDB_LENNA);
+    ReadBitmap(bmp);
+    delete bmp;
+    pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFormMain::Coins1Click(TObject *Sender)
 {
-//    
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    bmp->LoadFromResourceID((UINT)MainInstance, IDB_COINS);
+    ReadBitmap(bmp);
+    delete bmp;
+    pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFormMain::Chess1Click(TObject *Sender)
 {
-//    
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    bmp->LoadFromResourceID((UINT)MainInstance, IDB_CHESS);
+    ReadBitmap(bmp);
+    delete bmp;
+    pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::Gradient1Click(TObject *Sender)
+{
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    bmp->LoadFromResourceID((UINT)MainInstance, IDB_GRADIENT);
+    ReadBitmap(bmp);
+    delete bmp;
+    pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
 

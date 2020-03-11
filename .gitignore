@@ -71,3 +71,4 @@ modules/
 *.ddp
 Win32
 Win64
+*.res

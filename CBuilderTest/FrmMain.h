@@ -26,7 +26,6 @@ __published:	// IDE-managed Components
     TMenuItem *PastefromClipboard1;
     TMenuItem *N1;
     TMenuItem *N2;
-    TMenuItem *Lenna41;
     TMenuItem *Coins1;
     TMenuItem *Chess1;
     TMenuItem *N3;
@@ -51,7 +50,6 @@ __published:	// IDE-managed Components
     void __fastcall OpenFile1Click(TObject *Sender);
     void __fastcall PastefromClipboard1Click(TObject *Sender);
     void __fastcall N1Click(TObject *Sender);
-    void __fastcall Lenna41Click(TObject *Sender);
     void __fastcall Coins1Click(TObject *Sender);
     void __fastcall Chess1Click(TObject *Sender);
     void __fastcall LongImage1Click(TObject *Sender);
@@ -64,6 +62,7 @@ __published:	// IDE-managed Components
     void __fastcall AboutImageBox1Click(TObject *Sender);
     void __fastcall Copy1Click(TObject *Sender);
     void __fastcall SaveFile1Click(TObject *Sender);
+    void __fastcall Gradient1Click(TObject *Sender);
 private:	// User declarations
     TImageBox* pbxDraw;
     void __fastcall pbxDrawOnPaint(TObject *Sender);

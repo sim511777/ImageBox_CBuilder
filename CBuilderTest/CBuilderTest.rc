@@ -1,0 +1,7 @@
+#include "resource.h"
+
+IDB_CHESS               BITMAP                  "Resources\\Chess.bmp"
+IDB_COINS               BITMAP                  "Resources\\Coins.bmp"
+IDB_GRADIENT            BITMAP                  "Resources\\gardient_8bit.bmp"
+IDB_LENNA               BITMAP                  "Resources\\Lenna.bmp"
+

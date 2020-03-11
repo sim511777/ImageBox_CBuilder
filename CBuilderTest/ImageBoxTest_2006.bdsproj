@@ -201,6 +201,8 @@
         <FILE FILENAME="FrmMain.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FrmMain" FORMNAME="FormMain" DESIGNCLASS="" ADDITIONAL="FrmMain.h"/>
         <FILE FILENAME="ImageBox.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="ImageBox" FORMNAME="" DESIGNCLASS="" ADDITIONAL="ImageBox.h"/>
         <FILE FILENAME="FrmAbout.cpp" CONTAINERID="CCompiler" LOCALCOMMAND="" UNITNAME="FrmAbout" FORMNAME="FormAbout" DESIGNCLASS="" ADDITIONAL="FrmAbout.h"/>
+        <FILE FILENAME="resource.h" CONTAINERID="" LOCALCOMMAND=""/>
+        <FILE FILENAME="CBuilderTest.rc" CONTAINERID="RCCompiler" LOCALCOMMAND="" UNITNAME="CBuilderTest.rc" FORMNAME="CBuilderTest.res" DESIGNCLASS=""/>
       </FILELIST>
       <IDEOPTIONS>
         <VersionInfo>
