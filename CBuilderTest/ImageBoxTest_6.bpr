@@ -5,7 +5,7 @@
     <VERSION value="BCB.06.00"/>
     <PROJECT value="ImageBoxTest_6.exe"/>
     <OBJFILES value="ImageBoxTest_6.obj FrmMain.obj ImageBox.obj FrmAbout.obj"/>
-    <RESFILES value="ImageBoxTest_6.res"/>
+    <RESFILES value="ImageBoxTest_6.res CBuilderTest.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) FrmMain.dfm FrmAbout.dfm"/>
     <LIBFILES value=""/>
@@ -52,6 +52,8 @@
       <FILE FILENAME="FrmMain.cpp" FORMNAME="FormMain" UNITNAME="FrmMain" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ImageBox.cpp" FORMNAME="" UNITNAME="ImageBox" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FrmAbout.cpp" FORMNAME="FormAbout" UNITNAME="FrmAbout" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="CBuilderTest.rc" FORMNAME="" UNITNAME="CBuilderTest.rc" CONTAINERID="RC" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="resource.h" FORMNAME="" UNITNAME="resource.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

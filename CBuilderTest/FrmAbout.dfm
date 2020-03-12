@@ -1,10 +1,10 @@
 object FormAbout: TFormAbout
-  Left = 380
-  Top = 211
+  Left = 574
+  Top = 214
+  Width = 378
+  Height = 330
   BorderStyle = bsSizeToolWin
   Caption = 'ImageBox for C++Builder'
-  ClientHeight = 291
-  ClientWidth = 362
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -23,8 +23,6 @@ object FormAbout: TFormAbout
     Height = 45
     Align = alBottom
     TabOrder = 0
-    ExplicitTop = 224
-    ExplicitWidth = 345
     DesignSize = (
       362
       45)
@@ -37,7 +35,6 @@ object FormAbout: TFormAbout
       Caption = 'Ok'
       ModalResult = 1
       TabOrder = 0
-      ExplicitLeft = 179
     end
     object btnCancel: TButton
       Left = 277
@@ -48,7 +45,6 @@ object FormAbout: TFormAbout
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 1
-      ExplicitLeft = 260
     end
   end
   object PageControl1: TPageControl
@@ -56,16 +52,13 @@ object FormAbout: TFormAbout
     Top = 0
     Width = 362
     Height = 246
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     Align = alClient
+    TabIndex = 1
     TabOrder = 1
     object TabSheet2: TTabSheet
       Caption = 'Option'
       ImageIndex = 1
-      ExplicitLeft = -188
-      ExplicitTop = 8
-      ExplicitWidth = 335
-      ExplicitHeight = 233
       object Label1: TLabel
         Left = 8
         Top = 98
@@ -211,8 +204,6 @@ object FormAbout: TFormAbout
     end
     object TabSheet1: TTabSheet
       Caption = 'Version'
-      ExplicitWidth = 337
-      ExplicitHeight = 196
       object memVersion: TMemo
         Left = 0
         Top = 0
@@ -224,8 +215,6 @@ object FormAbout: TFormAbout
         ReadOnly = True
         ScrollBars = ssBoth
         TabOrder = 0
-        ExplicitWidth = 337
-        ExplicitHeight = 196
       end
     end
   end
@@ -235,6 +224,8 @@ object FormAbout: TFormAbout
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
+    MinFontSize = 0
+    MaxFontSize = 0
     Left = 8
     Top = 16
   end
