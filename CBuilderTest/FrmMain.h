@@ -16,7 +16,6 @@
 class TFormMain : public TForm
 {
 __published:	// IDE-managed Components
-    TOpenPictureDialog *dlgOpen;
     TMainMenu *MainMenu1;
     TMenuItem *File1;
     TMenuItem *Zoom1;
@@ -46,7 +45,8 @@ __published:	// IDE-managed Components
     TMenuItem *Copy1;
     TMenuItem *Gradient1;
     TMenuItem *SaveFile1;
-    TSavePictureDialog *dlgSave;
+    TOpenDialog *dlgOpen;
+    TSaveDialog *dlgSave;
     void __fastcall OpenFile1Click(TObject *Sender);
     void __fastcall PastefromClipboard1Click(TObject *Sender);
     void __fastcall N1Click(TObject *Sender);

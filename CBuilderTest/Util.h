@@ -30,6 +30,8 @@ int TColorToBGRA(TColor color);
 HPALETTE CreateGrayPalette();
 void BitmapToImageBuffer(Graphics::TBitmap* bmp, BYTE** buf, int* bw, int* bh, int* bytepp);
 Graphics::TBitmap* ImageBufferToBitmap(BYTE* buf, int bw, int bh, int bytepp);
+BOOL LoadHraFile(char* filePath, BYTE** imgBuf, int* bw, int* bh, int* bytepp);
+BOOL SaveHraFile(char* filePath, BYTE* imgBuf, int bw, int bh, int bytepp);
 void CopyImageBufferZoom(void* sbuf, int sbw, int sbh, Graphics::TBitmap* dbuf, int dbw, int dbh, INT64 panx, INT64 pany, double zoom, int bytepp, int bgColor, bool useParallel);
 void CopyImageBufferZoomIpl(void* sbuf, int sbw, int sbh, Graphics::TBitmap* dbuf, int dbw, int dbh, INT64 panx, INT64 pany, double zoom, int bytepp, int bgColor, bool useParallel);
 

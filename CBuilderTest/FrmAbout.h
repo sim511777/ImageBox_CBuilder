@@ -44,7 +44,7 @@ __published:	// IDE-managed Components
     TLabel *Label4;
     TButton *btnSaveBuffer;
     TButton *btnCopyBuffer;
-    TSavePictureDialog *dlgSave;
+    TSaveDialog *dlgSave;
     void __fastcall btnFontClick(TObject *Sender);
     void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
     void __fastcall btnZoomResetClick(TObject *Sender);

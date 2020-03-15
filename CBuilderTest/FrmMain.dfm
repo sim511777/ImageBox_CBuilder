@@ -1,9 +1,9 @@
 object FormMain: TFormMain
-  Left = 306
-  Top = 140
+  Left = 345
+  Top = 197
+  Width = 820
+  Height = 624
   Caption = 'ImageBox Test'
-  ClientHeight = 565
-  ClientWidth = 804
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -14,10 +14,6 @@ object FormMain: TFormMain
   OldCreateOrder = False
   PixelsPerInch = 96
   TextHeight = 13
-  object dlgOpen: TOpenPictureDialog
-    Left = 8
-    Top = 8
-  end
   object MainMenu1: TMainMenu
     Left = 72
     Top = 8
@@ -152,7 +148,15 @@ object FormMain: TFormMain
       end
     end
   end
-  object dlgSave: TSavePictureDialog
+  object dlgOpen: TOpenDialog
+    Filter = 
+      'All (*.jpg;*.jpeg;*.bmp;*.hra)|*.jpg;*.jpeg;*.bmp;*.hra|JPEG Ima' +
+      'ge File (*.jpg)|*.jpg|JPEG Image File (*.jpeg)|*.jpeg|Bitmaps (*' +
+      '.bmp)|*.bmp|Hims Raw Images|*.hra'
+    Left = 8
+    Top = 8
+  end
+  object dlgSave: TSaveDialog
     DefaultExt = 'bmp'
     Filter = 'Bitmaps (*.bmp)|*.bmp'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]

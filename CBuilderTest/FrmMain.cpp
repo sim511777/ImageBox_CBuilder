@@ -42,20 +42,28 @@ void __fastcall TFormMain::LoadBitmap(Graphics::TBitmap* bmp) {
 void TFormMain::LoadImageFile(AnsiString fileName)
 {
     AnsiString ext = ExtractFileExt(fileName).LowerCase();
-    TGraphic* img;
-    if (ext == ".jpg" || ext == ".jpeg") {
-        img = new TJPEGImage();
+    if (ext == ".hra") {
+        if (imgBuf != NULL)
+            delete[] imgBuf;
+        LoadHraFile(fileName.c_str(), &imgBuf, &bw, &bh, &bytepp);
+        pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
     } else {
-        img = new Graphics::TBitmap();
+        TGraphic* img;
+        if (ext == ".jpg" || ext == ".jpeg") {
+            img = new TJPEGImage();
+        } else if (ext == ".bmp") {
+            img = new Graphics::TBitmap();
+        }
+
+        img->LoadFromFile(fileName);
+	    Graphics::TBitmap *bmp = new Graphics::TBitmap();
+        bmp->Assign(img);
+
+        LoadBitmap(bmp);
+
+        delete bmp;
+        delete img;
     }
-    img->LoadFromFile(fileName);
-	Graphics::TBitmap *bmp = new Graphics::TBitmap();
-    bmp->Assign(img);
-
-    LoadBitmap(bmp);
-
-    delete bmp;
-    delete img;
 }
 //---------------------------------------------------------------------------
 
@@ -308,4 +316,5 @@ void __fastcall TFormMain::SaveFile1Click(TObject *Sender)
     SaveImageFile(fileName);
 }
 //---------------------------------------------------------------------------
+
 

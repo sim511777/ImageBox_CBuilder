@@ -1,5 +1,6 @@
 //---------------------------------------------------------------------------
 #include <Math.h>
+#include <stdio.h>
 #pragma hdrstop
 
 #include "Util.h"
@@ -93,6 +94,45 @@ Graphics::TBitmap* ImageBufferToBitmap(BYTE* buf, int bw, int bh, int bytepp)
     }
 
     return bmp;
+}
+
+// hra Lolad
+BOOL LoadHraFile(char* filePath, BYTE** imgBuf, int* bw, int* bh, int* bytepp) {
+    FILE* fp = fopen(filePath, "rb");
+    if(fp == NULL)   // 파일오픈 체크
+        return FALSE;
+
+    fseek(fp, 252, SEEK_SET);
+    fread(bytepp, sizeof(int), 1, fp);
+    fread(bw, sizeof(int), 1, fp);
+    fread(bh, sizeof(int), 1, fp);
+
+    int bufSize = *bw * *bh * *bytepp;
+    *imgBuf = new BYTE[bufSize];
+    fread(*imgBuf, 1, bufSize, fp);
+
+    fclose(fp);
+    return TRUE;
+}
+
+// hra save
+BOOL SaveHraFile(char* filePath, BYTE* imgBuf, int bw, int bh, int bytepp) {
+    FILE* fp = fopen(filePath, "wb");
+    if(fp == NULL)   // 파일오픈 체크
+        return FALSE;
+
+    BYTE b = 0;
+    for (int i = 0; i < 252; i++)
+        fwrite(&b, sizeof(BYTE), 1, fp);
+    fwrite(&bytepp, sizeof(int), 1, fp);
+    fwrite(&bw, sizeof(int), 1, fp);
+    fwrite(&bh, sizeof(int), 1, fp);
+
+    int bufSize = bw * bh * bytepp;
+    fwrite(imgBuf, sizeof(BYTE), bufSize, fp);
+
+    fclose(fp);
+    return TRUE;
 }
 
 void CopyImageBufferZoom(void* sbuf, int sbw, int sbh,Graphics::TBitmap* dbuf, int dbw, int dbh, INT64 panx, INT64 pany, double zoom, int bytepp, int bgColor, bool useParallel) {

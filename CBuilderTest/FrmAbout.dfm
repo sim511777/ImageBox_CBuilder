@@ -51,7 +51,7 @@ object FormAbout: TFormAbout
       Top = 6
       Width = 75
       Height = 25
-      Caption = 'Saver Buffer'
+      Caption = 'Save Buffer'
       TabOrder = 2
       OnClick = btnSaveBufferClick
     end
@@ -246,7 +246,7 @@ object FormAbout: TFormAbout
     MaxFontSize = 0
     Left = 112
   end
-  object dlgSave: TSavePictureDialog
+  object dlgSave: TSaveDialog
     DefaultExt = 'bmp'
     Filter = 'Bitmaps (*.bmp)|*.bmp'
     Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
