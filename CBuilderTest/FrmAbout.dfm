@@ -1,8 +1,8 @@
 object FormAbout: TFormAbout
-  Left = 574
-  Top = 214
-  Width = 378
-  Height = 330
+  Left = 511
+  Top = 193
+  Width = 365
+  Height = 333
   BorderStyle = bsSizeToolWin
   Caption = 'ImageBox for C++Builder'
   Color = clBtnFace
@@ -18,43 +18,61 @@ object FormAbout: TFormAbout
   TextHeight = 13
   object Panel2: TPanel
     Left = 0
-    Top = 246
-    Width = 362
-    Height = 45
+    Top = 251
+    Width = 349
+    Height = 43
     Align = alBottom
     TabOrder = 0
     DesignSize = (
-      362
-      45)
+      349
+      43)
     object btnOk: TButton
-      Left = 196
-      Top = 12
+      Left = 183
+      Top = 6
       Width = 75
       Height = 25
-      Anchors = [akRight, akBottom]
+      Anchors = [akTop, akRight]
       Caption = 'Ok'
       ModalResult = 1
       TabOrder = 0
     end
     object btnCancel: TButton
-      Left = 277
-      Top = 12
+      Left = 264
+      Top = 6
       Width = 75
       Height = 25
-      Anchors = [akRight, akBottom]
+      Anchors = [akTop, akRight]
       Caption = 'Cancel'
       ModalResult = 2
       TabOrder = 1
+    end
+    object btnSaveBuffer: TButton
+      Left = 4
+      Top = 6
+      Width = 75
+      Height = 25
+      Caption = 'Saver Buffer'
+      TabOrder = 2
+      OnClick = btnSaveBufferClick
+    end
+    object btnCopyBuffer: TButton
+      Left = 85
+      Top = 6
+      Width = 75
+      Height = 25
+      Caption = 'Copy Buffer'
+      TabOrder = 3
+      OnClick = btnCopyBufferClick
     end
   end
   object PageControl1: TPageControl
     Left = 0
     Top = 0
-    Width = 362
-    Height = 246
-    ActivePage = TabSheet1
+    Width = 349
+    Height = 251
+    ActivePage = TabSheet2
     Align = alClient
-    TabIndex = 1
+    TabIndex = 0
     TabOrder = 1
     object TabSheet2: TTabSheet
       Caption = 'Option'
@@ -207,8 +225,8 @@ object FormAbout: TFormAbout
       object memVersion: TMemo
         Left = 0
         Top = 0
-        Width = 354
-        Height = 218
+        Width = 341
+        Height = 223
         Align = alClient
         Lines.Strings = (
           'memVersion')
@@ -226,7 +244,12 @@ object FormAbout: TFormAbout
     Font.Style = []
     MinFontSize = 0
     MaxFontSize = 0
-    Left = 8
-    Top = 16
+    Left = 112
+  end
+  object dlgSave: TSavePictureDialog
+    DefaultExt = 'bmp'
+    Filter = 'Bitmaps (*.bmp)|*.bmp'
+    Options = [ofOverwritePrompt, ofHideReadOnly, ofEnableSizing]
+    Left = 144
   end
 end

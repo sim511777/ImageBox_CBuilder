@@ -9,6 +9,7 @@
 #pragma hdrstop
 
 #include "FrmMain.h"
+#include "Util.h"
 #include "resource.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
@@ -30,85 +31,11 @@ __fastcall TFormMain::TFormMain(TComponent* Owner)
     }
 }
 
-void BitmapToBuf(Graphics::TBitmap* bmp, BYTE* buf, int bw, int bh, int bytepp)
-{
-    int scanstep = bw * bytepp;
-    for (int y = 0; y < bh; y++) {
-        BYTE* sptr = (BYTE*)bmp->ScanLine[y];
-        BYTE* dptr = buf + scanstep * y;
-        memcpy(dptr, sptr, scanstep);
-    }
-}
-//---------------------------------------------------------------------------
-
-void BufToBitmap(BYTE* buf, Graphics::TBitmap* bmp, int bw, int bh, int bytepp)
-{
-    int scanstep = bw * bytepp;
-    for (int y = 0; y < bh; y++) {
-        BYTE* sptr = buf + scanstep * y;
-        BYTE* dptr = (BYTE*)bmp->ScanLine[y];
-        memcpy(dptr, sptr, scanstep);
-    }
-}
-//---------------------------------------------------------------------------
-
-HPALETTE CreateGrayPalette() {
-    BYTE* buf = new BYTE[sizeof(LOGPALETTE) + sizeof(PALETTEENTRY) * 255];
-    LOGPALETTE* ppal = (LOGPALETTE*)buf;
-    ppal->palVersion = 0x300;
-    ppal->palNumEntries = 256;
-    for (int i = 0; i < 256; i++) {
-        ppal->palPalEntry[i].peRed = i;
-        ppal->palPalEntry[i].peGreen = i;
-        ppal->palPalEntry[i].peBlue = i;
-        ppal->palPalEntry[i].peFlags = PC_RESERVED;
-    }
-    HPALETTE hPal = CreatePalette(ppal);
-    delete[] buf;
-    return hPal;
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFormMain::ReadBitmap(Graphics::TBitmap* bmp) {
-    bw = bmp->Width;
-    bh = bmp->Height;
-    if (bmp->PixelFormat == pf8bit)
-        bytepp = 1;
-    else if (bmp->PixelFormat == pf16bit)
-        bytepp = 2;
-    else if (bmp->PixelFormat == pf24bit)
-        bytepp = 3;
-    else
-        bytepp = 4;
-
-    if (imgBuf != NULL) {
+void __fastcall TFormMain::LoadBitmap(Graphics::TBitmap* bmp) {
+    if (imgBuf != NULL)
         delete [] imgBuf;
-    }
-
-    imgBuf = new BYTE[bw * bh * bytepp];
-    BitmapToBuf(bmp, imgBuf, bw, bh, bytepp);
-}
-//---------------------------------------------------------------------------
-
-void __fastcall TFormMain::WriteBitmap(Graphics::TBitmap* bmp) {
-    bmp->Width = bw;
-    bmp->Height = bh;
-    if (bytepp == 1)
-        bmp->PixelFormat = pf8bit;
-    else if (bytepp == 2)
-        bmp->PixelFormat = pf16bit;
-    else if (bytepp == 3)
-        bmp->PixelFormat = pf24bit;
-    else
-        bmp->PixelFormat == pf32bit;
-
-    if (bytepp == 1) {
-        HPALETTE hPal = CreateGrayPalette();
-        DeleteObject(bmp->Palette);
-        bmp->Palette = hPal;
-    }
-
-    BufToBitmap(imgBuf, bmp, bw, bh, bytepp);
+    BitmapToImageBuffer(bmp, &imgBuf, &bw, &bh, &bytepp);
+    pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
 
@@ -125,18 +52,16 @@ void TFormMain::LoadImageFile(AnsiString fileName)
 	Graphics::TBitmap *bmp = new Graphics::TBitmap();
     bmp->Assign(img);
 
-    ReadBitmap(bmp);
+    LoadBitmap(bmp);
 
     delete bmp;
     delete img;
-    pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
 
 void TFormMain::SaveImageFile(AnsiString fileName)
 {
-    Graphics::TBitmap* bmp = new Graphics::TBitmap();
-    WriteBitmap(bmp);
+    Graphics::TBitmap* bmp = ImageBufferToBitmap(imgBuf, bw, bh, bytepp);
     bmp->SaveToFile(fileName);
     delete bmp;
 }
@@ -167,8 +92,7 @@ void __fastcall TFormMain::Copy1Click(TObject *Sender)
         return;
     }
 
-    Graphics::TBitmap* bmp = new Graphics::TBitmap();
-    WriteBitmap(bmp);
+    Graphics::TBitmap* bmp = ImageBufferToBitmap(imgBuf, bw, bh, bytepp);
     Clipboard()->Assign(bmp);
 }
 //---------------------------------------------------------------------------
@@ -182,10 +106,9 @@ void __fastcall TFormMain::PastefromClipboard1Click(TObject *Sender)
 	Graphics::TBitmap *bmp = new Graphics::TBitmap();
     bmp->LoadFromClipboardFormat(CF_BITMAP, clip->GetAsHandle(CF_BITMAP), 0);
 
-    ReadBitmap(bmp);
+    LoadBitmap(bmp);
 
     delete bmp;
-    pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
 
@@ -193,9 +116,10 @@ void __fastcall TFormMain::N1Click(TObject *Sender)
 {
     Graphics::TBitmap* bmp = new Graphics::TBitmap();
     bmp->LoadFromResourceID((UINT)MainInstance, IDB_LENNA);
-    ReadBitmap(bmp);
+
+    LoadBitmap(bmp);
+
     delete bmp;
-    pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
 
@@ -203,9 +127,10 @@ void __fastcall TFormMain::Coins1Click(TObject *Sender)
 {
     Graphics::TBitmap* bmp = new Graphics::TBitmap();
     bmp->LoadFromResourceID((UINT)MainInstance, IDB_COINS);
-    ReadBitmap(bmp);
+
+    LoadBitmap(bmp);
+
     delete bmp;
-    pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
 
@@ -213,9 +138,10 @@ void __fastcall TFormMain::Chess1Click(TObject *Sender)
 {
     Graphics::TBitmap* bmp = new Graphics::TBitmap();
     bmp->LoadFromResourceID((UINT)MainInstance, IDB_CHESS);
-    ReadBitmap(bmp);
+
+    LoadBitmap(bmp);
+
     delete bmp;
-    pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
 
@@ -223,9 +149,10 @@ void __fastcall TFormMain::Gradient1Click(TObject *Sender)
 {
     Graphics::TBitmap* bmp = new Graphics::TBitmap();
     bmp->LoadFromResourceID((UINT)MainInstance, IDB_GRADIENT);
-    ReadBitmap(bmp);
+
+    LoadBitmap(bmp);
+
     delete bmp;
-    pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
 }
 //---------------------------------------------------------------------------
 
@@ -279,16 +206,8 @@ void __fastcall TFormMain::ImmediateDrawTest1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
-double usTimerD() {
-    static LARGE_INTEGER freq;
-    static BOOL r = QueryPerformanceFrequency(&freq);
-    LARGE_INTEGER cnt;
-    QueryPerformanceCounter(&cnt);
-    return cnt.QuadPart * 1000.0 / freq.QuadPart;
-}
-
 void TFormMain::UserDrawTest(TCanvas* g) {
-    double st = usTimerD();
+    double st = GetTimeMs();
 
     Randomize();
     int step = 20;
@@ -349,7 +268,7 @@ void TFormMain::UserDrawTest(TCanvas* g) {
         }
     }
 
-    double et = usTimerD();
+    double et = GetTimeMs();
     double ms = et - st;
     AnsiString text = AnsiString().sprintf("DrawTime : %.2f", ms);
     pbxDraw->DrawStringScreen(text, 255, 2, clBlack, true, clWhite);

@@ -1,9 +1,11 @@
 //---------------------------------------------------------------------------
 
 #include <vcl.h>
+#include <Clipbrd.hpp>
 #pragma hdrstop
 
 #include "FrmAbout.h"
+#include "Util.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -109,6 +111,35 @@ void __fastcall TFormAbout::btnZoomToImageClick(TObject *Sender)
     else
         pbx->ZoomToRect(0, 0, pbx->ImgBW, pbx->ImgBH);
     pbx->Invalidate();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormAbout::btnSaveBufferClick(TObject *Sender)
+{
+    if (pbx->ImgBuf == NULL) {
+        ShowMessage("imgBuf == NULL");
+        return;
+    }
+
+    bool r = dlgSave->Execute();
+    if (!r)
+        return;
+
+    Graphics::TBitmap* bmp = ImageBufferToBitmap(pbx->ImgBuf, pbx->ImgBW, pbx->ImgBH, pbx->ImgBytepp);
+    bmp->SaveToFile(dlgSave->FileName);
+    delete bmp;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormAbout::btnCopyBufferClick(TObject *Sender)
+{
+    if (pbx->ImgBuf == NULL) {
+        return;
+    }
+
+    Graphics::TBitmap* bmp = ImageBufferToBitmap(pbx->ImgBuf, pbx->ImgBW, pbx->ImgBH, pbx->ImgBytepp);
+    Clipboard()->Assign(bmp);
+    delete bmp;
 }
 //---------------------------------------------------------------------------
 

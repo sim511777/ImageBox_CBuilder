@@ -127,6 +127,7 @@
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_1_Win64)'!=''">
+        <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
     </PropertyGroup>
@@ -140,13 +141,14 @@
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Cfg_2_Win64)'!=''">
+        <VerInfo_Locale>1033</VerInfo_Locale>
+        <VerInfo_IncludeVerInfo>true</VerInfo_IncludeVerInfo>
         <AppEnableRuntimeThemes>true</AppEnableRuntimeThemes>
         <AppEnableHighDPI>true</AppEnableHighDPI>
         <LinkPackageImports>rtl.bpi;vcl.bpi</LinkPackageImports>
     </PropertyGroup>
     <ItemGroup>
         <ResourceCompile Include="CBuilderTest.rc">
-            <ModuleName>CBuilderTest.rc</ModuleName>
             <Form>CBuilderTest.res</Form>
             <BuildOrder>5</BuildOrder>
         </ResourceCompile>
@@ -176,6 +178,10 @@
         <None Include="resource.h">
             <BuildOrder>6</BuildOrder>
         </None>
+        <CppCompile Include="Util.cpp">
+            <DependentOn>Util.h</DependentOn>
+            <BuildOrder>7</BuildOrder>
+        </CppCompile>
         <FormResources Include="FrmAbout.dfm"/>
         <FormResources Include="FrmMain.dfm"/>
         <BuildConfiguration Include="Release">
@@ -204,6 +210,11 @@
                     <ProjectProperties Name="VerifyPackages">True</ProjectProperties>
                     <ProjectProperties Name="IndexFiles">False</ProjectProperties>
                 </ProjectProperties>
+                <Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcboffice2k240.bpl">Embarcadero C++Builder Office 2000 Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="$(BDSBIN)\bcbofficexp240.bpl">Embarcadero C++Builder Office XP Servers Package</Excluded_Packages>
+                    <Excluded_Packages Name="C:\Users\Public\Documents\Embarcadero\Studio\18.0\BPL\ShimLib.bpl">File C:\Users\Public\Documents\Embarcadero\Studio\18.0\BPL\ShimLib.bpl not found</Excluded_Packages>
+                </Excluded_Packages>
             </CPlusPlusBuilder.Personality>
             <Deployment Version="3">
                 <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'!='true'" LocalName="$(BDS)\bin\cc32240.dll" Class="DependencyModule">

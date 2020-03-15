@@ -68,8 +68,7 @@ private:	// User declarations
     void __fastcall pbxDrawOnPaint(TObject *Sender);
     void LoadImageFile(AnsiString fileName);
     void SaveImageFile(AnsiString fileName);
-    void __fastcall ReadBitmap(Graphics::TBitmap* bmp);
-    void __fastcall WriteBitmap(Graphics::TBitmap* bmp);
+    void __fastcall LoadBitmap(Graphics::TBitmap* bmp);
     void GenerateBitmap(int bw, int bh);
     void UserDrawTest(TCanvas* g);
 

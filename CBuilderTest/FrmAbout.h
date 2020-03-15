@@ -11,6 +11,7 @@
 #include "ImageBox.h"
 #include <ComCtrls.hpp>
 #include <Dialogs.hpp>
+#include <ExtDlgs.hpp>
 //---------------------------------------------------------------------------
 class TFormAbout : public TForm
 {
@@ -41,11 +42,16 @@ __published:	// IDE-managed Components
     TButton *btnFont;
     TButton *btnPixelValueDispFont;
     TLabel *Label4;
+    TButton *btnSaveBuffer;
+    TButton *btnCopyBuffer;
+    TSavePictureDialog *dlgSave;
     void __fastcall btnFontClick(TObject *Sender);
     void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
     void __fastcall btnZoomResetClick(TObject *Sender);
     void __fastcall btnZoomToImageClick(TObject *Sender);
     void __fastcall btnPixelValueDispFontClick(TObject *Sender);
+    void __fastcall btnSaveBufferClick(TObject *Sender);
+    void __fastcall btnCopyBufferClick(TObject *Sender);
 private:	// User declarations
     TImageBox *pbx;
 

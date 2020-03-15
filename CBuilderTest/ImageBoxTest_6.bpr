@@ -4,7 +4,7 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="ImageBoxTest_6.exe"/>
-    <OBJFILES value="ImageBoxTest_6.obj FrmMain.obj ImageBox.obj FrmAbout.obj"/>
+    <OBJFILES value="ImageBoxTest_6.obj FrmMain.obj ImageBox.obj FrmAbout.obj Util.obj"/>
     <RESFILES value="ImageBoxTest_6.res CBuilderTest.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) FrmMain.dfm FrmAbout.dfm"/>
@@ -54,6 +54,7 @@
       <FILE FILENAME="FrmAbout.cpp" FORMNAME="FormAbout" UNITNAME="FrmAbout" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="CBuilderTest.rc" FORMNAME="" UNITNAME="CBuilderTest.rc" CONTAINERID="RC" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="resource.h" FORMNAME="" UNITNAME="resource.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Util.cpp" FORMNAME="" UNITNAME="Util" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>
