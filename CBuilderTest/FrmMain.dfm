@@ -1,9 +1,9 @@
 object FormMain: TFormMain
   Left = 345
   Top = 197
-  Width = 820
-  Height = 624
   Caption = 'ImageBox Test'
+  ClientHeight = 565
+  ClientWidth = 804
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -54,6 +54,14 @@ object FormMain: TFormMain
         Caption = 'Coins'
         ShortCut = 16453
         OnClick = Coins1Click
+      end
+      object CoinsFloat1: TMenuItem
+        Caption = 'Coins Float'
+        OnClick = CoinsFloat1Click
+      end
+      object CoinsDouble1: TMenuItem
+        Caption = 'Coins Double'
+        OnClick = CoinsDouble1Click
       end
       object Chess1: TMenuItem
         Caption = 'Chess'

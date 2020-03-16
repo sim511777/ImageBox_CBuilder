@@ -42,6 +42,11 @@ private:
     BYTE* imgBuf;
     int imgBytepp;
 
+    // float 타입 버퍼
+    bool FBufIsFloat;
+    bool FFloatPreprocessed;
+    BYTE* grayBuf;
+
     // 마우스 패닝
     double FPanX;
     double FPanY;
@@ -72,6 +77,8 @@ public: //User declarations
 
     //이미지 버퍼 세팅
     void SetImgBuf(BYTE* buf, int bw, int bh, int bytepp, BOOL bInvalidate);
+    //float, double 버퍼 세팅
+    void SetFloatBuf(BYTE* buf, int bw, int bh, int bytepp, bool preprocess, BOOL bInvalidate);
     // 줌 배율 리턴
     double GetZoomFactor();
     //사각형을 피팅 되도록 줌 변경
@@ -90,6 +97,9 @@ public: //User declarations
     __property int ImgBH = {read = imgBH};
     __property BYTE* ImgBuf = {read = imgBuf};
     __property int ImgBytepp = {read = imgBytepp};
+    __property bool BufIsFloat = {read = FBufIsFloat};
+    __property bool FloatPreprocessed = {read = FFloatPreprocessed};
+
     //캔버스
     __property TCanvas* Canvas = {read = GetCanvas};
     //폰트

@@ -32,10 +32,53 @@ __fastcall TFormMain::TFormMain(TComponent* Owner)
 }
 
 void __fastcall TFormMain::LoadBitmap(Graphics::TBitmap* bmp) {
-    if (imgBuf != NULL)
-        delete [] imgBuf;
+    FreeBuffer(&imgBuf);
     BitmapToImageBuffer(bmp, &imgBuf, &bw, &bh, &bytepp);
     pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::LoadBitmapFloat(Graphics::TBitmap* bmp) {
+    FreeBuffer(&imgBuf);
+    BitmapToImageBuffer(bmp, &imgBuf, &bw, &bh, &bytepp);
+
+    // byte -> float convert
+    BYTE* floatBuf = AllocBuffer(bw * bh * sizeof(float));
+    for (int y = 0; y < bh; y++) {
+        BYTE* src = imgBuf + bw * y;
+        float* dst = (float*)floatBuf + bw * y;
+        for (int x = 0; x < bw; x++, src++, dst++) {
+            *dst = *src;
+        }
+    }
+    FreeBuffer(&imgBuf);
+    imgBuf = floatBuf;
+    bytepp = sizeof(float);
+
+    // SetFloatBuf
+    pbxDraw->SetFloatBuf(imgBuf, bw, bh, bytepp, true, TRUE);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::LoadBitmapDouble(Graphics::TBitmap* bmp) {
+    FreeBuffer(&imgBuf);
+    BitmapToImageBuffer(bmp, &imgBuf, &bw, &bh, &bytepp);
+
+    // byte -> double convert
+    BYTE* floatBuf = AllocBuffer(bw * bh * sizeof(double));
+    for (int y = 0; y < bh; y++) {
+        BYTE* src = imgBuf + bw * y;
+        double* dst = (double*)floatBuf + bw * y;
+        for (int x = 0; x < bw; x++, src++, dst++) {
+            *dst = *src;
+        }
+    }
+    FreeBuffer(&imgBuf);
+    imgBuf = floatBuf;
+    bytepp = sizeof(double);
+
+    // SetFloatBuf
+    pbxDraw->SetFloatBuf(imgBuf, bw, bh, bytepp, true, TRUE);
 }
 //---------------------------------------------------------------------------
 
@@ -43,8 +86,7 @@ void TFormMain::LoadImageFile(AnsiString fileName)
 {
     AnsiString ext = ExtractFileExt(fileName).LowerCase();
     if (ext == ".hra") {
-        if (imgBuf != NULL)
-            delete[] imgBuf;
+        FreeBuffer(&imgBuf);
         LoadHraFile(fileName.c_str(), &imgBuf, &bw, &bh, &bytepp);
         pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
     } else {
@@ -172,22 +214,21 @@ void __fastcall TFormMain::LongImage1Click(TObject *Sender)
 
 void __fastcall TFormMain::WideImage1Click(TObject *Sender)
 {
-     GenerateBitmap(2000000, 256);
+    GenerateBitmap(2000000, 256);
 }
 //---------------------------------------------------------------------------
 
 void TFormMain::GenerateBitmap(int bw, int bh) {
-   if (imgBuf != NULL)
-       delete[] imgBuf;
-   int cb = bw * bh;
-   imgBuf = new BYTE[cb];
-   for (int y = 0; y < bh; y++) {
-       BYTE* ptr = imgBuf + y * bw;
-       for (int x = 0; x < bw; x++) {
-           ptr[x] = (x + y) % 256;
-       }
-   }
-   pbxDraw->SetImgBuf(imgBuf, bw, bh, 1, TRUE);
+    FreeBuffer(&imgBuf);
+    int cb = bw * bh;
+    imgBuf = AllocBuffer(cb);
+    for (int y = 0; y < bh; y++) {
+        BYTE* ptr = imgBuf + y * bw;
+        for (int x = 0; x < bw; x++) {
+            ptr[x] = (x + y) % 256;
+        }
+    }
+    pbxDraw->SetImgBuf(imgBuf, bw, bh, 1, TRUE);
 }
 //---------------------------------------------------------------------------
 
@@ -317,4 +358,25 @@ void __fastcall TFormMain::SaveFile1Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFormMain::CoinsFloat1Click(TObject *Sender)
+{
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    bmp->LoadFromResourceID((UINT)MainInstance, IDB_COINS);
+
+    LoadBitmapFloat(bmp);
+
+    delete bmp;
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFormMain::CoinsDouble1Click(TObject *Sender)
+{
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    bmp->LoadFromResourceID((UINT)MainInstance, IDB_COINS);
+
+    LoadBitmapDouble(bmp);
+
+    delete bmp;
+}
+//---------------------------------------------------------------------------
 

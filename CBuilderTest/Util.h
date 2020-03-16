@@ -26,6 +26,9 @@ T Max(T a, T b)
 }
 
 double GetTimeMs();
+void FreeBuffer(BYTE** buf);
+BYTE* AllocBuffer(size_t size);
+void FloatBufToByte(void* floatBuf, int bw, int bh, int bytepp, void* byteBuf);
 int TColorToBGRA(TColor color);
 HPALETTE CreateGrayPalette();
 void BitmapToImageBuffer(Graphics::TBitmap* bmp, BYTE** buf, int* bw, int* bh, int* bytepp);
@@ -33,6 +36,8 @@ Graphics::TBitmap* ImageBufferToBitmap(BYTE* buf, int bw, int bh, int bytepp);
 BOOL LoadHraFile(char* filePath, BYTE** imgBuf, int* bw, int* bh, int* bytepp);
 BOOL SaveHraFile(char* filePath, BYTE* imgBuf, int bw, int bh, int bytepp);
 void CopyImageBufferZoom(void* sbuf, int sbw, int sbh, Graphics::TBitmap* dbuf, int dbw, int dbh, INT64 panx, INT64 pany, double zoom, int bytepp, int bgColor, bool useParallel);
+void CopyImageBufferZoomFloat(void* sbuf, int sbw, int sbh, Graphics::TBitmap* dbuf, int dbw, int dbh, INT64 panx, INT64 pany, double zoom, int bytepp, int bgColor, bool useParallel);
 void CopyImageBufferZoomIpl(void* sbuf, int sbw, int sbh, Graphics::TBitmap* dbuf, int dbw, int dbh, INT64 panx, INT64 pany, double zoom, int bytepp, int bgColor, bool useParallel);
+void CopyImageBufferZoomIplFloat(void* sbuf, int sbw, int sbh, Graphics::TBitmap* dbuf, int dbw, int dbh, INT64 panx, INT64 pany, double zoom, int bytepp, int bgColor, bool useParallel);
 
 #endif

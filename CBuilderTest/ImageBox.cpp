@@ -13,6 +13,10 @@
 const AnsiString TImageBox::VersionHistory =
 "ImageBox C++Builder 컨트롤\r\n"
 "\r\n"
+"v1.0.0.12 - 20200316\r\n"
+"1. float, double buffer 표시 기능 추가\r\n"
+"2. float, double buffer 전처리 해서 표시 기능 추가\r\n"
+"\r\n"
 "v1.0.0.11 - 20200315\r\n"
 "옵션창에서 버퍼 파일정장, 버퍼 클립보드 복사 추가\r\n"
 "\r\n"
@@ -67,6 +71,9 @@ __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner)
     FPixelValueDispFont = new TFont();
     FPixelValueDispFont->Name = "MS Sans Serif";
     FPixelValueDispFont->Size = 8;
+    FBufIsFloat = false;
+    FFloatPreprocessed = false;
+    grayBuf = NULL;
 
     dispBmp = new Graphics::TBitmap;
     dispBmp->PixelFormat = pf32bit;
@@ -79,6 +86,7 @@ __fastcall TImageBox::~TImageBox()
 {
     delete dispBmp;
     delete FPixelValueDispFont;
+    FreeBuffer(&grayBuf);
 }
 
 //---------------------------------------------------------------------------
@@ -113,6 +121,31 @@ void TImageBox::SetImgBuf(BYTE* buf, int bw, int bh, int bytepp, BOOL bInvalidat
     imgBW = bw;
     imgBH = bh;
     imgBytepp = bytepp;
+
+    FBufIsFloat = false;
+    FFloatPreprocessed = false;
+    FreeBuffer(&grayBuf);
+
+    if (bInvalidate)
+        Invalidate();
+}
+
+//---------------------------------------------------------------------------
+void TImageBox::SetFloatBuf(BYTE* buf, int bw, int bh, int bytepp, bool preprocess, BOOL bInvalidate)
+{
+    imgBuf = buf;
+    imgBW = bw;
+    imgBH = bh;
+    imgBytepp = bytepp;
+
+    FBufIsFloat = true;
+    FFloatPreprocessed = preprocess;
+    FreeBuffer(&grayBuf);
+    if (preprocess) {
+        grayBuf = AllocBuffer(bw * bh);
+        FloatBufToByte(buf, bw, bh, bytepp, grayBuf);
+    }
+
     if (bInvalidate)
         Invalidate();
 }
@@ -148,10 +181,25 @@ void __fastcall TImageBox::Paint()
     double t0 = GetTimeMs();
 
     int bgra = TColorToBGRA(FColor);
-    if (UseInterPorlation)
-        CopyImageBufferZoomIpl(ImgBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), ImgBytepp, bgra, UseParallel);
-    else
-        CopyImageBufferZoom(ImgBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), ImgBytepp, bgra, UseParallel);
+    if (UseInterPorlation) {
+        if (BufIsFloat) {
+            if (FloatPreprocessed)
+                CopyImageBufferZoomIpl(grayBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), 1, bgra, UseParallel);
+            else
+                CopyImageBufferZoomIplFloat(ImgBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), ImgBytepp, bgra, UseParallel);
+        } else {
+            CopyImageBufferZoomIpl(ImgBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), ImgBytepp, bgra, UseParallel);
+        }
+    } else {
+        if (BufIsFloat) {
+            if (FloatPreprocessed)
+                CopyImageBufferZoom(grayBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), 1, bgra, UseParallel);
+            else
+                CopyImageBufferZoomFloat(ImgBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), ImgBytepp, bgra, UseParallel);
+        } else {
+            CopyImageBufferZoom(ImgBuf, ImgBW, ImgBH, dispBmp, dispBmp->Width, dispBmp->Height, (INT64)PanX, (INT64)PanY, GetZoomFactor(), ImgBytepp, bgra, UseParallel);
+        }
+    }
     double t1 = GetTimeMs();
 
     Canvas->Font->Name = Font->Name;
@@ -177,7 +225,7 @@ void __fastcall TImageBox::Paint()
     double t6 = GetTimeMs();
 
     if (UseDrawDrawTime) {
-        AnsiString imgInfo = (ImgBuf == NULL) ? AnsiString("X") : AnsiString().sprintf("%d*%d*%dbpp", ImgBW, ImgBH, ImgBytepp*8);
+        AnsiString imgInfo = (ImgBuf == NULL) ? AnsiString("X") : AnsiString().sprintf("%d*%d*%dbpp(%s)", ImgBW, ImgBH, ImgBytepp*8, (BufIsFloat?"float":"byte"));
         AnsiString info = AnsiString().sprintf(
 "== Image == \n"
 "%s\n"
@@ -382,7 +430,9 @@ TColor pseudo[8]= {
 void TImageBox::DrawPixelValue()
 {
     double ZoomFactor = GetZoomFactor();
-    double pixeValFactor = (ImgBytepp == 4) ? 3 : ImgBytepp;
+    double pixeValFactor = Clamp(ImgBytepp, 1, 3);
+    if (BufIsFloat)
+        pixeValFactor *= 0.6;
     if (ZoomFactor < FPixelValueDispZoomFactor * pixeValFactor)
         return;
 
@@ -469,11 +519,20 @@ AnsiString TImageBox::GetImagePixelValueText(int x, int y) {
     if (ImgBuf == NULL || x < 0 || x >= ImgBW || y < 0 || y >= ImgBH)
         return "";
     BYTE* ptr = ImgBuf + ((INT64)ImgBW * y + x) * ImgBytepp;
-    if (ImgBytepp == 1)
-        return IntToStr(ptr[0]);
-    if (ImgBytepp == 2)
-        return IntToStr(ptr[1] | ptr[0] << 8);
-    return AnsiString().sprintf("%d,%d,%d", ptr[2], ptr[1], ptr[0]);
+
+    if (!BufIsFloat) {
+        if (ImgBytepp == 1)
+            return IntToStr(ptr[0]);
+        if (ImgBytepp == 2)
+            return IntToStr(ptr[1] | ptr[0] << 8);
+        else
+            return AnsiString().sprintf("%d,%d,%d", ptr[2], ptr[1], ptr[0]);
+    } else {
+        if (ImgBytepp == 4)
+            return AnsiString().sprintf("%.2f", *(float*)ptr);
+        else
+            return AnsiString().sprintf("%.2f", *(double*)ptr);
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -481,11 +540,20 @@ int TImageBox::GetImagePixelValueAverage(int x, int y) {
     if (ImgBuf == NULL || x < 0 || x >= ImgBW || y < 0 || y >= ImgBH)
         return 0;
     BYTE* ptr = ImgBuf + ((INT64)ImgBW * y + x) * ImgBytepp;
-    if (ImgBytepp == 1)
-        return ptr[0];
-    if (ImgBytepp == 2)
-        return ptr[0];
-    return ((int)ptr[2] + (int)ptr[1] + (int)ptr[0]) / 3;
+
+    if (!BufIsFloat) {
+        if (ImgBytepp == 1)
+            return ptr[0];
+        if (ImgBytepp == 2)
+            return ptr[0];
+        else
+            return ((int)ptr[2] + (int)ptr[1] + (int)ptr[0]) / 3;
+    } else {
+        if (ImgBytepp == 4)
+            return Clamp((int)*(float*)ptr, 0, 255);
+        else
+            return Clamp((int)*(double*)ptr, 0, 255);
+    }
 }
 
 //---------------------------------------------------------------------------

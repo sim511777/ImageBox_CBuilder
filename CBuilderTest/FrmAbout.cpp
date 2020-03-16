@@ -121,6 +121,11 @@ void __fastcall TFormAbout::btnSaveBufferClick(TObject *Sender)
         return;
     }
 
+    if (pbx->BufIsFloat) {
+        ShowMessage("Floating point image buffer can not be converted to Bitmap object.");
+        return;
+    }
+
     bool r = dlgSave->Execute();
     if (!r)
         return;
@@ -134,6 +139,10 @@ void __fastcall TFormAbout::btnSaveBufferClick(TObject *Sender)
 void __fastcall TFormAbout::btnCopyBufferClick(TObject *Sender)
 {
     if (pbx->ImgBuf == NULL) {
+        return;
+    }
+
+    if (pbx->BufIsFloat) {
         return;
     }
 

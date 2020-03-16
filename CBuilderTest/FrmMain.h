@@ -47,6 +47,8 @@ __published:	// IDE-managed Components
     TMenuItem *SaveFile1;
     TOpenDialog *dlgOpen;
     TSaveDialog *dlgSave;
+    TMenuItem *CoinsFloat1;
+    TMenuItem *CoinsDouble1;
     void __fastcall OpenFile1Click(TObject *Sender);
     void __fastcall PastefromClipboard1Click(TObject *Sender);
     void __fastcall N1Click(TObject *Sender);
@@ -63,12 +65,16 @@ __published:	// IDE-managed Components
     void __fastcall Copy1Click(TObject *Sender);
     void __fastcall SaveFile1Click(TObject *Sender);
     void __fastcall Gradient1Click(TObject *Sender);
+    void __fastcall CoinsFloat1Click(TObject *Sender);
+    void __fastcall CoinsDouble1Click(TObject *Sender);
 private:	// User declarations
     TImageBox* pbxDraw;
     void __fastcall pbxDrawOnPaint(TObject *Sender);
     void LoadImageFile(AnsiString fileName);
     void SaveImageFile(AnsiString fileName);
     void __fastcall LoadBitmap(Graphics::TBitmap* bmp);
+    void __fastcall LoadBitmapFloat(Graphics::TBitmap* bmp);
+    void __fastcall LoadBitmapDouble(Graphics::TBitmap* bmp);
     void GenerateBitmap(int bw, int bh);
     void UserDrawTest(TCanvas* g);
 
