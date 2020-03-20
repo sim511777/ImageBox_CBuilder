@@ -89,6 +89,9 @@ void BitmapToImageBuffer(Graphics::TBitmap* bmp, BYTE** buf, int* bw, int* bh, i
 
 Graphics::TBitmap* ImageBufferToBitmap(BYTE* buf, int bw, int bh, int bytepp)
 {
+    if (bytepp == 2) {
+        return HraToBmp24(buf, bw, bh, bytepp);
+    }
     TPixelFormat pixelFormat;
     if (bytepp == 1)
         pixelFormat = pf8bit;
@@ -117,6 +120,33 @@ Graphics::TBitmap* ImageBufferToBitmap(BYTE* buf, int bw, int bh, int bytepp)
         memcpy(dptr, sptr, copySize);
         if (paddingSize > 0)
             memcpy(dptr + copySize, paddingBuf, paddingSize);
+    }
+
+    return bmp;
+}
+
+Graphics::TBitmap* HraToBmp24(BYTE* buf, int bw, int bh, int bytepp)
+{
+    Graphics::TBitmap* bmp = new Graphics::TBitmap();
+    bmp->Width = bw;
+    bmp->Height = bh;
+    bmp->PixelFormat = pf24bit;
+
+    int copySize = bw * 3;
+    int stride = (copySize + 3) / 4 * 4;
+    int paddingSize = stride - copySize;
+    BYTE paddingBuf[] = { 0, 0, 0, 0 };
+    for (int y = 0; y < bh; y++) {
+        BYTE* sptr = buf + bw * bytepp * y;
+        BYTE* dptr = (BYTE*)bmp->ScanLine[y];
+        for (int x = 0; x < bw; x++, sptr += bytepp, dptr += 3) {
+            BYTE gray = sptr[0];
+            dptr[0] = gray;
+            dptr[1] = gray;
+            dptr[2] = gray;
+        }
+        if (paddingSize > 0)
+            memcpy(dptr, paddingBuf, paddingSize);
     }
 
     return bmp;

@@ -149,6 +149,9 @@ __published:
     __property TColor BgColor = {read = FColor, write = FColor};
     //페인트 이벤트
 	__property TNotifyEvent OnPaint = {read=FOnPaint, write=FOnPaint};
+	__property TMouseEvent OnMouseDown = {read=FOnMouseDown, write=FOnMouseDown};
+	__property TMouseMoveEvent OnMouseMove = {read=FOnMouseMove, write=FOnMouseMove};
+	__property TMouseEvent OnMouseUp = {read=FOnMouseUp, write=FOnMouseUp};
 
 protected:
     //리사이즈 할때

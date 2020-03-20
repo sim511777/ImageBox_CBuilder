@@ -13,6 +13,10 @@
 const AnsiString TImageBox::VersionHistory =
 "ImageBox C++Builder 컨트롤\r\n"
 "\r\n"
+"v1.0.0.13 - 20200320\r\n"
+"1. 16비트 hra 버퍼 저장 시 24비트 bmp로 저장 되도록 수정\r\n"
+"2. 마우스 이벤트 3개 published로 노출\r\n"
+"\r\n"
 "v1.0.0.12 - 20200316\r\n"
 "1. float, double buffer 표시 기능 추가\r\n"
 "2. float, double buffer 전처리 해서 표시 기능 추가\r\n"
