@@ -70,8 +70,8 @@ __published:	// IDE-managed Components
 private:	// User declarations
     TImageBox* pbxDraw;
     void __fastcall pbxDrawOnPaint(TObject *Sender);
-    void LoadImageFile(AnsiString fileName);
-    void SaveImageFile(AnsiString fileName);
+    void LoadImageFile(String fileName);
+    void SaveImageFile(String fileName);
     void __fastcall LoadBitmap(Graphics::TBitmap* bmp);
     void __fastcall LoadBitmapFloat(Graphics::TBitmap* bmp);
     void __fastcall LoadBitmapDouble(Graphics::TBitmap* bmp);

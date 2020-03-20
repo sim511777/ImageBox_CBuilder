@@ -1,6 +1,7 @@
 //---------------------------------------------------------------------------
 #include <Math.h>
 #include <stdio.h>
+#include <tchar.h>
 #pragma hdrstop
 
 #include "Util.h"
@@ -153,8 +154,8 @@ Graphics::TBitmap* HraToBmp24(BYTE* buf, int bw, int bh, int bytepp)
 }
 
 // hra Lolad
-BOOL LoadHraFile(char* filePath, BYTE** imgBuf, int* bw, int* bh, int* bytepp) {
-    FILE* fp = fopen(filePath, "rb");
+BOOL LoadHraFile(TCHAR* filePath, BYTE** imgBuf, int* bw, int* bh, int* bytepp) {
+    FILE* fp = _tfopen(filePath, TEXT("rb"));
     if(fp == NULL)   // 파일오픈 체크
         return FALSE;
 
@@ -172,8 +173,8 @@ BOOL LoadHraFile(char* filePath, BYTE** imgBuf, int* bw, int* bh, int* bytepp) {
 }
 
 // hra save
-BOOL SaveHraFile(char* filePath, BYTE* imgBuf, int bw, int bh, int bytepp) {
-    FILE* fp = fopen(filePath, "wb");
+BOOL SaveHraFile(TCHAR* filePath, BYTE* imgBuf, int bw, int bh, int bytepp) {
+    FILE* fp = _tfopen(filePath, TEXT("wb"));
     if(fp == NULL)   // 파일오픈 체크
         return FALSE;
 

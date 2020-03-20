@@ -82,18 +82,18 @@ void __fastcall TFormMain::LoadBitmapDouble(Graphics::TBitmap* bmp) {
 }
 //---------------------------------------------------------------------------
 
-void TFormMain::LoadImageFile(AnsiString fileName)
+void TFormMain::LoadImageFile(String fileName)
 {
-    AnsiString ext = ExtractFileExt(fileName).LowerCase();
-    if (ext == ".hra") {
+    String ext = ExtractFileExt(fileName).LowerCase();
+    if (ext == TEXT(".hra")) {
         FreeBuffer(&imgBuf);
         LoadHraFile(fileName.c_str(), &imgBuf, &bw, &bh, &bytepp);
         pbxDraw->SetImgBuf(imgBuf, bw, bh, bytepp, TRUE);
     } else {
         TGraphic* img;
-        if (ext == ".jpg" || ext == ".jpeg") {
+        if (ext == TEXT(".jpg") || ext == TEXT(".jpeg")) {
             img = new TJPEGImage();
-        } else if (ext == ".bmp") {
+        } else if (ext == TEXT(".bmp")) {
             img = new Graphics::TBitmap();
         }
 
@@ -109,7 +109,7 @@ void TFormMain::LoadImageFile(AnsiString fileName)
 }
 //---------------------------------------------------------------------------
 
-void TFormMain::SaveImageFile(AnsiString fileName)
+void TFormMain::SaveImageFile(String fileName)
 {
     Graphics::TBitmap* bmp = ImageBufferToBitmap(imgBuf, bw, bh, bytepp);
     bmp->SaveToFile(fileName);
@@ -131,7 +131,7 @@ void __fastcall TFormMain::OpenFile1Click(TObject *Sender)
     if (!r)
         return;
 
-    AnsiString fileName = dlgOpen->FileName;
+    String fileName = dlgOpen->FileName;
     LoadImageFile(fileName);
 }
 //---------------------------------------------------------------------------
@@ -235,7 +235,7 @@ void TFormMain::GenerateBitmap(int bw, int bh) {
 void __fastcall TFormMain::ZoomReset1Click(TObject *Sender)
 {
     pbxDraw->ZoomReset();
-    pbxDraw->Invalidate();   
+    pbxDraw->Invalidate();
 }
 //---------------------------------------------------------------------------
 
@@ -294,7 +294,7 @@ void TFormMain::UserDrawTest(TCanvas* g) {
         g->Brush->Style = bsClear;
         for (int y = 0; y < 1000; y += step) {
             for (int x = 0; x < 1000; x += step) {
-                g->TextOut(x, y, "128");
+                g->TextOut(x, y, TEXT("128"));
             }
         }
         g->Font->Color = ofc;
@@ -319,7 +319,7 @@ void TFormMain::UserDrawTest(TCanvas* g) {
 
     double et = GetTimeMs();
     double ms = et - st;
-    AnsiString text = AnsiString().sprintf("DrawTime : %.2f", ms);
+    String text = String().sprintf(TEXT("DrawTime : %.2f"), ms);
     pbxDraw->DrawStringScreen(text, 255, 2, clBlack, true, clWhite);
 }
 //---------------------------------------------------------------------------
@@ -345,7 +345,7 @@ void __fastcall TFormMain::AboutImageBox1Click(TObject *Sender)
 void __fastcall TFormMain::SaveFile1Click(TObject *Sender)
 {
     if (imgBuf == NULL) {
-        ShowMessage("imgBuf == NULL");
+        ShowMessage(TEXT("imgBuf == NULL"));
         return;
     }
 
@@ -353,7 +353,7 @@ void __fastcall TFormMain::SaveFile1Click(TObject *Sender)
     if (!r)
         return;
 
-    AnsiString fileName = dlgSave->FileName;
+    String fileName = dlgSave->FileName;
     SaveImageFile(fileName);
 }
 //---------------------------------------------------------------------------

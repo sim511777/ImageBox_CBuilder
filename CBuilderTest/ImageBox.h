@@ -15,7 +15,7 @@ struct TPointD {
 class TImageBox : public TCustomControl
 {
 public:
-    static const AnsiString VersionHistory;
+    static const String VersionHistory;
 private:
     bool FUseDrawPixelValue;
     bool FUseDrawInfo;
@@ -59,15 +59,15 @@ private:
     BOOL mouseDblClicked;   // 정보창 띄운후 이미지 이동 하는 버그 때문에
 
     void GetZoomFactorComponents(int* exp_num, int* c); // 줌 배율 계산
-    AnsiString GetZoomText(); //줌 배율 표시 리턴
+    String GetZoomText(); //줌 배율 표시 리턴
     void WheelScroll(int WheelDelta, TPoint MousePos, BOOL vertical); //휠 스크롤
     void WheelZoom(int WheelDelta, TPoint MousePos, BOOL fixPanning); //휠 줌
     void ResizeDispBuf(); //표시 버퍼 생성
     void DrawCenterLine(); //중심선 표시
     void DrawPixelValue(); //이미지 픽셀값 표시
     void DrawInfo(); //좌상단 정보 표시
-    void DrawDrawTime(AnsiString info); //렌더링 시간 표시
-    AnsiString GetImagePixelValueText(int x, int y); //이미지 픽셀값 문자열 리턴
+    void DrawDrawTime(String info); //렌더링 시간 표시
+    String GetImagePixelValueText(int x, int y); //이미지 픽셀값 문자열 리턴
     int GetImagePixelValueAverage(int x, int y); //이미지 픽셀값 평균 리턴 (0~255)
 
 public: //User declarations
@@ -123,10 +123,10 @@ public: //User declarations
     void DrawPlus(double x, double y, double size, TColor color, bool fixSize);
     void DrawCross(TPointD pt, double size, TColor color, bool fixSize);
     void DrawCross(double x, double y, double size, TColor color, bool fixSize);
-    void DrawString(AnsiString text, TPointD pt, TColor color, bool fill = false, TColor fillColor = clWhite);
-    void DrawString(AnsiString text, double x, double y, TColor color, bool fill = false, TColor fillColor = clWhite);
-    void DrawStringScreen(AnsiString text, TPoint pt, TColor color, bool fill = false, TColor fillColor = clWhite);
-    void DrawStringScreen(AnsiString text, int x, int y, TColor color, bool fill = false, TColor fillColor = clWhite);
+    void DrawString(String text, TPointD pt, TColor color, bool fill = false, TColor fillColor = clWhite);
+    void DrawString(String text, double x, double y, TColor color, bool fill = false, TColor fillColor = clWhite);
+    void DrawStringScreen(String text, TPoint pt, TColor color, bool fill = false, TColor fillColor = clWhite);
+    void DrawStringScreen(String text, int x, int y, TColor color, bool fill = false, TColor fillColor = clWhite);
 
 __published:
     //화면 표시 옵션

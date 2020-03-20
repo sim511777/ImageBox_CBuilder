@@ -10,12 +10,13 @@
 #include "Util.h"
 
 //---------------------------------------------------------------------------
-const AnsiString TImageBox::VersionHistory =
-"ImageBox C++Builder 컨트롤\r\n"
+const String TImageBox::VersionHistory =
+TEXT("ImageBox C++Builder 컨트롤\r\n"
 "\r\n"
 "v1.0.0.13 - 20200320\r\n"
 "1. 16비트 hra 버퍼 저장 시 24비트 bmp로 저장 되도록 수정\r\n"
 "2. 마우스 이벤트 3개 published로 노출\r\n"
+"3. Ansi / Unicode 매크로 처리\r\n"
 "\r\n"
 "v1.0.0.12 - 20200316\r\n"
 "1. float, double buffer 표시 기능 추가\r\n"
@@ -49,7 +50,7 @@ const AnsiString TImageBox::VersionHistory =
 "7. DrawInfo 에서 panX, panY 표시하는 문제 수정\r\n"
 "8. WinMain 함수 리턴값 int\r\n"
 "9. 타입에러 수정 / 캐스팅 에러 수정 / CB6 프로젝트 추가\r\n"
-"10. initial upload\r\n";
+"10. initial upload\r\n");
 
 //---------------------------------------------------------------------------
 __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner)
@@ -73,7 +74,7 @@ __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner)
     PanX = 0;
     PanY = 0;
     FPixelValueDispFont = new TFont();
-    FPixelValueDispFont->Name = "MS Sans Serif";
+    FPixelValueDispFont->Name = TEXT("MS Sans Serif");
     FPixelValueDispFont->Size = 8;
     FBufIsFloat = false;
     FFloatPreprocessed = false;
@@ -111,11 +112,11 @@ double TImageBox::GetZoomFactor()
 }
 
 //---------------------------------------------------------------------------
-AnsiString TImageBox::GetZoomText()
+String TImageBox::GetZoomText()
 {
     int exp_num, c;
     GetZoomFactorComponents(&exp_num, &c);
-    return (exp_num >= 0) ? IntToStr(c * (int)pow(2.0, exp_num)) : IntToStr(c) + "/" + IntToStr((int)pow(2.0, -exp_num));
+    return (exp_num >= 0) ? IntToStr(c * (int)pow(2.0, exp_num)) : IntToStr(c) + TEXT("/") + IntToStr((int)pow(2.0, -exp_num));
 }
 
 //---------------------------------------------------------------------------
@@ -229,9 +230,9 @@ void __fastcall TImageBox::Paint()
     double t6 = GetTimeMs();
 
     if (UseDrawDrawTime) {
-        AnsiString imgInfo = (ImgBuf == NULL) ? AnsiString("X") : AnsiString().sprintf("%d*%d*%dbpp(%s)", ImgBW, ImgBH, ImgBytepp*8, (BufIsFloat?"float":"byte"));
-        AnsiString info = AnsiString().sprintf(
-"== Image == \n"
+        String imgInfo = (ImgBuf == NULL) ? String(TEXT("X")) : String().sprintf(TEXT("%d*%d*%dbpp(%s)"), ImgBW, ImgBH, ImgBytepp*8, (BufIsFloat?TEXT("float"):TEXT("byte")));
+        String info = String().sprintf(
+TEXT("== Image == \n"
 "%s\n"
 "\n"
 "== Draw option ==\n"
@@ -253,16 +254,16 @@ void __fastcall TImageBox::Paint()
 "CenterLine : %.1fms\n"
 "OnPaint : %.1fms\n"
 "CursorInfo : %.1fms\n"
-"Total : %.1fms"
+"Total : %.1fms")
         , imgInfo.c_str()
-        , UseDrawPixelValue ? "O" : "X"
-        , UseDrawInfo ? "O" : "X"
-        , UseDrawCenterLine ? "O" : "X"
-        , UseDrawDrawTime ? "O" : "X"
-        , UseInterPorlation ? "O" : "X"
-        , UseParallel ? "O" : "X"
-        , UseMouseMove ? "O" : "X"
-        , UseMouseWheelZoom ? "O" : "X"
+        , UseDrawPixelValue ? TEXT("O") : TEXT("X")
+        , UseDrawInfo ? TEXT("O") : TEXT("X")
+        , UseDrawCenterLine ? TEXT("O") : TEXT("X")
+        , UseDrawDrawTime ? TEXT("O") : TEXT("X")
+        , UseInterPorlation ? TEXT("O") : TEXT("X")
+        , UseParallel ? TEXT("O") : TEXT("X")
+        , UseMouseMove ? TEXT("O") : TEXT("X")
+        , UseMouseWheelZoom ? TEXT("O") : TEXT("X")
         , t1-t0
         , t2-t1
         , t3-t2
@@ -452,7 +453,7 @@ void TImageBox::DrawPixelValue()
     TBrushStyle obs = Canvas->Brush->Style;
     Canvas->Brush->Style = bsClear;
     TColor ofc = Canvas->Font->Color;
-    AnsiString ofn = Canvas->Font->Name;
+    String ofn = Canvas->Font->Name;
     int ofs = Canvas->Font->Size;
     Canvas->Font->Name = PixelValueDispFont->Name;
     Canvas->Font->Size = PixelValueDispFont->Size;
@@ -460,7 +461,7 @@ void TImageBox::DrawPixelValue()
         for (int imgX = imgX1; imgX <= imgX2; imgX++) {
             TPointD ptImg = TPointD(imgX, imgY);
             TPointD ptDisp = ImgToDisp(ptImg);
-            AnsiString pixelValText = GetImagePixelValueText(imgX, imgY);
+            String pixelValText = GetImagePixelValueText(imgX, imgY);
             int pixelVal = GetImagePixelValueAverage(imgX, imgY);
             Canvas->Font->Color = pseudo[pixelVal / 32];
             Canvas->TextOut(ptDisp.x, ptDisp.y, pixelValText);
@@ -479,8 +480,8 @@ void TImageBox::DrawInfo() {
     TPointD ptImg = DispToImg(ptCur);
     int imgX = (int)floor(ptImg.x);
     int imgY = (int)floor(ptImg.y);
-    AnsiString pixelVal = GetImagePixelValueText(imgX, imgY);
-    AnsiString info = AnsiString().sprintf("zoom=%s (%d,%d)=%s", GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
+    String pixelVal = GetImagePixelValueText(imgX, imgY);
+    String info = String().sprintf(TEXT("zoom=%s (%d,%d)=%s"), GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
 
     Graphics::TBitmap* bmp = new Graphics::TBitmap();
     bmp->Canvas->Font->Name = Font->Name;
@@ -498,7 +499,7 @@ void TImageBox::DrawInfo() {
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawDrawTime(AnsiString info) {
+void TImageBox::DrawDrawTime(String info) {
     DrawStringScreen(info, ClientWidth - 120, 0, clBlack, true, clWhite);
 }
 
@@ -519,9 +520,9 @@ TPointD TImageBox::ImgToDisp(TPointD pt) {
 }
 
 //---------------------------------------------------------------------------
-AnsiString TImageBox::GetImagePixelValueText(int x, int y) {
+String TImageBox::GetImagePixelValueText(int x, int y) {
     if (ImgBuf == NULL || x < 0 || x >= ImgBW || y < 0 || y >= ImgBH)
-        return "";
+        return TEXT("");
     BYTE* ptr = ImgBuf + ((INT64)ImgBW * y + x) * ImgBytepp;
 
     if (!BufIsFloat) {
@@ -530,12 +531,12 @@ AnsiString TImageBox::GetImagePixelValueText(int x, int y) {
         if (ImgBytepp == 2)
             return IntToStr(ptr[1] | ptr[0] << 8);
         else
-            return AnsiString().sprintf("%d,%d,%d", ptr[2], ptr[1], ptr[0]);
+            return String().sprintf(TEXT("%d,%d,%d"), ptr[2], ptr[1], ptr[0]);
     } else {
         if (ImgBytepp == 4)
-            return AnsiString().sprintf("%.2f", *(float*)ptr);
+            return String().sprintf(TEXT("%.2f"), *(float*)ptr);
         else
-            return AnsiString().sprintf("%.2f", *(double*)ptr);
+            return String().sprintf(TEXT("%.2f"), *(double*)ptr);
     }
 }
 
@@ -769,7 +770,7 @@ void TImageBox::DrawCross(double x, double y, double size, TColor color, bool fi
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawString(AnsiString text, TPointD pt, TColor color, bool fill, TColor fillColor)
+void TImageBox::DrawString(String text, TPointD pt, TColor color, bool fill, TColor fillColor)
 {
     TColor opc = Canvas->Pen->Color;
     Canvas->Pen->Color = fillColor;
@@ -784,12 +785,12 @@ void TImageBox::DrawString(AnsiString text, TPointD pt, TColor color, bool fill,
 
     TPointD ptd = ImgToDisp(pt);
     RECT rc;
-    DrawTextA(Canvas->Handle, text.c_str(), text.Length(), &rc, DT_CALCRECT);
+    DrawText(Canvas->Handle, text.c_str(), text.Length(), &rc, DT_CALCRECT);
     int width = rc.right - rc.left;
     int height = rc.bottom - rc.top;
     RECT rect = {(int)ptd.x, (int)ptd.y, (int)ptd.x + width, (int)ptd.y + height};
     Canvas->Rectangle(rect.left, rect.top, rect.right, rect.bottom);
-    DrawTextA(Canvas->Handle, text.c_str(), text.Length(), &rect, NULL);
+    DrawText(Canvas->Handle, text.c_str(), text.Length(), &rect, NULL);
 
     Canvas->Pen->Color = opc;
     Canvas->Pen->Style = ops;
@@ -799,13 +800,13 @@ void TImageBox::DrawString(AnsiString text, TPointD pt, TColor color, bool fill,
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawString(AnsiString text, double x, double y, TColor color, bool fill, TColor fillColor)
+void TImageBox::DrawString(String text, double x, double y, TColor color, bool fill, TColor fillColor)
 {
     DrawString(text, TPointD(x, y), color, fill, fillColor);
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawStringScreen(AnsiString text, TPoint pt, TColor color, bool fill, TColor fillColor)
+void TImageBox::DrawStringScreen(String text, TPoint pt, TColor color, bool fill, TColor fillColor)
 {
     TColor opc = Canvas->Pen->Color;
     Canvas->Pen->Color = fillColor;
@@ -819,12 +820,12 @@ void TImageBox::DrawStringScreen(AnsiString text, TPoint pt, TColor color, bool 
     Canvas->Font->Color = color;
 
     RECT rc;
-    DrawTextA(Canvas->Handle, text.c_str(), text.Length(), &rc, DT_CALCRECT);
+    DrawText(Canvas->Handle, text.c_str(), text.Length(), &rc, DT_CALCRECT);
     int width = rc.right - rc.left;
     int height = rc.bottom - rc.top;
     RECT rect = {pt.x, pt.y, pt.x + width, pt.y + height};
     Canvas->Rectangle(rect.left, rect.top, rect.right, rect.bottom);
-    DrawTextA(Canvas->Handle, text.c_str(), text.Length(), &rect, NULL);
+    DrawText(Canvas->Handle, text.c_str(), text.Length(), &rect, NULL);
 
     Canvas->Pen->Color = opc;
     Canvas->Pen->Style = ops;
@@ -834,7 +835,7 @@ void TImageBox::DrawStringScreen(AnsiString text, TPoint pt, TColor color, bool 
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawStringScreen(AnsiString text, int x, int y, TColor color, bool fill, TColor fillColor)
+void TImageBox::DrawStringScreen(String text, int x, int y, TColor color, bool fill, TColor fillColor)
 {
     DrawStringScreen(text, TPoint(x, y), color, fill, fillColor);
 }
@@ -844,7 +845,7 @@ void TImageBox::ShowAbout() {
     TFormAbout *frm = new TFormAbout(this);
     TModalResult mr = frm->ShowModal();
     if (mr == mrOk) {
-        Invalidate();    
+        Invalidate();
     }
 }
 
