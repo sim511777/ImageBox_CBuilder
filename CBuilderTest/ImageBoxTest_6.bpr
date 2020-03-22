@@ -3,9 +3,10 @@
 <PROJECT>
   <MACROS>
     <VERSION value="BCB.06.00"/>
-    <PROJECT value="ImageBoxTest_6.exe"/>
-    <OBJFILES value="ImageBoxTest_6.obj FrmMain.obj ImageBox.obj FrmAbout.obj Util.obj"/>
-    <RESFILES value="ImageBoxTest_6.res CBuilderTest.res"/>
+    <PROJECT value="..\bin\ImageBoxTest_6.exe"/>
+    <OBJFILES value="obj\ImageBoxTest_6.obj obj\FrmMain.obj obj\ImageBox.obj obj\FrmAbout.obj 
+      obj\Util.obj"/>
+    <RESFILES value="CBuilderTest.res"/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) FrmMain.dfm FrmAbout.dfm"/>
     <LIBFILES value=""/>
@@ -34,10 +35,10 @@
   </MACROS>
   <OPTIONS>
     <CFLAG1 value="-O2 -H=$(BCB)\lib\vcl60.csm -Hc -Vx -Ve -X- -a8 -b- -k- -vi -c -tW -tWM"/>
-    <PFLAGS value="-$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
+    <PFLAGS value="-N2.\obj -N0.\obj -$Y- -$L- -$D- -$A8 -v -JPHNE -M"/>
     <RFLAGS value=""/>
     <AFLAGS value="/mx /w2 /zn"/>
-    <LFLAGS value="-D&quot;&quot; -aa -Tpe -x -Gn"/>
+    <LFLAGS value="-I.\obj -D&quot;&quot; -aa -Tpe -x -Gn"/>
     <OTHERFILES value=""/>
   </OPTIONS>
   <LINKER>
@@ -47,7 +48,6 @@
     <OTHERFILES value=""/>
   </LINKER>
   <FILELIST>
-      <FILE FILENAME="ImageBoxTest_6.res" FORMNAME="" UNITNAME="ImageBoxTest_6.res" CONTAINERID="ResTool" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ImageBoxTest_6.cpp" FORMNAME="" UNITNAME="ImageBoxTest_6" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FrmMain.cpp" FORMNAME="FormMain" UNITNAME="FrmMain" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="ImageBox.cpp" FORMNAME="" UNITNAME="ImageBox" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
@@ -86,6 +86,27 @@ OriginalFilename=
 ProductName=
 ProductVersion=1.0.0.0
 Comments=
+
+[HistoryLists\hlIncludePath]
+Count=1
+Item0=..;CBuilderTest;C:\Program Files (x86)\Borland\CBuilder6\Projects;D:\github\CBuilderTest_CB6;$(BCB)\include;$(BCB)\include\vcl
+
+[HistoryLists\hlLibraryPath]
+Count=1
+Item0=..;CBuilderTest;C:\Program Files (x86)\Borland\CBuilder6\Projects;D:\github\CBuilderTest_CB6;$(BCB)\lib\obj;$(BCB)\lib
+
+[HistoryLists\hlDebugSourcePath]
+Count=1
+Item0=$(BCB)\source\vcl
+
+[HistoryLists\hlIntOutputDir]
+Count=1
+Item0=.\obj
+
+[HistoryLists\hlFinalOutputDir]
+Count=2
+Item0=..\bin\
+Item1=..\bin
 
 [Debugging]
 DebugSourceDirs=$(BCB)\source\vcl

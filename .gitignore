@@ -72,3 +72,5 @@ modules/
 Win32
 Win64
 *.res
+*.res
+bin
