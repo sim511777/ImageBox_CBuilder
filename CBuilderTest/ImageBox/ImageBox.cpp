@@ -231,8 +231,8 @@ void __fastcall TImageBox::Paint()
     double t6 = GetTimeMs();
 
     if (UseDrawDrawTime) {
-        String imgInfo = (ImgBuf == NULL) ? String(TEXT("X")) : String().sprintf(TEXT("%d*%d*%dbpp(%s)"), ImgBW, ImgBH, ImgBytepp*8, (BufIsFloat?TEXT("float"):TEXT("byte")));
-        String info = String().sprintf(
+        String imgInfo = (ImgBuf == NULL) ? String(TEXT("X")) : FormatString(TEXT("%d*%d*%dbpp(%s)"), ImgBW, ImgBH, ImgBytepp*8, (BufIsFloat?TEXT("float"):TEXT("byte")));
+        String info = FormatString(
 TEXT("== Image == \n"
 "%s\n"
 "\n"
@@ -482,7 +482,7 @@ void TImageBox::DrawInfo() {
     int imgX = (int)floor(ptImg.x);
     int imgY = (int)floor(ptImg.y);
     String pixelVal = GetImagePixelValueText(imgX, imgY);
-    String info = String().sprintf(TEXT("zoom=%s (%d,%d)=%s"), GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
+    String info = FormatString(TEXT("zoom=%s (%d,%d)=%s"), GetZoomText().c_str(), imgX, imgY, pixelVal.c_str());
 
     Graphics::TBitmap* bmp = new Graphics::TBitmap();
     bmp->Canvas->Font->Name = Font->Name;
@@ -532,12 +532,12 @@ String TImageBox::GetImagePixelValueText(int x, int y) {
         if (ImgBytepp == 2)
             return IntToStr(ptr[1] | ptr[0] << 8);
         else
-            return String().sprintf(TEXT("%d,%d,%d"), ptr[2], ptr[1], ptr[0]);
+            return FormatString(TEXT("%d,%d,%d"), ptr[2], ptr[1], ptr[0]);
     } else {
         if (ImgBytepp == 4)
-            return String().sprintf(TEXT("%.2f"), *(float*)ptr);
+            return FormatString(TEXT("%.2f"), *(float*)ptr);
         else
-            return String().sprintf(TEXT("%.2f"), *(double*)ptr);
+            return FormatString(TEXT("%.2f"), *(double*)ptr);
     }
 }
 

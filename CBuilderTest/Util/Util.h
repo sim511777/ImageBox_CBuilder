@@ -25,6 +25,7 @@ T Max(T a, T b)
     return b;
 }
 
+String FormatString(const TCHAR* format, ...);
 double GetTimeMs();
 void FreeBuffer(BYTE** buf);
 BYTE* AllocBuffer(size_t size);

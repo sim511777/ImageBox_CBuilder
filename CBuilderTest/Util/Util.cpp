@@ -8,6 +8,18 @@
 
 #pragma package(smart_init)
 
+String FormatString(const TCHAR* format, ...) {
+    va_list args;
+    va_start (args, format);
+
+    String text;
+    text.vprintf(format, args);
+
+    va_end (args);
+
+    return text;
+}
+
 double GetTimeMs() {
     static LARGE_INTEGER freq;
     static BOOL r = QueryPerformanceFrequency(&freq);

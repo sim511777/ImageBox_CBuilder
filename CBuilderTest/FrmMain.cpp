@@ -319,7 +319,7 @@ void TFormMain::UserDrawTest(TCanvas* g) {
 
     double et = GetTimeMs();
     double ms = et - st;
-    String text = String().sprintf(TEXT("DrawTime : %.2f"), ms);
+    String text = FormatString(TEXT("DrawTime : %.2f"), ms);
     pbxDraw->DrawStringScreen(text, 255, 2, clBlack, true, clWhite);
 }
 //---------------------------------------------------------------------------
