@@ -4,11 +4,11 @@
   <MACROS>
     <VERSION value="BCB.06.00"/>
     <PROJECT value="..\bin\ImageBoxTest_6.exe"/>
-    <OBJFILES value="obj\ImageBoxTest_6.obj obj\FrmMain.obj obj\ImageBox.obj obj\FrmAbout.obj 
+    <OBJFILES value="obj\ImageBoxTest_6.obj obj\FrmMain.obj obj\FrmAbout.obj obj\ImageBox.obj 
       obj\Util.obj"/>
     <RESFILES value="CBuilderTest.res"/>
     <DEFFILE value=""/>
-    <RESDEPEN value="$(RESFILES) FrmMain.dfm FrmAbout.dfm"/>
+    <RESDEPEN value="$(RESFILES) FrmMain.dfm ImageBox\FrmAbout.dfm"/>
     <LIBFILES value=""/>
     <LIBRARIES value=""/>
     <SPARELIBS value="vcl.lib rtl.lib"/>
@@ -18,7 +18,7 @@
       vclie.bpi xmlrtl.bpi inet.bpi inetdbbde.bpi inetdbxpress.bpi inetdb.bpi 
       nmfast.bpi bcbie.bpi soaprtl.bpi dclocx.bpi dbexpress.bpi dbxcds.bpi 
       indy.bpi bcb2kaxserver.bpi"/>
-    <PATHCPP value=".;"/>
+    <PATHCPP value=".;ImageBox;ImageBox;Util"/>
     <PATHPAS value=".;"/>
     <PATHRC value=".;"/>
     <PATHASM value=".;"/>
@@ -28,8 +28,8 @@
     <USERDEFINES value=""/>
     <SYSDEFINES value="_RTLDLL;NO_STRICT;USEPACKAGES"/>
     <MAINSOURCE value="ImageBoxTest_6.cpp"/>
-    <INCLUDEPATH value="..;CBuilderTest;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;D:\github\CBuilderTest_CB6;$(BCB)\include;$(BCB)\include\vcl"/>
-    <LIBPATH value="..;CBuilderTest;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;D:\github\CBuilderTest_CB6;$(BCB)\lib\obj;$(BCB)\lib"/>
+    <INCLUDEPATH value="Util;ImageBox;..;CBuilderTest;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;D:\github\CBuilderTest_CB6;$(BCB)\include;$(BCB)\include\vcl"/>
+    <LIBPATH value="Util;ImageBox;..;CBuilderTest;&quot;C:\Program Files (x86)\Borland\CBuilder6\Projects&quot;;D:\github\CBuilderTest_CB6;$(BCB)\lib\obj;$(BCB)\lib"/>
     <WARNINGS value="-w-par"/>
     <OTHERFILES value=""/>
   </MACROS>
@@ -50,11 +50,11 @@
   <FILELIST>
       <FILE FILENAME="ImageBoxTest_6.cpp" FORMNAME="" UNITNAME="ImageBoxTest_6" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="FrmMain.cpp" FORMNAME="FormMain" UNITNAME="FrmMain" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="ImageBox.cpp" FORMNAME="" UNITNAME="ImageBox" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="FrmAbout.cpp" FORMNAME="FormAbout" UNITNAME="FrmAbout" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="CBuilderTest.rc" FORMNAME="" UNITNAME="CBuilderTest.rc" CONTAINERID="RC" DESIGNCLASS="" LOCALCOMMAND=""/>
       <FILE FILENAME="resource.h" FORMNAME="" UNITNAME="resource.h" CONTAINERID="" DESIGNCLASS="" LOCALCOMMAND=""/>
-      <FILE FILENAME="Util.cpp" FORMNAME="" UNITNAME="Util" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ImageBox\FrmAbout.cpp" FORMNAME="FormAbout" UNITNAME="FrmAbout" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="ImageBox\ImageBox.cpp" FORMNAME="" UNITNAME="ImageBox.cpp" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
+      <FILE FILENAME="Util\Util.cpp" FORMNAME="" UNITNAME="Util" CONTAINERID="CCompiler" DESIGNCLASS="" LOCALCOMMAND=""/>
   </FILELIST>
   <BUILDTOOLS>
   </BUILDTOOLS>

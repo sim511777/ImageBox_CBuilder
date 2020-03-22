@@ -58,8 +58,10 @@
         <Base>true</Base>
     </PropertyGroup>
     <PropertyGroup Condition="'$(Base)'!=''">
-        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
         <BRCC_OutputDir>.\$(Platform)\$(Config)</BRCC_OutputDir>
+        <VerInfo_Keys>CompanyName=;FileDescription=$(MSBuildProjectName);FileVersion=1.0.0.0;InternalName=;LegalCopyright=;LegalTrademarks=;OriginalFilename=;ProgramID=com.embarcadero.$(MSBuildProjectName);ProductName=$(MSBuildProjectName);ProductVersion=1.0.0.0;Comments=</VerInfo_Keys>
+        <IncludePath>Util\;ImageBox\;$(IncludePath)</IncludePath>
+        <ILINK_LibraryPath>Util\;ImageBox\;$(ILINK_LibraryPath)</ILINK_LibraryPath>
         <VerInfo_Locale>1042</VerInfo_Locale>
         <UWP_CppLogo150>$(BDS)\bin\Artwork\Windows\UWP\cppreg_UwpDefault_150.png</UWP_CppLogo150>
         <Icon_MainIcon>$(BDS)\bin\cbuilder_PROJECTICON.ico</Icon_MainIcon>
@@ -156,21 +158,11 @@
             <Form>CBuilderTest.res</Form>
             <BuildOrder>7</BuildOrder>
         </ResourceCompile>
-        <CppCompile Include="FrmAbout.cpp">
-            <Form>FormAbout</Form>
-            <FormType>dfm</FormType>
-            <DependentOn>FrmAbout.h</DependentOn>
-            <BuildOrder>4</BuildOrder>
-        </CppCompile>
         <CppCompile Include="FrmMain.cpp">
             <Form>FormMain</Form>
             <FormType>dfm</FormType>
             <DependentOn>FrmMain.h</DependentOn>
             <BuildOrder>2</BuildOrder>
-        </CppCompile>
-        <CppCompile Include="ImageBox.cpp">
-            <DependentOn>ImageBox.h</DependentOn>
-            <BuildOrder>3</BuildOrder>
         </CppCompile>
         <CppCompile Include="ImageBoxTest_Berlin.cpp">
             <BuildOrder>0</BuildOrder>
@@ -179,15 +171,25 @@
             <BuildOrder>1</BuildOrder>
             <PCH>true</PCH>
         </PCHCompile>
+        <CppCompile Include="ImageBox\FrmAbout.cpp">
+            <Form>FormAbout</Form>
+            <FormType>dfm</FormType>
+            <DependentOn>ImageBox\FrmAbout.h</DependentOn>
+            <BuildOrder>5</BuildOrder>
+        </CppCompile>
+        <CppCompile Include="ImageBox\ImageBox.cpp">
+            <DependentOn>ImageBox\ImageBox.h</DependentOn>
+            <BuildOrder>6</BuildOrder>
+        </CppCompile>
         <None Include="resource.h">
             <BuildOrder>6</BuildOrder>
         </None>
-        <CppCompile Include="Util.cpp">
-            <DependentOn>Util.h</DependentOn>
+        <CppCompile Include="Util\Util.cpp">
+            <DependentOn>Util\Util.h</DependentOn>
             <BuildOrder>7</BuildOrder>
         </CppCompile>
-        <FormResources Include="FrmAbout.dfm"/>
         <FormResources Include="FrmMain.dfm"/>
+        <FormResources Include="ImageBox\FrmAbout.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
