@@ -45,6 +45,10 @@ __published:	// IDE-managed Components
     TButton *btnSaveBuffer;
     TButton *btnCopyBuffer;
     TSaveDialog *dlgSave;
+    TCheckBox *chkUseMousePanClamp;
+    TEdit *edtZoomLevelMin;
+    TLabel *Label5;
+    TEdit *edtZoomLevelMax;
     void __fastcall btnFontClick(TObject *Sender);
     void __fastcall FormCloseQuery(TObject *Sender, bool &CanClose);
     void __fastcall btnZoomResetClick(TObject *Sender);

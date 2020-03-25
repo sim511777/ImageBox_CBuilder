@@ -14,6 +14,10 @@
 const String TImageBox::VersionHistory =
 TEXT("ImageBox C++Builder 컨트롤\r\n"
 "\r\n"
+"v1.0.0.14 - 20200325\r\n"
+"1. ZoomLevelMin, ZoomLevelMax 속성 추가\r\n"
+"2. UseMousePanClamp 속성 추가\r\n"
+"\r\n"
 "v1.0.0.13 - 20200320\r\n"
 "1. 16비트 hra 버퍼 저장 시 24비트 bmp로 저장 되도록 수정\r\n"
 "2. 마우스 이벤트 3개 published로 노출\r\n"
@@ -71,9 +75,12 @@ __fastcall TImageBox::TImageBox(TComponent* Owner) : TCustomControl(Owner)
     FUseMouseMove = TRUE;
     FUseMouseWheelZoom = TRUE;
     FZoomLevel = 0;
+    FZoomLevelMin = -12;
+    FZoomLevelMax = 12;
     FPixelValueDispZoomFactor = 20;
     PanX = 0;
     PanY = 0;
+    FUseMousePanClamp = true;
     FPixelValueDispFont = new TFont();
     FPixelValueDispFont->Name = TEXT("MS Sans Serif");
     FPixelValueDispFont->Size = 8;
@@ -102,6 +109,35 @@ void TImageBox::GetZoomFactorComponents(int* exp_num, int* c)
     if (ZoomLevel % 2 != 0)
         (*exp_num)--;
     *c = (ZoomLevel % 2 != 0) ? 3 : 1;
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TImageBox::SetZoomLevel(const int Value) {
+    FZoomLevel = Clamp(Value, ZoomLevelMin, ZoomLevelMax);
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TImageBox::SetPanX(const double Value) {
+    if (UseMousePanClamp) {
+        if (ImgBuf == NULL)
+            FPanX = 0;
+        else
+            FPanX = Clamp(Value, -ImgBW * GetZoomFactor(), 0.0);
+    } else {
+        FPanX = Value;
+    }
+}
+
+//---------------------------------------------------------------------------
+void __fastcall TImageBox::SetPanY(const double Value) {
+    if (UseMousePanClamp) {
+        if (ImgBuf == NULL)
+            FPanY = 0;
+        else
+            FPanY = Clamp(Value, -ImgBH * GetZoomFactor(), 0.0);
+    } else {
+        FPanY = Value;
+    }
 }
 
 //---------------------------------------------------------------------------
@@ -161,7 +197,7 @@ void TImageBox::ZoomToRect(int x, int y, int width, int height) {
     double scale1 = (double)ClientWidth / width;
     double scale2 = (double)ClientHeight / height;
     double wantedZoomFactor = Min(scale1, scale2);
-    ZoomLevel = Clamp((int)floor(log(wantedZoomFactor) / log(sqrt(2.0))), -40, 40);
+    ZoomLevel = (int)floor(log(wantedZoomFactor) / log(sqrt(2.0)));
     double ZoomFactor = GetZoomFactor();
     PanX = (ClientWidth - width * ZoomFactor) / 2 - x * ZoomFactor;
     PanY = (ClientHeight - height * ZoomFactor) / 2 - y * ZoomFactor;
@@ -247,6 +283,11 @@ TEXT("== Image == \n"
 "== Mouse Option ==\n"
 "MouseMove : %s\n"
 "MouseWheelZoom : %s\n"
+"UseMousePanClamp : %s\n"
+"Pan : (%.2f,%.2f)\n"
+"ZoomLevel : %d\n"
+"ZoomLevelMin : %d\n"
+"ZoomLevelMax : %d\n"
 "\n"
 "== Draw Time ==\n"
 "CopyImage : %.1fms\n"
@@ -265,6 +306,11 @@ TEXT("== Image == \n"
         , UseParallel ? TEXT("O") : TEXT("X")
         , UseMouseMove ? TEXT("O") : TEXT("X")
         , UseMouseWheelZoom ? TEXT("O") : TEXT("X")
+        , UseMousePanClamp ? TEXT("O") : TEXT("X")
+        , PanX, PanY
+        , ZoomLevel
+        , ZoomLevelMin
+        , ZoomLevelMax
         , t1-t0
         , t2-t1
         , t3-t2
@@ -313,7 +359,7 @@ void TImageBox::WheelScroll(int WheelDelta, TPoint MousePos, BOOL vertical)
 void TImageBox::WheelZoom(int WheelDelta, TPoint MousePos, BOOL fixPanning)
 {
     double zoomFactorOld = GetZoomFactor();
-    ZoomLevel = Clamp((WheelDelta > 0) ? (ZoomLevel + 1) : (ZoomLevel - 1), -40, 40);
+    ZoomLevel = (WheelDelta > 0) ? (ZoomLevel + 1) : (ZoomLevel - 1);
     if (fixPanning)
         return;
 

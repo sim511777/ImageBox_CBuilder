@@ -2,7 +2,7 @@ object FormAbout: TFormAbout
   Left = 511
   Top = 193
   Width = 365
-  Height = 333
+  Height = 375
   BorderStyle = bsSizeToolWin
   Caption = 'ImageBox for C++Builder'
   Color = clBtnFace
@@ -18,7 +18,7 @@ object FormAbout: TFormAbout
   TextHeight = 13
   object Panel2: TPanel
     Left = 0
-    Top = 251
+    Top = 293
     Width = 349
     Height = 43
     Align = alBottom
@@ -69,7 +69,7 @@ object FormAbout: TFormAbout
     Left = 0
     Top = 0
     Width = 349
-    Height = 251
+    Height = 293
     ActivePage = TabSheet2
     Align = alClient
     TabIndex = 0
@@ -78,32 +78,39 @@ object FormAbout: TFormAbout
       Caption = 'Option'
       ImageIndex = 1
       object Label1: TLabel
-        Left = 8
-        Top = 98
+        Left = 13
+        Top = 121
         Width = 125
         Height = 13
         Caption = 'PixelValueDispZoomFactor'
       end
       object Label3: TLabel
-        Left = 8
-        Top = 186
+        Left = 13
+        Top = 230
         Width = 47
         Height = 13
         Caption = 'BackColor'
       end
       object Label2: TLabel
-        Left = 3
-        Top = 133
+        Left = 8
+        Top = 177
         Width = 22
         Height = 13
         Caption = 'Font'
       end
       object Label4: TLabel
-        Left = 3
-        Top = 158
+        Left = 8
+        Top = 202
         Width = 47
         Height = 13
         Caption = 'Pixel Font'
+      end
+      object Label5: TLabel
+        Left = 13
+        Top = 148
+        Width = 91
+        Height = 13
+        Caption = 'ZoomLevelMin,Max'
       end
       object chkUseDrawPixelValue: TCheckBox
         Left = 8
@@ -171,23 +178,23 @@ object FormAbout: TFormAbout
       end
       object edtPixelValueDispZoomFactor: TEdit
         Left = 200
-        Top = 98
+        Top = 118
         Width = 49
         Height = 21
         TabOrder = 8
         Text = '0'
       end
       object colBackColor: TColorBox
-        Left = 64
-        Top = 184
+        Left = 69
+        Top = 228
         Width = 121
         Height = 22
         ItemHeight = 16
         TabOrder = 9
       end
       object btnZoomReset: TButton
-        Left = 200
-        Top = 153
+        Left = 205
+        Top = 197
         Width = 121
         Height = 25
         Caption = 'Zoom Reset'
@@ -195,8 +202,8 @@ object FormAbout: TFormAbout
         OnClick = btnZoomResetClick
       end
       object btnZoomToImage: TButton
-        Left = 200
-        Top = 184
+        Left = 205
+        Top = 228
         Width = 121
         Height = 25
         Caption = 'Zoom to Image'
@@ -204,20 +211,44 @@ object FormAbout: TFormAbout
         OnClick = btnZoomToImageClick
       end
       object btnFont: TButton
-        Left = 64
-        Top = 128
+        Left = 69
+        Top = 172
         Width = 121
         Height = 25
         TabOrder = 12
         OnClick = btnFontClick
       end
       object btnPixelValueDispFont: TButton
-        Left = 64
-        Top = 153
+        Left = 69
+        Top = 197
         Width = 121
         Height = 25
         TabOrder = 13
         OnClick = btnPixelValueDispFontClick
+      end
+      object chkUseMousePanClamp: TCheckBox
+        Left = 8
+        Top = 98
+        Width = 130
+        Height = 17
+        Caption = 'UseMousePanClamp'
+        TabOrder = 14
+      end
+      object edtZoomLevelMin: TEdit
+        Left = 200
+        Top = 145
+        Width = 49
+        Height = 21
+        TabOrder = 15
+        Text = '0'
+      end
+      object edtZoomLevelMax: TEdit
+        Left = 255
+        Top = 145
+        Width = 49
+        Height = 21
+        TabOrder = 16
+        Text = '0'
       end
     end
     object TabSheet1: TTabSheet
@@ -226,7 +257,7 @@ object FormAbout: TFormAbout
         Left = 0
         Top = 0
         Width = 341
-        Height = 223
+        Height = 265
         Align = alClient
         Lines.Strings = (
           'memVersion')

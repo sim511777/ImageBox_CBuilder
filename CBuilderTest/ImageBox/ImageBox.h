@@ -26,6 +26,8 @@ private:
     bool FUseMouseMove;
     bool FUseMouseWheelZoom;
     int FZoomLevel;
+    int FZoomLevelMin;
+    int FZoomLevelMax;
     int FPixelValueDispZoomFactor;
     TNotifyEvent FOnPaint;
 
@@ -50,6 +52,7 @@ private:
     // 마우스 패닝
     double FPanX;
     double FPanY;
+    bool FUseMousePanClamp;
 
     //마우스 다운 여부
     BOOL mouseDown;
@@ -140,9 +143,12 @@ __published:
     __property bool UseMouseMove = {read = FUseMouseMove, write = FUseMouseMove};
     __property bool UseMouseWheelZoom = {read = FUseMouseWheelZoom, write = FUseMouseWheelZoom};
     //줌 레벨
-    __property int ZoomLevel = {read = FZoomLevel, write = FZoomLevel};
-    __property double PanX = {read = FPanX, write = FPanX};
-    __property double PanY = {read = FPanY, write = FPanY};
+    __property int ZoomLevel = {read = FZoomLevel, write = SetZoomLevel};
+    __property int ZoomLevelMin = {read = FZoomLevelMin, write = FZoomLevelMin};
+    __property int ZoomLevelMax = {read = FZoomLevelMax, write = FZoomLevelMax};
+    __property double PanX = {read = FPanX, write = SetPanX};
+    __property double PanY = {read = FPanY, write = SetPanY};
+    __property bool UseMousePanClamp = {read = FUseMousePanClamp, write = FUseMousePanClamp};
     //픽셀값 표시 줌값
     __property int PixelValueDispZoomFactor = {read = FPixelValueDispZoomFactor, write = FPixelValueDispZoomFactor};
     //배경색
@@ -152,6 +158,9 @@ __published:
 	__property TMouseEvent OnMouseDown = {read=FOnMouseDown, write=FOnMouseDown};
 	__property TMouseMoveEvent OnMouseMove = {read=FOnMouseMove, write=FOnMouseMove};
 	__property TMouseEvent OnMouseUp = {read=FOnMouseUp, write=FOnMouseUp};
+    void __fastcall SetZoomLevel(const int Value);
+    void __fastcall SetPanX(const double Value);
+    void __fastcall SetPanY(const double Value);
 
 protected:
     //리사이즈 할때

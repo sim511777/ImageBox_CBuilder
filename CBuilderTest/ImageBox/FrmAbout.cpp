@@ -29,13 +29,16 @@ void TFormAbout::ImageBoxOptionGet() {
     edtPixelValueDispZoomFactor->Text = IntToStr(pbx->PixelValueDispZoomFactor);
     chkUseMouseMove->Checked = pbx->UseMouseMove;
     chkUseMouseWheelZoom->Checked = pbx->UseMouseWheelZoom;
-    colBackColor->Selected = pbx->BgColor;
     btnFont->Font->Name = pbx->DrawFont->Name;
     btnFont->Font->Size = pbx->DrawFont->Size;
     btnFont->Caption = btnFont->Font->Name + "," + IntToStr(btnFont->Font->Size);
     btnPixelValueDispFont->Font->Name = pbx->PixelValueDispFont->Name;
     btnPixelValueDispFont->Font->Size = pbx->PixelValueDispFont->Size;
     btnPixelValueDispFont->Caption = btnPixelValueDispFont->Font->Name + "," + IntToStr(btnPixelValueDispFont->Font->Size);
+    colBackColor->Selected = pbx->BgColor;
+    chkUseMousePanClamp->Checked = pbx->UseMousePanClamp;
+    edtZoomLevelMin->Text = IntToStr(pbx->ZoomLevelMin);
+    edtZoomLevelMax->Text = IntToStr(pbx->ZoomLevelMax);
 }
 //---------------------------------------------------------------------------
 
@@ -54,6 +57,9 @@ void TFormAbout::ImageBoxOptionSet() {
     pbx->DrawFont->Size = btnFont->Font->Size;
     pbx->PixelValueDispFont->Name = btnPixelValueDispFont->Font->Name;
     pbx->PixelValueDispFont->Size = btnPixelValueDispFont->Font->Size;
+    pbx->UseMousePanClamp = chkUseMousePanClamp->Checked;
+    pbx->ZoomLevelMin = StrToInt(edtZoomLevelMin->Text);
+    pbx->ZoomLevelMax = StrToInt(edtZoomLevelMax->Text);
 }
 //---------------------------------------------------------------------------
 
@@ -84,9 +90,11 @@ void __fastcall TFormAbout::btnPixelValueDispFontClick(TObject *Sender)
 void __fastcall TFormAbout::FormCloseQuery(TObject *Sender, bool &CanClose)
 {
     try {
-        int check = StrToInt(edtPixelValueDispZoomFactor->Text);
+        StrToInt(edtPixelValueDispZoomFactor->Text);
+        StrToInt(edtZoomLevelMin->Text);
+        StrToInt(edtZoomLevelMax->Text);
     } catch (...) {
-        ShowMessage("Invalid PixelValueDispZoomFactor");
+        ShowMessage("Invalid Value");
         CanClose = false;
         return;
     }
