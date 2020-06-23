@@ -127,6 +127,7 @@ public: //User declarations
     void DrawCross(TPointD pt, double size, TColor color, bool fixSize);
     void DrawCross(double x, double y, double size, TColor color, bool fixSize);
     void DrawString(String text, TPointD pt, bool useImageCoord, TColor color, bool fill = false, TColor fillColor = clWhite);
+    void DrawString(String text, double x, double y, bool useImageCoord, TColor color, bool fill = false, TColor fillColor = clWhite);
 
 __published:
     //화면 표시 옵션

@@ -848,6 +848,12 @@ void TImageBox::DrawString(String text, TPointD pt, bool useImageCoord, TColor c
 }
 
 //---------------------------------------------------------------------------
+void TImageBox::DrawString(String text, double x, double y, bool useImageCoord, TColor color, bool fill, TColor fillColor)
+{
+    DrawString(text, TPointD(x, y), useImageCoord, color, fill, fillColor);
+}
+
+//---------------------------------------------------------------------------
 void TImageBox::ShowAbout() {
     TFormAbout *frm = new TFormAbout(this);
     TModalResult mr = frm->ShowModal();
