@@ -320,7 +320,7 @@ void TFormMain::UserDrawTest(TCanvas* g) {
     double et = GetTimeMs();
     double ms = et - st;
     String text = FormatString(TEXT("DrawTime : %.2f"), ms);
-    pbxDraw->DrawStringScreen(text, 255, 2, clBlack, true, clWhite);
+    pbxDraw->DrawString(text, TPointD(255, 2), false, clBlack, true, clWhite);
 }
 //---------------------------------------------------------------------------
 

@@ -547,7 +547,7 @@ void TImageBox::DrawInfo() {
 
 //---------------------------------------------------------------------------
 void TImageBox::DrawDrawTime(String info) {
-    DrawStringScreen(info, ClientWidth - 120, 0, clBlack, true, clWhite);
+    DrawString(info, TPointD(ClientWidth - 120, 0), false, clBlack, true, clWhite);
 }
 
 //---------------------------------------------------------------------------
@@ -817,7 +817,7 @@ void TImageBox::DrawCross(double x, double y, double size, TColor color, bool fi
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawString(String text, TPointD pt, TColor color, bool fill, TColor fillColor)
+void TImageBox::DrawString(String text, TPointD pt, bool useImageCoord, TColor color, bool fill, TColor fillColor)
 {
     TColor opc = Canvas->Pen->Color;
     Canvas->Pen->Color = fillColor;
@@ -830,12 +830,13 @@ void TImageBox::DrawString(String text, TPointD pt, TColor color, bool fill, TCo
     TColor ofc = Canvas->Font->Color;
     Canvas->Font->Color = color;
 
-    TPointD ptd = ImgToDisp(pt);
+    if (useImageCoord)
+        pt = ImgToDisp(pt);
     RECT rc;
     DrawText(Canvas->Handle, text.c_str(), text.Length(), &rc, DT_CALCRECT);
     int width = rc.right - rc.left;
     int height = rc.bottom - rc.top;
-    RECT rect = {(int)ptd.x, (int)ptd.y, (int)ptd.x + width, (int)ptd.y + height};
+    RECT rect = {(int)pt.x, (int)pt.y, (int)pt.x + width, (int)pt.y + height};
     Canvas->Rectangle(rect.left, rect.top, rect.right, rect.bottom);
     DrawText(Canvas->Handle, text.c_str(), text.Length(), &rect, NULL);
 
@@ -844,47 +845,6 @@ void TImageBox::DrawString(String text, TPointD pt, TColor color, bool fill, TCo
     Canvas->Brush->Color = obc;
     Canvas->Brush->Style = obs;
     Canvas->Font->Color = ofc;
-}
-
-//---------------------------------------------------------------------------
-void TImageBox::DrawString(String text, double x, double y, TColor color, bool fill, TColor fillColor)
-{
-    DrawString(text, TPointD(x, y), color, fill, fillColor);
-}
-
-//---------------------------------------------------------------------------
-void TImageBox::DrawStringScreen(String text, TPoint pt, TColor color, bool fill, TColor fillColor)
-{
-    TColor opc = Canvas->Pen->Color;
-    Canvas->Pen->Color = fillColor;
-    TPenStyle ops = Canvas->Pen->Style;
-    Canvas->Pen->Style = fill ? psSolid : psClear;
-    TColor obc = Canvas->Brush->Color;
-    Canvas->Brush->Color = fillColor;
-    TBrushStyle obs = Canvas->Brush->Style;
-    Canvas->Brush->Style = fill ? bsSolid : bsClear;
-    TColor ofc = Canvas->Font->Color;
-    Canvas->Font->Color = color;
-
-    RECT rc;
-    DrawText(Canvas->Handle, text.c_str(), text.Length(), &rc, DT_CALCRECT);
-    int width = rc.right - rc.left;
-    int height = rc.bottom - rc.top;
-    RECT rect = {pt.x, pt.y, pt.x + width, pt.y + height};
-    Canvas->Rectangle(rect.left, rect.top, rect.right, rect.bottom);
-    DrawText(Canvas->Handle, text.c_str(), text.Length(), &rect, NULL);
-
-    Canvas->Pen->Color = opc;
-    Canvas->Pen->Style = ops;
-    Canvas->Brush->Color = obc;
-    Canvas->Brush->Style = obs;
-    Canvas->Font->Color = ofc;
-}
-
-//---------------------------------------------------------------------------
-void TImageBox::DrawStringScreen(String text, int x, int y, TColor color, bool fill, TColor fillColor)
-{
-    DrawStringScreen(text, TPoint(x, y), color, fill, fillColor);
 }
 
 //---------------------------------------------------------------------------
