@@ -300,19 +300,19 @@ void TFormMain::UserDrawTest(TCanvas* g) {
         g->Font->Color = ofc;
         g->Brush->Style = obs;
     } else if (DrawShapes1->Checked) {
-        pbxDraw->DrawLine(1, 1, 2, 2, clLime);
-        pbxDraw->DrawLine(1, 2, 2, 1, clRed);
-        pbxDraw->DrawRectangle(2, 2, 3, 3, clRed, true, clLime);
-        pbxDraw->DrawRectangle(2, 2, 3, 3, clRed, false, clRed);
-        pbxDraw->DrawEllipse(3, 3, 4, 4, clRed, true, clLime);
-        pbxDraw->DrawEllipse(3, 3, 4, 4, clRed, false, clRed);
-        pbxDraw->DrawCross(10, 10, 20, clLime, false);
-        pbxDraw->DrawPlus(10, 10, 20, clRed, true);
+        pbxDraw->DrawLine(g, 1, 1, 2, 2, clLime);
+        pbxDraw->DrawLine(g, 1, 2, 2, 1, clRed);
+        pbxDraw->DrawRectangle(g, 2, 2, 3, 3, clRed, true, clLime);
+        pbxDraw->DrawRectangle(g, 2, 2, 3, 3, clRed, false, clRed);
+        pbxDraw->DrawEllipse(g, 3, 3, 4, 4, clRed, true, clLime);
+        pbxDraw->DrawEllipse(g, 3, 3, 4, 4, clRed, false, clRed);
+        pbxDraw->DrawCross(g, 10, 10, 20, clLime, false);
+        pbxDraw->DrawPlus(g, 10, 10, 20, clRed, true);
     } else if (DrawPixelCircles1->Checked) {
         TColor col = (TColor)RGB(RandomRange(0, 256), RandomRange(0, 256), RandomRange(0, 256));
         for (int y = 0; y < 50; y++) {
             for (int x = 0; x < 50; x++) {
-                pbxDraw->DrawEllipse(x, y, x + 1, y + 1, col);
+                pbxDraw->DrawEllipse(g, x, y, x + 1, y + 1, col);
             }
         }
     }
@@ -320,7 +320,7 @@ void TFormMain::UserDrawTest(TCanvas* g) {
     double et = GetTimeMs();
     double ms = et - st;
     String text = FormatString(TEXT("DrawTime : %.2f"), ms);
-    pbxDraw->DrawString(text, TPointD(255, 2), false, clBlack, true, clWhite);
+    pbxDraw->DrawString(g, text, TPointD(255, 2), false, clBlack, true, clWhite);
 }
 //---------------------------------------------------------------------------
 

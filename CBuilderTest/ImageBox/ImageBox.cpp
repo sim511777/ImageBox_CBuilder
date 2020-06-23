@@ -244,26 +244,28 @@ void __fastcall TImageBox::Paint()
     }
     double t1 = GetTimeMs();
 
-    Canvas->Font->Name = Font->Name;
-    Canvas->Font->Size = Font->Size;
-    Canvas->Draw(0, 0, dispBmp);
-    double t2 = GetTimeMs();
+    TCanvas* cnv = dispBmp->Canvas;
+    cnv->Font->Name = Font->Name;
+    cnv->Font->Size = Font->Size;
 
     if (UseDrawPixelValue)
-        DrawPixelValue();
-    double t3 = GetTimeMs();
+        DrawPixelValue(cnv);
+    double t2 = GetTimeMs();
 
     if (UseDrawCenterLine)
-        DrawCenterLine();
+        DrawCenterLine(cnv);
+    double t3 = GetTimeMs();
+
+    if (UseDrawInfo)
+        DrawInfo(cnv);
     double t4 = GetTimeMs();
+
+    Canvas->Draw(0, 0, dispBmp);
+    double t5 = GetTimeMs();
 
     TCustomControl::Paint();
     if (FOnPaint)
         FOnPaint(this);
-    double t5 = GetTimeMs();
-
-    if (UseDrawInfo)
-        DrawInfo();
     double t6 = GetTimeMs();
 
     if (UseDrawDrawTime) {
@@ -291,11 +293,11 @@ TEXT("== Image == \n"
 "\n"
 "== Draw Time ==\n"
 "CopyImage : %.1fms\n"
-"DrawImage : %.1fms\n"
 "PixelValue : %.1fms\n"
 "CenterLine : %.1fms\n"
-"OnPaint : %.1fms\n"
 "CursorInfo : %.1fms\n"
+"DrawImage : %.1fms\n"
+"OnPaint : %.1fms\n"
 "Total : %.1fms")
         , imgInfo.c_str()
         , UseDrawPixelValue ? TEXT("O") : TEXT("X")
@@ -319,7 +321,7 @@ TEXT("== Image == \n"
         , t6-t5
         , t6-t0
         );
-        DrawDrawTime(info);
+        DrawDrawTime(Canvas, info);
     }
 }
 
@@ -401,7 +403,7 @@ void __fastcall TImageBox::MouseMove(TShiftState Shift, int X, int Y)
     ptMouseLast = ptMouse;
 
     if (UseDrawInfo)
-        DrawInfo();
+        DrawInfo(Canvas);
 }
 
 //---------------------------------------------------------------------------
@@ -432,7 +434,7 @@ void TImageBox::ResizeDispBuf()
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawCenterLine()
+void TImageBox::DrawCenterLine(TCanvas* cnv)
 {
     if (ImgBuf == NULL)
         return;
@@ -448,7 +450,7 @@ void TImageBox::DrawCenterLine()
         ptdRight.x = Clamp(ptdRight.x, (double)0, (double)ClientWidth);
         ptLeft = DispToImg(ptdLeft);
         ptRight = DispToImg(ptdRight);
-        DrawLine(ptLeft, ptRight, clYellow, psDot);
+        DrawLine(cnv, ptLeft, ptRight, clYellow, psDot);
     }
 
     TPointD ptTop(imgBW/2, 0);
@@ -462,7 +464,7 @@ void TImageBox::DrawCenterLine()
         ptdBottom.y = Clamp(ptdBottom.y, (double)0, (double)ClientHeight);
         ptTop = DispToImg(ptdTop);
         ptBottom = DispToImg(ptdBottom);
-        DrawLine(ptTop, ptBottom, clYellow, psDot);
+        DrawLine(cnv, ptTop, ptBottom, clYellow, psDot);
     }
 }
 
@@ -479,7 +481,7 @@ TColor pseudo[8]= {
 };
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawPixelValue()
+void TImageBox::DrawPixelValue(TCanvas* cnv)
 {
     double ZoomFactor = GetZoomFactor();
     double pixeValFactor = Clamp(ImgBytepp, 1, 3);
@@ -497,32 +499,32 @@ void TImageBox::DrawPixelValue()
     int imgX2 = Clamp((int)floor(ptImg2.x), 0, ImgBW-1);
     int imgY2 = Clamp((int)floor(ptImg2.y), 0, ImgBH-1);
 
-    TBrushStyle obs = Canvas->Brush->Style;
-    Canvas->Brush->Style = bsClear;
-    TColor ofc = Canvas->Font->Color;
-    String ofn = Canvas->Font->Name;
-    int ofs = Canvas->Font->Size;
-    Canvas->Font->Name = PixelValueDispFont->Name;
-    Canvas->Font->Size = PixelValueDispFont->Size;
+    TBrushStyle obs = cnv->Brush->Style;
+    cnv->Brush->Style = bsClear;
+    TColor ofc = cnv->Font->Color;
+    String ofn = cnv->Font->Name;
+    int ofs = cnv->Font->Size;
+    cnv->Font->Name = PixelValueDispFont->Name;
+    cnv->Font->Size = PixelValueDispFont->Size;
     for (int imgY = imgY1; imgY <= imgY2; imgY++) {
         for (int imgX = imgX1; imgX <= imgX2; imgX++) {
             TPointD ptImg = TPointD(imgX, imgY);
             TPointD ptDisp = ImgToDisp(ptImg);
             String pixelValText = GetImagePixelValueText(imgX, imgY);
             int pixelVal = GetImagePixelValueAverage(imgX, imgY);
-            Canvas->Font->Color = pseudo[pixelVal / 32];
-            Canvas->TextOut(ptDisp.x, ptDisp.y, pixelValText);
+            cnv->Font->Color = pseudo[pixelVal / 32];
+            cnv->TextOut(ptDisp.x, ptDisp.y, pixelValText);
         }
     }
 
-    Canvas->Brush->Style = obs;
-    Canvas->Font->Color = ofc;
-    Canvas->Font->Name = ofn;
-    Canvas->Font->Size = ofs;
+    cnv->Brush->Style = obs;
+    cnv->Font->Color = ofc;
+    cnv->Font->Name = ofn;
+    cnv->Font->Size = ofs;
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawInfo() {
+void TImageBox::DrawInfo(TCanvas* cnv) {
     TPointD ptCur(ptMouseLast.x, ptMouseLast.y);
     TPointD ptImg = DispToImg(ptCur);
     int imgX = (int)floor(ptImg.x);
@@ -541,13 +543,13 @@ void TImageBox::DrawInfo() {
     bmp->Canvas->Rectangle(0, 0, 250, size.cy);
     bmp->Canvas->Font->Color = clWhite;
     bmp->Canvas->TextOut(0, 0, info);
-    Canvas->Draw(2, 2, bmp);
+    cnv->Draw(2, 2, bmp);
     delete bmp;
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawDrawTime(String info) {
-    DrawString(info, TPointD(ClientWidth - 120, 0), false, clBlack, true, clWhite);
+void TImageBox::DrawDrawTime(TCanvas* cnv, String info) {
+    DrawString(cnv, info, TPointD(ClientWidth - 120, 0), false, clBlack, true, clWhite);
 }
 
 //---------------------------------------------------------------------------
@@ -609,133 +611,104 @@ int TImageBox::GetImagePixelValueAverage(int x, int y) {
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawPixel(TPointD pt, TColor color)
+void TImageBox::DrawPixel(TCanvas* cnv, TPointD pt, TColor color)
 {
     TPointD ptd = ImgToDisp(pt);
-    Canvas->Pixels[(int)ptd.x][(int)ptd.y] = color;
+    cnv->Pixels[(int)ptd.x][(int)ptd.y] = color;
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawPixel(double x, double y, TColor color)
+void TImageBox::DrawPixel(TCanvas* cnv, double x, double y, TColor color)
 {
-    DrawPixel(TPointD(x, y), color);
+    DrawPixel(cnv, TPointD(x, y), color);
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawLine(TPointD pt1, TPointD pt2, TColor color, TPenStyle ps)
+void TImageBox::DrawLine(TCanvas* cnv, TPointD pt1, TPointD pt2, TColor color, TPenStyle ps)
 {
-    TColor oc = Canvas->Pen->Color;
-    Canvas->Pen->Color = color;
-    TPenStyle ops = Canvas->Pen->Style;
-    Canvas->Pen->Style = ps;
-    TBrushStyle obs = Canvas->Brush->Style;
-    Canvas->Brush->Style = bsClear;
+    TColor oc = cnv->Pen->Color;
+    cnv->Pen->Color = color;
+    TPenStyle ops = cnv->Pen->Style;
+    cnv->Pen->Style = ps;
+    TBrushStyle obs = cnv->Brush->Style;
+    cnv->Brush->Style = bsClear;
 
 
     TPointD ptd1 = ImgToDisp(pt1);
     TPointD ptd2 = ImgToDisp(pt2);
-    Canvas->MoveTo(ptd1.x, ptd1.y);
-    Canvas->LineTo(ptd2.x, ptd2.y);
+    cnv->MoveTo(ptd1.x, ptd1.y);
+    cnv->LineTo(ptd2.x, ptd2.y);
 
-    Canvas->Pen->Color = oc;
-    Canvas->Pen->Style = ops;
-    Canvas->Brush->Style = obs;
+    cnv->Pen->Color = oc;
+    cnv->Pen->Style = ops;
+    cnv->Brush->Style = obs;
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawLine(double x1, double y1, double x2, double y2, TColor color, TPenStyle ps)
+void TImageBox::DrawLine(TCanvas* cnv, double x1, double y1, double x2, double y2, TColor color, TPenStyle ps)
 {
-    DrawLine(TPointD(x1, y1), TPointD(x2, y2), color, ps);
+    DrawLine(cnv, TPointD(x1, y1), TPointD(x2, y2), color, ps);
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawRectangle(TPointD pt1, TPointD pt2, TColor color, bool fill, TColor fillColor)
+void TImageBox::DrawRectangle(TCanvas* cnv, TPointD pt1, TPointD pt2, TColor color, bool fill, TColor fillColor)
 {
-    TColor opc = Canvas->Pen->Color;
-    Canvas->Pen->Color = color;
-    TColor obc = Canvas->Brush->Color;
-    Canvas->Brush->Color = fillColor;
-    TBrushStyle obs = Canvas->Brush->Style;
-    Canvas->Brush->Style = fill ? bsSolid : bsClear;
+    TColor opc = cnv->Pen->Color;
+    cnv->Pen->Color = color;
+    TColor obc = cnv->Brush->Color;
+    cnv->Brush->Color = fillColor;
+    TBrushStyle obs = cnv->Brush->Style;
+    cnv->Brush->Style = fill ? bsSolid : bsClear;
 
     TPointD ptd1 = ImgToDisp(pt1);
     TPointD ptd2 = ImgToDisp(pt2);
-    Canvas->Rectangle(ptd1.x, ptd1.y, ptd2.x, ptd2.y);
+    cnv->Rectangle(ptd1.x, ptd1.y, ptd2.x, ptd2.y);
 
-    Canvas->Pen->Color = opc;
-    Canvas->Brush->Color = obc;
-    Canvas->Brush->Style = obs;
+    cnv->Pen->Color = opc;
+    cnv->Brush->Color = obc;
+    cnv->Brush->Style = obs;
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawRectangle(double x1, double y1, double x2, double y2, TColor color, bool fill, TColor fillColor)
+void TImageBox::DrawRectangle(TCanvas* cnv, double x1, double y1, double x2, double y2, TColor color, bool fill, TColor fillColor)
 {
-    DrawRectangle(TPointD(x1, y1), TPointD(x2, y2), color, fill, fillColor);
+    DrawRectangle(cnv, TPointD(x1, y1), TPointD(x2, y2), color, fill, fillColor);
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawEllipse(TPointD pt1, TPointD pt2, TColor color, bool fill, TColor fillColor)
+void TImageBox::DrawEllipse(TCanvas* cnv, TPointD pt1, TPointD pt2, TColor color, bool fill, TColor fillColor)
 {
-    TColor opc = Canvas->Pen->Color;
-    Canvas->Pen->Color = color;
-    TColor obc = Canvas->Brush->Color;
-    Canvas->Brush->Color = fillColor;
-    TBrushStyle obs = Canvas->Brush->Style;
-    Canvas->Brush->Style = fill ? bsSolid : bsClear;
+    TColor opc = cnv->Pen->Color;
+    cnv->Pen->Color = color;
+    TColor obc = cnv->Brush->Color;
+    cnv->Brush->Color = fillColor;
+    TBrushStyle obs = cnv->Brush->Style;
+    cnv->Brush->Style = fill ? bsSolid : bsClear;
 
     TPointD ptd1 = ImgToDisp(pt1);
     TPointD ptd2 = ImgToDisp(pt2);
-    Canvas->Ellipse(ptd1.x, ptd1.y, ptd2.x, ptd2.y);
+    cnv->Ellipse(ptd1.x, ptd1.y, ptd2.x, ptd2.y);
 
-    Canvas->Pen->Color = opc;
-    Canvas->Brush->Color = obc;
-    Canvas->Brush->Style = obs;
+    cnv->Pen->Color = opc;
+    cnv->Brush->Color = obc;
+    cnv->Brush->Style = obs;
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawEllipse(double x1, double y1, double x2, double y2, TColor color, bool fill, TColor fillColor)
+void TImageBox::DrawEllipse(TCanvas* cnv, double x1, double y1, double x2, double y2, TColor color, bool fill, TColor fillColor)
 {
-    DrawEllipse(TPointD(x1, y1), TPointD(x2, y2), color, fill, fillColor);
+    DrawEllipse(cnv, TPointD(x1, y1), TPointD(x2, y2), color, fill, fillColor);
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawSquare(TPointD pt, double size, TColor color, bool fixSize, bool fill, TColor fillColor)
+void TImageBox::DrawSquare(TCanvas* cnv, TPointD pt, double size, TColor color, bool fixSize, bool fill, TColor fillColor)
 {
-    TColor opc = Canvas->Pen->Color;
-    Canvas->Pen->Color = color;
-    TColor obc = Canvas->Brush->Color;
-    Canvas->Brush->Color = fillColor;
-    TBrushStyle obs = Canvas->Brush->Style;
-    Canvas->Brush->Style = fill ? bsSolid : bsClear;
-
-    TPointD ptd = ImgToDisp(pt);
-    double sizeh = fixSize ? size * 0.5 : size * GetZoomFactor() * 0.5;
-    double x1 = ptd.x - sizeh;
-    double y1 = ptd.y - sizeh;
-    double x2 = ptd.x + sizeh;
-    double y2 = ptd.y + sizeh;
-    Canvas->Rectangle(x1, y1, x2, y2);
-
-    Canvas->Pen->Color = opc;
-    Canvas->Brush->Color = obc;
-    Canvas->Brush->Style = obs;
-}
-
-//---------------------------------------------------------------------------
-void TImageBox::DrawSquare(double x, double y, double size, TColor color, bool fixSize, bool fill, TColor fillColor)
-{
-    DrawSquare(TPointD(x, y), size, color, fixSize, fill, fillColor);
-}
-
-//---------------------------------------------------------------------------
-void TImageBox::DrawCircle(TPointD pt, double size, TColor color, bool fixSize, bool fill, TColor fillColor)
-{
-    TColor opc = Canvas->Pen->Color;
-    Canvas->Pen->Color = color;
-    TColor obc = Canvas->Brush->Color;
-    Canvas->Brush->Color = fillColor;
-    TBrushStyle obs = Canvas->Brush->Style;
-    Canvas->Brush->Style = fill ? bsSolid : bsClear;
+    TColor opc = cnv->Pen->Color;
+    cnv->Pen->Color = color;
+    TColor obc = cnv->Brush->Color;
+    cnv->Brush->Color = fillColor;
+    TBrushStyle obs = cnv->Brush->Style;
+    cnv->Brush->Style = fill ? bsSolid : bsClear;
 
     TPointD ptd = ImgToDisp(pt);
     double sizeh = fixSize ? size * 0.5 : size * GetZoomFactor() * 0.5;
@@ -743,24 +716,53 @@ void TImageBox::DrawCircle(TPointD pt, double size, TColor color, bool fixSize, 
     double y1 = ptd.y - sizeh;
     double x2 = ptd.x + sizeh;
     double y2 = ptd.y + sizeh;
-    Canvas->Ellipse(x1, y1, x2, y2);
+    cnv->Rectangle(x1, y1, x2, y2);
 
-    Canvas->Pen->Color = opc;
-    Canvas->Brush->Color = obc;
-    Canvas->Brush->Style = obs;
+    cnv->Pen->Color = opc;
+    cnv->Brush->Color = obc;
+    cnv->Brush->Style = obs;
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawCircle(double x, double y, double size, TColor color, bool fixSize, bool fill, TColor fillColor)
+void TImageBox::DrawSquare(TCanvas* cnv, double x, double y, double size, TColor color, bool fixSize, bool fill, TColor fillColor)
 {
-    DrawCircle(TPointD(x, y), size, color, fixSize, fill, fillColor);
+    DrawSquare(cnv, TPointD(x, y), size, color, fixSize, fill, fillColor);
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawPlus(TPointD pt, double size, TColor color, bool fixSize)
+void TImageBox::DrawCircle(TCanvas* cnv, TPointD pt, double size, TColor color, bool fixSize, bool fill, TColor fillColor)
 {
-    TColor oc = Canvas->Pen->Color;
-    Canvas->Pen->Color = color;
+    TColor opc = cnv->Pen->Color;
+    cnv->Pen->Color = color;
+    TColor obc = cnv->Brush->Color;
+    cnv->Brush->Color = fillColor;
+    TBrushStyle obs = cnv->Brush->Style;
+    cnv->Brush->Style = fill ? bsSolid : bsClear;
+
+    TPointD ptd = ImgToDisp(pt);
+    double sizeh = fixSize ? size * 0.5 : size * GetZoomFactor() * 0.5;
+    double x1 = ptd.x - sizeh;
+    double y1 = ptd.y - sizeh;
+    double x2 = ptd.x + sizeh;
+    double y2 = ptd.y + sizeh;
+    cnv->Ellipse(x1, y1, x2, y2);
+
+    cnv->Pen->Color = opc;
+    cnv->Brush->Color = obc;
+    cnv->Brush->Style = obs;
+}
+
+//---------------------------------------------------------------------------
+void TImageBox::DrawCircle(TCanvas* cnv, double x, double y, double size, TColor color, bool fixSize, bool fill, TColor fillColor)
+{
+    DrawCircle(cnv, TPointD(x, y), size, color, fixSize, fill, fillColor);
+}
+
+//---------------------------------------------------------------------------
+void TImageBox::DrawPlus(TCanvas* cnv, TPointD pt, double size, TColor color, bool fixSize)
+{
+    TColor oc = cnv->Pen->Color;
+    cnv->Pen->Color = color;
 
     TPointD ptd = ImgToDisp(pt);
     double sizeh = fixSize ? size * 0.5 : size * GetZoomFactor() * 0.5;
@@ -772,25 +774,25 @@ void TImageBox::DrawPlus(TPointD pt, double size, TColor color, bool fixSize)
     double y3 = ptd.y;
     double x4 = ptd.x + sizeh;
     double y4 = ptd.y;
-    Canvas->MoveTo(x1, y1);
-    Canvas->LineTo(x2, y2);
-    Canvas->MoveTo(x3, y3);
-    Canvas->LineTo(x4, y4);
+    cnv->MoveTo(x1, y1);
+    cnv->LineTo(x2, y2);
+    cnv->MoveTo(x3, y3);
+    cnv->LineTo(x4, y4);
 
-    Canvas->Pen->Color = oc;
+    cnv->Pen->Color = oc;
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawPlus(double x, double y, double size, TColor color, bool fixSize)
+void TImageBox::DrawPlus(TCanvas* cnv, double x, double y, double size, TColor color, bool fixSize)
 {
-    DrawPlus(TPointD(x, y), size, color, fixSize);
+    DrawPlus(cnv, TPointD(x, y), size, color, fixSize);
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawCross(TPointD pt, double size, TColor color, bool fixSize)
+void TImageBox::DrawCross(TCanvas* cnv, TPointD pt, double size, TColor color, bool fixSize)
 {
-    TColor oc = Canvas->Pen->Color;
-    Canvas->Pen->Color = color;
+    TColor oc = cnv->Pen->Color;
+    cnv->Pen->Color = color;
 
     TPointD ptd = ImgToDisp(pt);
     double sizeh = fixSize ? size * 0.5 : size * GetZoomFactor() * 0.5;
@@ -802,55 +804,55 @@ void TImageBox::DrawCross(TPointD pt, double size, TColor color, bool fixSize)
     double y3 = ptd.y - sizeh;
     double x4 = ptd.x - sizeh;
     double y4 = ptd.y + sizeh;
-    Canvas->MoveTo(x1, y1);
-    Canvas->LineTo(x2, y2);
-    Canvas->MoveTo(x3, y3);
-    Canvas->LineTo(x4, y4);
+    cnv->MoveTo(x1, y1);
+    cnv->LineTo(x2, y2);
+    cnv->MoveTo(x3, y3);
+    cnv->LineTo(x4, y4);
 
-    Canvas->Pen->Color = oc;
+    cnv->Pen->Color = oc;
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawCross(double x, double y, double size, TColor color, bool fixSize)
+void TImageBox::DrawCross(TCanvas* cnv, double x, double y, double size, TColor color, bool fixSize)
 {
-    DrawCross(TPointD(x, y), size, color, fixSize);
+    DrawCross(cnv, TPointD(x, y), size, color, fixSize);
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawString(String text, TPointD pt, bool useImageCoord, TColor color, bool fill, TColor fillColor)
+void TImageBox::DrawString(TCanvas* cnv, String text, TPointD pt, bool useImageCoord, TColor color, bool fill, TColor fillColor)
 {
-    TColor opc = Canvas->Pen->Color;
-    Canvas->Pen->Color = fillColor;
-    TPenStyle ops = Canvas->Pen->Style;
-    Canvas->Pen->Style = fill ? psSolid : psClear;
-    TColor obc = Canvas->Brush->Color;
-    Canvas->Brush->Color = fillColor;
-    TBrushStyle obs = Canvas->Brush->Style;
-    Canvas->Brush->Style = fill ? bsSolid : bsClear;
-    TColor ofc = Canvas->Font->Color;
-    Canvas->Font->Color = color;
+    TColor opc = cnv->Pen->Color;
+    cnv->Pen->Color = fillColor;
+    TPenStyle ops = cnv->Pen->Style;
+    cnv->Pen->Style = fill ? psSolid : psClear;
+    TColor obc = cnv->Brush->Color;
+    cnv->Brush->Color = fillColor;
+    TBrushStyle obs = cnv->Brush->Style;
+    cnv->Brush->Style = fill ? bsSolid : bsClear;
+    TColor ofc = cnv->Font->Color;
+    cnv->Font->Color = color;
 
     if (useImageCoord)
         pt = ImgToDisp(pt);
     RECT rc;
-    DrawText(Canvas->Handle, text.c_str(), text.Length(), &rc, DT_CALCRECT);
+    DrawText(cnv->Handle, text.c_str(), text.Length(), &rc, DT_CALCRECT);
     int width = rc.right - rc.left;
     int height = rc.bottom - rc.top;
     RECT rect = {(int)pt.x, (int)pt.y, (int)pt.x + width, (int)pt.y + height};
-    Canvas->Rectangle(rect.left, rect.top, rect.right, rect.bottom);
-    DrawText(Canvas->Handle, text.c_str(), text.Length(), &rect, NULL);
+    cnv->Rectangle(rect.left, rect.top, rect.right, rect.bottom);
+    DrawText(cnv->Handle, text.c_str(), text.Length(), &rect, NULL);
 
-    Canvas->Pen->Color = opc;
-    Canvas->Pen->Style = ops;
-    Canvas->Brush->Color = obc;
-    Canvas->Brush->Style = obs;
-    Canvas->Font->Color = ofc;
+    cnv->Pen->Color = opc;
+    cnv->Pen->Style = ops;
+    cnv->Brush->Color = obc;
+    cnv->Brush->Style = obs;
+    cnv->Font->Color = ofc;
 }
 
 //---------------------------------------------------------------------------
-void TImageBox::DrawString(String text, double x, double y, bool useImageCoord, TColor color, bool fill, TColor fillColor)
+void TImageBox::DrawString(TCanvas* cnv, String text, double x, double y, bool useImageCoord, TColor color, bool fill, TColor fillColor)
 {
-    DrawString(text, TPointD(x, y), useImageCoord, color, fill, fillColor);
+    DrawString(cnv, text, TPointD(x, y), useImageCoord, color, fill, fillColor);
 }
 
 //---------------------------------------------------------------------------

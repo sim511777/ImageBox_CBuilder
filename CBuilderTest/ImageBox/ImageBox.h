@@ -66,10 +66,10 @@ private:
     void WheelScroll(int WheelDelta, TPoint MousePos, BOOL vertical); //휠 스크롤
     void WheelZoom(int WheelDelta, TPoint MousePos, BOOL fixPanning); //휠 줌
     void ResizeDispBuf(); //표시 버퍼 생성
-    void DrawCenterLine(); //중심선 표시
-    void DrawPixelValue(); //이미지 픽셀값 표시
-    void DrawInfo(); //좌상단 정보 표시
-    void DrawDrawTime(String info); //렌더링 시간 표시
+    void DrawCenterLine(TCanvas* cnv); //중심선 표시
+    void DrawPixelValue(TCanvas* cnv); //이미지 픽셀값 표시
+    void DrawInfo(TCanvas* cnv); //좌상단 정보 표시
+    void DrawDrawTime(TCanvas* cnv, String info); //렌더링 시간 표시
     String GetImagePixelValueText(int x, int y); //이미지 픽셀값 문자열 리턴
     int GetImagePixelValueAverage(int x, int y); //이미지 픽셀값 평균 리턴 (0~255)
 
@@ -110,24 +110,24 @@ public: //User declarations
     __property TFont* PixelValueDispFont = {read = FPixelValueDispFont};
 
     // draw methods
-    void DrawPixel(TPointD pt, TColor color);
-    void DrawPixel(double x, double y, TColor color);
-    void DrawLine(TPointD pt1, TPointD pt2, TColor color, TPenStyle ps = psSolid);
-    void DrawLine(double x1, double y1, double x2, double y2, TColor color, TPenStyle ps = psSolid);
-    void DrawRectangle(TPointD pt1, TPointD pt2, TColor color, bool fill = false, TColor fillColor = clWhite);
-    void DrawRectangle(double x1, double y1, double x2, double y2, TColor color, bool fill = false, TColor fillColor = clWhite);
-    void DrawEllipse(TPointD pt1, TPointD pt2, TColor color, bool fill = false, TColor fillColor = clWhite);
-    void DrawEllipse(double x1, double y1, double x2, double y2, TColor color, bool fill = false, TColor fillColor = clWhite);
-    void DrawSquare(TPointD pt, double size, TColor color, bool fixSize, bool fill = false, TColor fillColor = clWhite);
-    void DrawSquare(double x, double y, double size, TColor color, bool fixSize, bool fill = false, TColor fillColor = clWhite);
-    void DrawCircle(TPointD pt, double size, TColor color, bool fixSize, bool fill = false, TColor fillColor = clWhite);
-    void DrawCircle(double x, double y, double size, TColor color, bool fixSize, bool fill = false, TColor fillColor = clWhite);
-    void DrawPlus(TPointD pt, double size, TColor color, bool fixSize);
-    void DrawPlus(double x, double y, double size, TColor color, bool fixSize);
-    void DrawCross(TPointD pt, double size, TColor color, bool fixSize);
-    void DrawCross(double x, double y, double size, TColor color, bool fixSize);
-    void DrawString(String text, TPointD pt, bool useImageCoord, TColor color, bool fill = false, TColor fillColor = clWhite);
-    void DrawString(String text, double x, double y, bool useImageCoord, TColor color, bool fill = false, TColor fillColor = clWhite);
+    void DrawPixel(TCanvas* cnv, TPointD pt, TColor color);
+    void DrawPixel(TCanvas* cnv, double x, double y, TColor color);
+    void DrawLine(TCanvas* cnv, TPointD pt1, TPointD pt2, TColor color, TPenStyle ps = psSolid);
+    void DrawLine(TCanvas* cnv, double x1, double y1, double x2, double y2, TColor color, TPenStyle ps = psSolid);
+    void DrawRectangle(TCanvas* cnv, TPointD pt1, TPointD pt2, TColor color, bool fill = false, TColor fillColor = clWhite);
+    void DrawRectangle(TCanvas* cnv, double x1, double y1, double x2, double y2, TColor color, bool fill = false, TColor fillColor = clWhite);
+    void DrawEllipse(TCanvas* cnv, TPointD pt1, TPointD pt2, TColor color, bool fill = false, TColor fillColor = clWhite);
+    void DrawEllipse(TCanvas* cnv, double x1, double y1, double x2, double y2, TColor color, bool fill = false, TColor fillColor = clWhite);
+    void DrawSquare(TCanvas* cnv, TPointD pt, double size, TColor color, bool fixSize, bool fill = false, TColor fillColor = clWhite);
+    void DrawSquare(TCanvas* cnv, double x, double y, double size, TColor color, bool fixSize, bool fill = false, TColor fillColor = clWhite);
+    void DrawCircle(TCanvas* cnv, TPointD pt, double size, TColor color, bool fixSize, bool fill = false, TColor fillColor = clWhite);
+    void DrawCircle(TCanvas* cnv, double x, double y, double size, TColor color, bool fixSize, bool fill = false, TColor fillColor = clWhite);
+    void DrawPlus(TCanvas* cnv, TPointD pt, double size, TColor color, bool fixSize);
+    void DrawPlus(TCanvas* cnv, double x, double y, double size, TColor color, bool fixSize);
+    void DrawCross(TCanvas* cnv, TPointD pt, double size, TColor color, bool fixSize);
+    void DrawCross(TCanvas* cnv, double x, double y, double size, TColor color, bool fixSize);
+    void DrawString(TCanvas* cnv, String text, TPointD pt, bool useImageCoord, TColor color, bool fill = false, TColor fillColor = clWhite);
+    void DrawString(TCanvas* cnv, String text, double x, double y, bool useImageCoord, TColor color, bool fill = false, TColor fillColor = clWhite);
 
 __published:
     //화면 표시 옵션
