@@ -33,6 +33,7 @@ void FloatBufToByte(void* floatBuf, int bw, int bh, int bytepp, void* byteBuf);
 int TColorToBGRA(TColor color);
 HPALETTE CreateGrayPalette();
 void BitmapToImageBuffer(Graphics::TBitmap* bmp, BYTE** buf, int* bw, int* bh, int* bytepp);
+void BitmapToImageBuffer1Bit(Graphics::TBitmap* bmp, BYTE** buf, int* bw, int* bh, int* bytepp);
 Graphics::TBitmap* ImageBufferToBitmap(BYTE* buf, int bw, int bh, int bytepp);
 Graphics::TBitmap* HraToBmp24(BYTE* buf, int bw, int bh, int bytepp);
 BOOL LoadHraFile(TCHAR* filePath, BYTE** imgBuf, int* bw, int* bh, int* bytepp);

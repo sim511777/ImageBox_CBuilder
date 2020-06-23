@@ -79,6 +79,10 @@ HPALETTE CreateGrayPalette() {
 
 void BitmapToImageBuffer(Graphics::TBitmap* bmp, BYTE** buf, int* bw, int* bh, int* bytepp)
 {
+    if (bmp->PixelFormat == pf1bit) {
+        BitmapToImageBuffer1Bit(bmp, buf, bw, bh, bytepp);
+        return;
+    }
     *bw = bmp->Width;
     *bh = bmp->Height;
     if (bmp->PixelFormat == pf8bit)
@@ -97,6 +101,31 @@ void BitmapToImageBuffer(Graphics::TBitmap* bmp, BYTE** buf, int* bw, int* bh, i
         BYTE* sptr = (BYTE*)bmp->ScanLine[y];
         BYTE* dptr = *buf + scanstep * y;
         memcpy(dptr, sptr, scanstep);
+    }
+}
+
+void BitmapToImageBuffer1Bit(Graphics::TBitmap* bmp, BYTE** buf, int* bw, int* bh, int* bytepp)
+{
+    *bw = bmp->Width;
+    *bh = bmp->Height;
+    *bytepp = 1;
+
+    *buf = AllocBuffer(*bw * *bh * *bytepp);
+
+    int scanstep = *bw * *bytepp;
+    int w8 = *bw / 8;
+    for (int y = 0; y < *bh; y++) {
+        BYTE* sptr = (BYTE*)bmp->ScanLine[y];
+        BYTE* dptr = *buf + scanstep * y;
+        for (int x8 = 0; x8 < w8; x8++, sptr++) {
+            byte sp = *sptr;
+            for (int x = 0; x < 8; x++, dptr++) {
+                if (((sp << x) & 0x80) != 0)
+                    *dptr = 255;
+                else
+                    *dptr = 0;
+            }
+        }
     }
 }
 
