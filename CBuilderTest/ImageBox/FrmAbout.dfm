@@ -1,10 +1,10 @@
 object FormAbout: TFormAbout
   Left = 511
   Top = 193
-  Width = 365
-  Height = 375
   BorderStyle = bsSizeToolWin
   Caption = 'ImageBox for C++Builder'
+  ClientHeight = 336
+  ClientWidth = 349
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -72,7 +72,6 @@ object FormAbout: TFormAbout
     Height = 293
     ActivePage = TabSheet2
     Align = alClient
-    TabIndex = 0
     TabOrder = 1
     object TabSheet2: TTabSheet
       Caption = 'Option'
@@ -119,6 +118,7 @@ object FormAbout: TFormAbout
         Height = 17
         Caption = 'UseDrawPixelValue'
         TabOrder = 0
+        OnClick = chkUseDrawPixelValueClick
       end
       object chkUseDrawInfo: TCheckBox
         Left = 8
@@ -127,6 +127,7 @@ object FormAbout: TFormAbout
         Height = 17
         Caption = 'UseDrawInfo'
         TabOrder = 1
+        OnClick = chkUseDrawPixelValueClick
       end
       object chkUseDrawCenterLine: TCheckBox
         Left = 8
@@ -135,6 +136,7 @@ object FormAbout: TFormAbout
         Height = 17
         Caption = 'UseDrawCenterLine'
         TabOrder = 2
+        OnClick = chkUseDrawPixelValueClick
       end
       object chkUseDrawDrawTime: TCheckBox
         Left = 8
@@ -143,6 +145,7 @@ object FormAbout: TFormAbout
         Height = 17
         Caption = 'UseDrawDrawTime'
         TabOrder = 3
+        OnClick = chkUseDrawPixelValueClick
       end
       object chkUseInterPorlation: TCheckBox
         Left = 200
@@ -151,6 +154,7 @@ object FormAbout: TFormAbout
         Height = 17
         Caption = 'UseInterPorlation'
         TabOrder = 4
+        OnClick = chkUseDrawPixelValueClick
       end
       object chkUseParallel: TCheckBox
         Left = 200
@@ -159,6 +163,7 @@ object FormAbout: TFormAbout
         Height = 17
         Caption = 'UseParallel'
         TabOrder = 5
+        OnClick = chkUseDrawPixelValueClick
       end
       object chkUseMouseMove: TCheckBox
         Left = 200
@@ -167,6 +172,7 @@ object FormAbout: TFormAbout
         Height = 17
         Caption = 'UseMouseMove'
         TabOrder = 6
+        OnClick = chkUseDrawPixelValueClick
       end
       object chkUseMouseWheelZoom: TCheckBox
         Left = 200
@@ -175,6 +181,7 @@ object FormAbout: TFormAbout
         Height = 17
         Caption = 'UseMouseWheelZoom'
         TabOrder = 7
+        OnClick = chkUseDrawPixelValueClick
       end
       object edtPixelValueDispZoomFactor: TEdit
         Left = 200
@@ -183,14 +190,15 @@ object FormAbout: TFormAbout
         Height = 21
         TabOrder = 8
         Text = '0'
+        OnChange = chkUseDrawPixelValueClick
       end
       object colBackColor: TColorBox
         Left = 69
         Top = 228
         Width = 121
         Height = 22
-        ItemHeight = 16
         TabOrder = 9
+        OnChange = chkUseDrawPixelValueClick
       end
       object btnZoomReset: TButton
         Left = 205
@@ -233,6 +241,7 @@ object FormAbout: TFormAbout
         Height = 17
         Caption = 'UseMousePanClamp'
         TabOrder = 14
+        OnClick = chkUseDrawPixelValueClick
       end
       object edtZoomLevelMin: TEdit
         Left = 200
@@ -241,6 +250,7 @@ object FormAbout: TFormAbout
         Height = 21
         TabOrder = 15
         Text = '0'
+        OnChange = chkUseDrawPixelValueClick
       end
       object edtZoomLevelMax: TEdit
         Left = 255
@@ -249,6 +259,7 @@ object FormAbout: TFormAbout
         Height = 21
         TabOrder = 16
         Text = '0'
+        OnChange = chkUseDrawPixelValueClick
       end
     end
     object TabSheet1: TTabSheet
@@ -273,8 +284,6 @@ object FormAbout: TFormAbout
     Font.Height = -11
     Font.Name = 'Tahoma'
     Font.Style = []
-    MinFontSize = 0
-    MaxFontSize = 0
     Left = 112
   end
   object dlgSave: TSaveDialog

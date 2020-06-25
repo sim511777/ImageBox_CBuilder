@@ -154,7 +154,6 @@
     </PropertyGroup>
     <ItemGroup>
         <ResourceCompile Include="CBuilderTest.rc">
-            <ModuleName>CBuilderTest.rc</ModuleName>
             <Form>CBuilderTest.res</Form>
             <BuildOrder>7</BuildOrder>
         </ResourceCompile>
@@ -181,15 +180,23 @@
             <DependentOn>ImageBox\ImageBox.h</DependentOn>
             <BuildOrder>6</BuildOrder>
         </CppCompile>
+        <CppCompile Include="ImageBox\ImageBoxOption.cpp">
+            <DependentOn>ImageBox\ImageBoxOption.h</DependentOn>
+            <BuildOrder>9</BuildOrder>
+        </CppCompile>
         <None Include="resource.h">
             <BuildOrder>6</BuildOrder>
         </None>
+        <CppCompile Include="Util\ImageBuffer.cpp">
+            <DependentOn>Util\ImageBuffer.h</DependentOn>
+            <BuildOrder>8</BuildOrder>
+        </CppCompile>
         <CppCompile Include="Util\Util.cpp">
             <DependentOn>Util\Util.h</DependentOn>
             <BuildOrder>7</BuildOrder>
         </CppCompile>
-        <FormResources Include="FrmMain.dfm"/>
         <FormResources Include="ImageBox\FrmAbout.dfm"/>
+        <FormResources Include="FrmMain.dfm"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
@@ -264,14 +271,14 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile LocalName="..\bin\ImageBoxTest_Berlin.exe" Configuration="Release" Class="ProjectOutput">
+                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64240mt.dll" Class="DependencyModule">
                     <Platform Name="Win64">
-                        <RemoteName>ImageBoxTest_Berlin.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployFile Condition="'$(DynamicRTL)'=='true' And '$(Multithreaded)'=='true'" LocalName="$(BDS)\bin64\cc64240mt.dll" Class="DependencyModule">
+                <DeployFile LocalName="..\bin\ImageBoxTest_Berlin.exe" Configuration="Release" Class="ProjectOutput">
                     <Platform Name="Win64">
+                        <RemoteName>ImageBoxTest_Berlin.exe</RemoteName>
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
@@ -285,12 +292,27 @@
                         <Overwrite>true</Overwrite>
                     </Platform>
                 </DeployFile>
-                <DeployClass Name="ProjectiOSDeviceResourceRules">
+                <DeployClass Name="DependencyModule">
+                    <Platform Name="Win32">
+                        <Operation>0</Operation>
+                        <Extensions>.dll;.bpl</Extensions>
+                    </Platform>
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="OSX32">
+                        <RemoteDir>Contents\MacOS</RemoteDir>
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
+                    </Platform>
+                    <Platform Name="iOSSimulator">
+                        <Operation>1</Operation>
+                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <DeployClass Name="ProjectOSXResource">
@@ -669,27 +691,12 @@
                         <Operation>1</Operation>
                     </Platform>
                 </DeployClass>
-                <DeployClass Name="DependencyModule">
-                    <Platform Name="Win32">
-                        <Operation>0</Operation>
-                        <Extensions>.dll;.bpl</Extensions>
-                    </Platform>
+                <DeployClass Name="ProjectiOSDeviceResourceRules">
                     <Platform Name="iOSDevice64">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="OSX32">
-                        <RemoteDir>Contents\MacOS</RemoteDir>
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                     <Platform Name="iOSDevice32">
                         <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
-                    </Platform>
-                    <Platform Name="iOSSimulator">
-                        <Operation>1</Operation>
-                        <Extensions>.dylib</Extensions>
                     </Platform>
                 </DeployClass>
                 <ProjectRoot Platform="iOSDevice64" Name="$(PROJECTNAME).app"/>

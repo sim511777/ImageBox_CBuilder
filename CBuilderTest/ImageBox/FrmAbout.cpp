@@ -15,51 +15,56 @@ __fastcall TFormAbout::TFormAbout(TComponent* Owner)
 {
     pbx = (TImageBox *)Owner;
     memVersion->Text = TImageBox::VersionHistory;
-    ImageBoxOptionGet();
+    opt.FromImageBox(pbx);
+    optBackup = opt;
+    OptionToForm();
 }
 //---------------------------------------------------------------------------
 
-void TFormAbout::ImageBoxOptionGet() {
-    chkUseDrawPixelValue->Checked = pbx->UseDrawPixelValue;
-    chkUseDrawInfo->Checked = pbx->UseDrawInfo;
-    chkUseDrawCenterLine->Checked = pbx->UseDrawCenterLine;
-    chkUseDrawDrawTime->Checked = pbx->UseDrawDrawTime;
-    chkUseInterPorlation->Checked = pbx->UseInterPorlation;
-    chkUseParallel->Checked = pbx->UseParallel;
-    edtPixelValueDispZoomFactor->Text = IntToStr(pbx->PixelValueDispZoomFactor);
-    chkUseMouseMove->Checked = pbx->UseMouseMove;
-    chkUseMouseWheelZoom->Checked = pbx->UseMouseWheelZoom;
-    btnFont->Font->Name = pbx->DrawFont->Name;
-    btnFont->Font->Size = pbx->DrawFont->Size;
+bool skipChangeEvent = false;
+void TFormAbout::OptionToForm() {
+    skipChangeEvent = true;
+    chkUseDrawPixelValue->Checked = opt.UseDrawPixelValue;
+    chkUseDrawInfo->Checked = opt.UseDrawInfo;
+    chkUseDrawCenterLine->Checked = opt.UseDrawCenterLine;
+    chkUseDrawDrawTime->Checked = opt.UseDrawDrawTime;
+    chkUseInterPorlation->Checked = opt.UseInterPorlation;
+    chkUseParallel->Checked = opt.UseParallel;
+    edtPixelValueDispZoomFactor->Text = IntToStr(opt.PixelValueDispZoomFactor);
+    chkUseMouseMove->Checked = opt.UseMouseMove;
+    chkUseMouseWheelZoom->Checked = opt.UseMouseWheelZoom;
+    btnFont->Font->Name = opt.DrawFontName;
+    btnFont->Font->Size = opt.DrawFontSize;
     btnFont->Caption = btnFont->Font->Name + "," + IntToStr(btnFont->Font->Size);
-    btnPixelValueDispFont->Font->Name = pbx->PixelValueDispFont->Name;
-    btnPixelValueDispFont->Font->Size = pbx->PixelValueDispFont->Size;
+    btnPixelValueDispFont->Font->Name = opt.PixelValueDispFontName;
+    btnPixelValueDispFont->Font->Size = opt.PixelValueDispFontSize;
     btnPixelValueDispFont->Caption = btnPixelValueDispFont->Font->Name + "," + IntToStr(btnPixelValueDispFont->Font->Size);
-    colBackColor->Selected = pbx->BgColor;
-    chkUseMousePanClamp->Checked = pbx->UseMousePanClamp;
-    edtZoomLevelMin->Text = IntToStr(pbx->ZoomLevelMin);
-    edtZoomLevelMax->Text = IntToStr(pbx->ZoomLevelMax);
+    colBackColor->Selected = opt.BgColor;
+    chkUseMousePanClamp->Checked = opt.UseMousePanClamp;
+    edtZoomLevelMin->Text = IntToStr(opt.ZoomLevelMin);
+    edtZoomLevelMax->Text = IntToStr(opt.ZoomLevelMax);
+    skipChangeEvent = false;
 }
 //---------------------------------------------------------------------------
 
-void TFormAbout::ImageBoxOptionSet() {
-    pbx->UseDrawPixelValue = chkUseDrawPixelValue->Checked;
-    pbx->UseDrawInfo = chkUseDrawInfo->Checked;
-    pbx->UseDrawCenterLine = chkUseDrawCenterLine->Checked;
-    pbx->UseDrawDrawTime = chkUseDrawDrawTime->Checked;
-    pbx->UseInterPorlation = chkUseInterPorlation->Checked;
-    pbx->UseParallel = chkUseParallel->Checked;
-    pbx->PixelValueDispZoomFactor = StrToInt(edtPixelValueDispZoomFactor->Text);
-    pbx->UseMouseMove = chkUseMouseMove->Checked;
-    pbx->UseMouseWheelZoom = chkUseMouseWheelZoom->Checked;
-    pbx->BgColor = colBackColor->Selected;
-    pbx->DrawFont->Name = btnFont->Font->Name;
-    pbx->DrawFont->Size = btnFont->Font->Size;
-    pbx->PixelValueDispFont->Name = btnPixelValueDispFont->Font->Name;
-    pbx->PixelValueDispFont->Size = btnPixelValueDispFont->Font->Size;
-    pbx->UseMousePanClamp = chkUseMousePanClamp->Checked;
-    pbx->ZoomLevelMin = StrToInt(edtZoomLevelMin->Text);
-    pbx->ZoomLevelMax = StrToInt(edtZoomLevelMax->Text);
+void TFormAbout::FormToOption() {
+    opt.UseDrawPixelValue = chkUseDrawPixelValue->Checked;
+    opt.UseDrawInfo = chkUseDrawInfo->Checked;
+    opt.UseDrawCenterLine = chkUseDrawCenterLine->Checked;
+    opt.UseDrawDrawTime = chkUseDrawDrawTime->Checked;
+    opt.UseInterPorlation = chkUseInterPorlation->Checked;
+    opt.UseParallel = chkUseParallel->Checked;
+    opt.PixelValueDispZoomFactor = StrToInt(edtPixelValueDispZoomFactor->Text);
+    opt.UseMouseMove = chkUseMouseMove->Checked;
+    opt.UseMouseWheelZoom = chkUseMouseWheelZoom->Checked;
+    opt.BgColor = colBackColor->Selected;
+    opt.DrawFontName = btnFont->Font->Name;
+    opt.DrawFontSize = btnFont->Font->Size;
+    opt.PixelValueDispFontName = btnPixelValueDispFont->Font->Name;
+    opt.PixelValueDispFontSize = btnPixelValueDispFont->Font->Size;
+    opt.UseMousePanClamp = chkUseMousePanClamp->Checked;
+    opt.ZoomLevelMin = StrToInt(edtZoomLevelMin->Text);
+    opt.ZoomLevelMax = StrToInt(edtZoomLevelMax->Text);
 }
 //---------------------------------------------------------------------------
 
@@ -72,6 +77,7 @@ void __fastcall TFormAbout::btnFontClick(TObject *Sender)
     btnFont->Font->Name = dlgFont->Font->Name;
     btnFont->Font->Size = dlgFont->Font->Size;
     btnFont->Caption = btnFont->Font->Name + "," + IntToStr(btnFont->Font->Size);
+    chkUseDrawPixelValueClick(btnFont);
 }
 //---------------------------------------------------------------------------
 
@@ -84,6 +90,7 @@ void __fastcall TFormAbout::btnPixelValueDispFontClick(TObject *Sender)
     btnPixelValueDispFont->Font->Name = dlgFont->Font->Name;
     btnPixelValueDispFont->Font->Size = dlgFont->Font->Size;
     btnPixelValueDispFont->Caption = btnFont->Font->Name + "," + IntToStr(btnFont->Font->Size);
+    chkUseDrawPixelValueClick(dlgFont);
 }
 //---------------------------------------------------------------------------
 
@@ -98,17 +105,18 @@ void __fastcall TFormAbout::FormCloseQuery(TObject *Sender, bool &CanClose)
         CanClose = false;
         return;
     }
-    if (this->ModalResult != mrOk)
+    if (this->ModalResult != mrOk) {
+        optBackup.ToImageBox(pbx);
+        pbx->Invalidate();
         return;
-
-    ImageBoxOptionSet();
+    }
 }
 //---------------------------------------------------------------------------
 
 void __fastcall TFormAbout::btnZoomResetClick(TObject *Sender)
 {
     pbx->ZoomReset();
-    pbx->Invalidate();    
+    pbx->Invalidate();
 }
 //---------------------------------------------------------------------------
 
@@ -159,4 +167,16 @@ void __fastcall TFormAbout::btnCopyBufferClick(TObject *Sender)
     delete bmp;
 }
 //---------------------------------------------------------------------------
+
+void __fastcall TFormAbout::chkUseDrawPixelValueClick(TObject *Sender)
+{
+    if (skipChangeEvent)
+        return;
+
+    FormToOption();
+    opt.ToImageBox(pbx);
+    pbx->Invalidate();
+}
+//---------------------------------------------------------------------------
+
 

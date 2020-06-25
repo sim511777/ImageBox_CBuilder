@@ -12,6 +12,7 @@
 #include <ComCtrls.hpp>
 #include <Dialogs.hpp>
 #include <ExtDlgs.hpp>
+#include "ImageBoxOption.h"
 //---------------------------------------------------------------------------
 class TFormAbout : public TForm
 {
@@ -56,11 +57,14 @@ __published:	// IDE-managed Components
     void __fastcall btnPixelValueDispFontClick(TObject *Sender);
     void __fastcall btnSaveBufferClick(TObject *Sender);
     void __fastcall btnCopyBufferClick(TObject *Sender);
+    void __fastcall chkUseDrawPixelValueClick(TObject *Sender);
 private:	// User declarations
     TImageBox *pbx;
+    TImageBoxOption opt;
+    TImageBoxOption optBackup;
 
-    void ImageBoxOptionGet();
-    void ImageBoxOptionSet();
+    void OptionToForm();
+    void FormToOption();
 public:		// User declarations
     __fastcall TFormAbout(TComponent* Owner);
 };
